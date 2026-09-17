@@ -42,6 +42,8 @@ webapp/                   浏览器侧适配层（把 AgentScope App 服务接�
 
 frontend/                 浏览器界面（AgentScope web_ui 的工作树副本，本地改动已含）
 
+vendor/                   agentscope 本地改动版 wheel + 改动补丁（见 vendor/README.md）
+
 tests/                    135 个测试，按不变量 / 恢复 / 工具边界 / 契约分组
 
 scripts/                  dev_reset.py（种子+清会话）、dev_receipt.py、webui_smoke.mjs
@@ -56,6 +58,10 @@ docs/screenshots/         浏览器验收截图
 前置：PostgreSQL 在 **5433**（必须是 PostgreSQL——核心不变量依赖 `btree_gist`
 区间排他约束，启动时会校验，缺了宁可启动失败）、Python 虚拟环境就绪。
 
+机器客户端接口**不需要** AgentScope：`APPOINTMENT_AGENT_RUNTIME=deterministic`
+下它就是一套普通的 FastAPI 服务。只有浏览器侧需要装 AgentScope（且必须是带本地
+改动的版本，见 `vendor/README.md`）：
+
 ```bash
 cp .env.example .env          # 按需改
 .venv/bin/python scripts/dev_reset.py     # 灌种子并打印可复制的身份头
@@ -66,6 +72,7 @@ curl -s http://127.0.0.1:8000/healthz     # 期望 status=ok
 浏览器侧（三个进程，端口 8010 而非 3000——本机 3000 被 Grafana 占着）：
 
 ```bash
+.venv/bin/pip install vendor/agentscope-2.0.8-py3-none-any.whl   # 首次
 .venv/bin/python scripts/dev_reset.py
 DEEPSEEK_API_KEY=sk-xxx .venv/bin/python -m webapp.service
 cd frontend && pnpm install && pnpm dev
@@ -106,6 +113,12 @@ node scripts/webui_smoke.mjs
 ## 环境
 
 Python ≥ 3.11（`pyproject.toml`），Node ≥ 18（前端，需 pnpm）。
-`frontend/` 是 AgentScope `examples/web_ui/frontend` 的工作树副本，**带本地改动**——
-那 21 个文件的改动正是让前端支持多租户后端（`X-User-ID` 身份头、`auth/config` 探测、
-按用户隔离的会话选择）的部分，用上游干净版本会连不上本服务。
+
+两个**仓库自带**的外部构件，都是为了自包含：
+
+- `frontend/` 是 AgentScope `examples/web_ui/frontend` 的工作树副本，**带本地改动**——
+  那 21 个文件的改动正是让前端支持多租户后端（`X-User-ID` 身份头、`auth/config` 探测、
+  按用户隔离的会话选择）的部分，用上游干净版本会连不上本服务。
+- `vendor/` 是 AgentScope 的本地改动版 wheel，含 `ToolScope` / `tool_scope_resolver` /
+  `scoped_extra_agent_tools` 等**上游发布版没有**的注入点——`webapp/` 依赖它们，
+  所以 `pip install agentscope` 装出来的版本跑不起来。详见 `vendor/README.md`。

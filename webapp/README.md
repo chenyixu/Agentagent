@@ -75,6 +75,19 @@ cd frontend && pnpm install && pnpm dev
 8010（`PORT` 可覆盖）。注意 `frontend/vite.config.ts` 里的 `/api` 代理指向
 `localhost:3000` 是**没用到的**——前端真正用的是 localStorage 里的 `server_url`。
 
+## 依赖：必须是带本地改动的 AgentScope
+
+这一层用到的注入点——`ToolScope`、`tool_scope_resolver`、`scoped_extra_agent_tools`、
+`ToolExposurePolicy`——**上游发布版没有**。`pip install agentscope` 装出来的版本会
+在装配时 AttributeError。仓库自带了构建好的 wheel：
+
+```bash
+.venv/bin/pip install vendor/agentscope-2.0.8-py3-none-any.whl
+```
+
+来源与重建方式见 `vendor/README.md`。机器客户端接口（`/v1/*`）在
+`APPOINTMENT_AGENT_RUNTIME=deterministic` 下**不需要**它。
+
 ## `frontend/` 的来源（vendored）
 
 `frontend/` 是 AgentScope 仓库 `examples/web_ui/frontend` 的**工作树副本**，为让本仓库
