@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant U as 用户
+    participant O as 编排与工具边界
+    participant A as Agent 执行适配器
+    participant B as 预约领域服务
+    participant D as PostgreSQL
+    participant W as Worker
+    U->>O: 自然语言请求
+    O->>A: 可信任务上下文和允许工具
+    A-->>O: 结构化查询提议
+    O->>B: 校验后执行查询
+    B-->>O: 候选与报价
+    O-->>U: 展示候选
+    U->>O: 选择具体方案
+    O->>B: 创建短期占位
+    B->>D: 回收过期占位后原子占用
+    D-->>B: 占位结果
+    B-->>O: hold 和方案版本
+    O-->>U: 确认卡与截止时间
+    U->>O: 可信确认事件
+    O->>B: 原幂等键和方案凭据
+    B->>D: 锁定及重校验后提交订单与 Outbox
+    D-->>B: 权威结果
+    B-->>O: 原订单 ID
+    O-->>U: 已提交订单事件
+    W->>D: 领取 Outbox 或到期任务
+    D-->>W: 持久任务
+    Note over W: 通知前核对订单版本，再投递供应商

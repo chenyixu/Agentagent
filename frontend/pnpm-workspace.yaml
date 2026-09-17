@@ -1,0 +1,20 @@
+# 构建脚本策略（pnpm 的供应链门禁：默认拒绝依赖的 postinstall，白名单之外不跑）。
+#
+# 这些设置原本在 agentscope/examples/web_ui/pnpm-workspace.yaml 里——那份同时定义了
+# packages（frontend / backend 两个子包）。本仓库只收前端一个包，所以去掉 packages，
+# 只保留与"允许 / 拒绝哪些依赖执行安装脚本"相关的部分。
+#
+# 单独放一个文件、不写进 package.json，是为了让 package.json 与上游保持逐字一致，
+# 便于日后 diff 上游。
+allowBuilds:
+    msw: false
+    sharp: false
+    unrs-resolver: false
+
+ignoredBuiltDependencies:
+    - msw
+
+# 把自家一方包排除在 pnpm 的 minimumReleaseAge 供应链延迟之外，
+# 让新发布的版本能立即装上（与上游一致）。
+minimumReleaseAgeExclude:
+    - '@agentscope-ai/agentscope'

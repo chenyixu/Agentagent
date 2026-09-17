@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant A as 请求 A
+    participant B as 请求 B
+    participant D as PostgreSQL
+    A->>D: 查询时段
+    D-->>A: 候选空闲
+    B->>D: 查询同一时段
+    D-->>B: 候选空闲
+    A->>D: 开启事务并获取资源锁
+    B->>D: 尝试获取同一资源锁
+    Note over B,D: B 等待，查询快照不代表预约承诺
+    A->>D: 回收过期占位并插入 HELD
+    A->>D: 提交
+    D-->>A: 占位成功
+    D-->>B: 获得锁
+    B->>D: 重新检查并尝试占用
+    D-->>B: 业务冲突或排他约束拒绝
+    Note over B: 返回 SLOT_CONFLICT 并重新规划

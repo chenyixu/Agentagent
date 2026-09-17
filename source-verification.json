@@ -1,0 +1,194 @@
+{
+  "method": "git show commit:path; excludes working-tree modifications",
+  "verified_on": "2026-09-17",
+  "absent_at_agentscope_commit": [
+    "src/agentscope/app/_jwt.py",
+    "src/agentscope/app/_jwks.py",
+    "src/agentscope/app/_auth.py"
+  ],
+  "files": [
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/app/deps.py",
+      "sha256": "b740dfd615e7063f222b60f7040ca544d13ebb4cf39cfd0f496383662b3fedeb",
+      "symbols": {
+        "async def get_current_user_id": 33,
+        "Temporary header-based identity": 36
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/app/deps.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/app/_service/_toolkit.py",
+      "sha256": "ee70dcb62c46f1bc3d65c7cd0acb18c4ae4a6a232ec465d5f83c57e8854f9081",
+      "symbols": {
+        "async def get_toolkit": 38,
+        "tools = await workspace.list_tools()": 134
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/app/_service/_toolkit.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/tool/_toolkit.py",
+      "sha256": "749cdf31c42a7e7a58156135b52f97419e5334cb074c7ba27209a695461ab62e",
+      "symbols": {
+        "class Toolkit": 66,
+        "tools=tools or []": 130
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/tool/_toolkit.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/permission/_engine.py",
+      "sha256": "9142e0ecf173542a197562b802879e4e84491436ec3f17a691e11ebc9a0654c7",
+      "symbols": {
+        "async def _check_explore": 214,
+        "async def _check_dont_ask": 491
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/permission/_engine.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/tool/_base.py",
+      "sha256": "ec6e27cd2d695da2e0b5024912c2b7374f78ef1f95520b69cd7ae105464f7625",
+      "symbols": {
+        "async def check_read_only": 293
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/tool/_base.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/middleware/_base.py",
+      "sha256": "e459260c4e8a460c8f085f2a4f3a136e97019105919736a1f83ebb9b1e5ec993",
+      "symbols": {
+        "class MiddlewareBase": 13,
+        "async def on_check_permission": 170
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/middleware/_base.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/middleware/_budget.py",
+      "sha256": "5686fbe9e2d0e9915928020c93034df622936cb767061ff9fb20f2bd801d90a1",
+      "symbols": {
+        "class ReplyBudgetControlMiddleware": 21,
+        "async def on_reasoning": 150
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/middleware/_budget.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/state/_state.py",
+      "sha256": "9a0a9085e21badfab3bd072fbc1ca831dbbd5f6eeb060a9b3f876891662fe453",
+      "symbols": {
+        "class AgentState": 209
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/state/_state.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/middleware/_tracing/_trace.py",
+      "sha256": "7434a4e5d4d7898e36eda3aa70a712e762951c32f765897c1aa42a2ccb7d68ea",
+      "symbols": {
+        "class TracingMiddleware": 117
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/middleware/_tracing/_trace.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/event/_event.py",
+      "sha256": "191178f9386d814f714ddf11a6fcbad6cc1d81c59d4e4e32d44d543069e7fd70",
+      "symbols": {
+        "class ModelCallEndEvent": 139,
+        "class RequireUserConfirmEvent": 443
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/event/_event.py"
+    },
+    {
+      "repository": "smart-appointment-ai-agent",
+      "commit": "2bd2dba67e46bf65d614ca7917d0005a45c6a25e",
+      "path": "db/repositories/technician_repository.py",
+      "sha256": "7475e9e309049cfd789059315380622c9bf41cd6b31498fe33cf761e146989e4",
+      "symbols": {
+        "def add_schedule": 154,
+        "def is_technician_available": 204
+      },
+      "url": "https://github.com/jerry-ai-dev/smart-appointment-ai-agent/blob/2bd2dba67e46bf65d614ca7917d0005a45c6a25e/db/repositories/technician_repository.py"
+    },
+    {
+      "repository": "smart-appointment-ai-agent",
+      "commit": "2bd2dba67e46bf65d614ca7917d0005a45c6a25e",
+      "path": "db/models.py",
+      "sha256": "9c399cc45ec3e0b675aac17c17a31c83c9f386f6082add0933d3af4d9c40b2cd",
+      "symbols": {
+        "class TechnicianSchedule": 17
+      },
+      "url": "https://github.com/jerry-ai-dev/smart-appointment-ai-agent/blob/2bd2dba67e46bf65d614ca7917d0005a45c6a25e/db/models.py"
+    },
+    {
+      "repository": "smart-appointment-ai-agent",
+      "commit": "2bd2dba67e46bf65d614ca7917d0005a45c6a25e",
+      "path": "services/appointment_service.py",
+      "sha256": "aae5ac8b57e379bf4e3ec1bfa6b5618bc4ea2d051695911992eb91e15cd304b9",
+      "symbols": {
+        "def save_appointment": 25
+      },
+      "url": "https://github.com/jerry-ai-dev/smart-appointment-ai-agent/blob/2bd2dba67e46bf65d614ca7917d0005a45c6a25e/services/appointment_service.py"
+    },
+    {
+      "repository": "smart-appointment-ai-agent",
+      "commit": "2bd2dba67e46bf65d614ca7917d0005a45c6a25e",
+      "path": "agents/appointment/appointment_processor.py",
+      "sha256": "0b0b399f34b0f5fc2aa643e1e8d054ad049197a3804beab741a67d6796a5a7ee",
+      "symbols": {
+        "class WeatherMCPTool": 21
+      },
+      "url": "https://github.com/jerry-ai-dev/smart-appointment-ai-agent/blob/2bd2dba67e46bf65d614ca7917d0005a45c6a25e/agents/appointment/appointment_processor.py"
+    },
+    {
+      "repository": "smart-appointment-ai-agent",
+      "commit": "2bd2dba67e46bf65d614ca7917d0005a45c6a25e",
+      "path": "agents/task_classification/state_manager.py",
+      "sha256": "cab9ee3f245881e67a04b5b17b13bf4555dafee425507556a8f9e4aa5ee96e42",
+      "symbols": {
+        "def should_classify": 41,
+        "def can_transition_to": 72,
+        "def set_state": 31
+      },
+      "url": "https://github.com/jerry-ai-dev/smart-appointment-ai-agent/blob/2bd2dba67e46bf65d614ca7917d0005a45c6a25e/agents/task_classification/state_manager.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/agent/_agent.py",
+      "sha256": "8e6ae995ea74e307e63d8821ad2f05c5fb0c96aee2f677f7e92ed8f48de6123f",
+      "symbols": {
+        "async def _reply_impl": 1017,
+        "The given structured_schema is ignored when": 1056
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/agent/_agent.py"
+    },
+    {
+      "repository": "agentscope",
+      "commit": "033a3613401a3e6cbd39608321579481f6bd0953",
+      "path": "src/agentscope/tool/_builtin/_ask_user.py",
+      "sha256": "78ac437559fe7c00b9399af684be9296ac0a0266ea178155ceea1fd8b1ad3a9c",
+      "symbols": {
+        "class AskUserMetadata": 123,
+        "class AskUser(ToolBase)": 150,
+        "is_external_tool: bool = True": 195
+      },
+      "url": "https://github.com/agentscope-ai/agentscope/blob/033a3613401a3e6cbd39608321579481f6bd0953/src/agentscope/tool/_builtin/_ask_user.py"
+    }
+  ]
+}

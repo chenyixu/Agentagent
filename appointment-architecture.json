@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "智能预约 · 领域核心与可替换 Agent",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1220,
+      910
+    ]
+  },
+  "components": [
+    {
+      "id": "client",
+      "type": "frontend",
+      "label": "用户 Web",
+      "sublabel": "消息 / 确认卡",
+      "pos": [
+        40,
+        290
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "entry",
+      "type": "security",
+      "label": "接入与事件投影",
+      "sublabel": "身份 / HTTP / 业务 SSE",
+      "pos": [
+        350,
+        290
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "orchestrator",
+      "type": "backend",
+      "label": "编排与工具边界",
+      "sublabel": "版本 / 授权 / 命令分发",
+      "pos": [
+        660,
+        290
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "domain",
+      "type": "backend",
+      "label": "预约领域服务",
+      "sublabel": "占位 / 确认 / 事实重校验",
+      "pos": [
+        970,
+        290
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "agents",
+      "type": "backend",
+      "label": "AgentScope SDK",
+      "sublabel": "同进程库 · 结构化提议",
+      "pos": [
+        660,
+        50
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "knowledge",
+      "type": "database",
+      "label": "模型与知识适配",
+      "sublabel": "模型网关 / 证据检索",
+      "pos": [
+        970,
+        50
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "console",
+      "type": "frontend",
+      "label": "人工坐席工作台",
+      "sublabel": "接管 / 结案 / 业务操作",
+      "pos": [
+        40,
+        550
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "state",
+      "type": "database",
+      "label": "任务与执行存储",
+      "sublabel": "检查点 / 到期任务 / 事件",
+      "pos": [
+        350,
+        550
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "ledger",
+      "type": "database",
+      "label": "订单与 Outbox",
+      "sublabel": "资源约束 / 幂等结果",
+      "pos": [
+        970,
+        550
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "jobs",
+      "type": "backend",
+      "label": "后台 Worker",
+      "sublabel": "任务领取 / 事件消费",
+      "pos": [
+        660,
+        550
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "notice",
+      "type": "external",
+      "label": "通知供应商",
+      "sublabel": "发送 / 回执 / 对账",
+      "pos": [
+        660,
+        790
+      ],
+      "size": [
+        210,
+        76
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "client",
+      "to": "entry",
+      "label": "HTTPS 请求",
+      "variant": "emphasis",
+      "labelAt": [
+        300,
+        280
+      ]
+    },
+    {
+      "from": "entry",
+      "to": "client",
+      "label": "SSE 事件",
+      "variant": "default",
+      "labelAt": [
+        250,
+        395
+      ]
+    },
+    {
+      "from": "console",
+      "to": "entry",
+      "label": "接管命令",
+      "variant": "default"
+    },
+    {
+      "from": "entry",
+      "to": "orchestrator",
+      "label": "用户事件",
+      "variant": "emphasis"
+    },
+    {
+      "from": "orchestrator",
+      "to": "domain",
+      "label": "授权命令",
+      "variant": "emphasis"
+    },
+    {
+      "from": "orchestrator",
+      "to": "agents",
+      "label": "受限推理",
+      "variant": "default",
+      "labelAt": [
+        815,
+        235
+      ]
+    },
+    {
+      "from": "agents",
+      "to": "orchestrator",
+      "label": "工具提议",
+      "variant": "default",
+      "labelAt": [
+        710,
+        175
+      ]
+    },
+    {
+      "from": "agents",
+      "to": "knowledge",
+      "label": "只读调用",
+      "variant": "default"
+    },
+    {
+      "from": "orchestrator",
+      "to": "state",
+      "label": "检查点",
+      "variant": "default"
+    },
+    {
+      "from": "domain",
+      "to": "ledger",
+      "label": "原子事务",
+      "variant": "emphasis",
+      "labelDy": 70
+    },
+    {
+      "from": "state",
+      "to": "jobs",
+      "label": "到期扫描",
+      "variant": "dashed",
+      "labelAt": [
+        610,
+        620
+      ]
+    },
+    {
+      "from": "ledger",
+      "to": "jobs",
+      "label": "Outbox 领取",
+      "variant": "dashed"
+    },
+    {
+      "from": "jobs",
+      "to": "orchestrator",
+      "label": "领域命令",
+      "variant": "default"
+    },
+    {
+      "from": "jobs",
+      "to": "notice",
+      "label": "异步投递",
+      "variant": "dashed",
+      "labelDy": 70
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "进程边界",
+      "items": [
+        "SDK 与编排同进程调用",
+        "Worker 独立进程，图为逻辑组件"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "业务边界",
+      "items": [
+        "任务与订单存储同属 PostgreSQL",
+        "工具提议经授权后执行领域命令"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "恢复边界",
+      "items": [
+        "同步回收过期占位，异步维护兜底",
+        "事件投递与用户确认互不替代"
+      ]
+    }
+  ]
+}

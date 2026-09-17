@@ -1,0 +1,47 @@
+[project]
+name = "appointment-agent"
+version = "0.1.0"
+description = "智能预约 Agent 系统：受约束的 Agentic Workflow + 确定性预约领域核心"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "asyncpg>=0.30",
+    "alembic>=1.14",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "httpx>=0.27",
+    "python-dotenv>=1.0",
+    "greenlet>=3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+]
+# AgentScope 执行适配器依赖。装不上时系统仍可用确定性状态机基线运行。
+agentscope = [
+    "agentscope",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+markers = [
+    "invariant: 业务不变量测试（不超卖、不重复效果、不越权）",
+    "recovery: 故障注入与恢复测试",
+    "slow: 较慢的并发/回归测试",
+    "tool_boundary: 工具白名单、参数契约与身份边界测试",
+]

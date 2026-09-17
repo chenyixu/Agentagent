@@ -1,0 +1,21 @@
+stateDiagram-v2
+    [*] --> COLLECTING
+    COLLECTING --> SEARCHING: 必要槽位完整
+    SEARCHING --> PROPOSED: 有可行候选
+    SEARCHING --> WAITING_USER: 无解或歧义
+    WAITING_USER --> COLLECTING: 收到补充
+    PROPOSED --> WAITING_CONFIRMATION: 已选方案且占位成功
+    WAITING_CONFIRMATION --> NEEDS_REPLAN: 修改条件或事实失效
+    NEEDS_REPLAN --> SEARCHING: 重查方案
+    WAITING_CONFIRMATION --> COMMITTING: 有效确认
+    COMMITTING --> SUCCEEDED: 操作账本确认成功
+    COMMITTING --> NEEDS_REPLAN: 冲突或过期且确定未提交
+    COMMITTING --> WAITING_RESULT: 结果不明
+    WAITING_RESULT --> SUCCEEDED: 查得原订单
+    WAITING_RESULT --> FAILED: 查得确定失败
+    WAITING_CONFIRMATION --> CANCELLED: 用户撤回草稿
+    COLLECTING --> HUMAN_TAKEOVER: 人工接管
+    HUMAN_TAKEOVER --> COLLECTING: 移交回机器人并刷新事实
+    SUCCEEDED --> [*]
+    CANCELLED --> [*]
+    FAILED --> [*]

@@ -1,0 +1,58 @@
+{
+  "revision": "review-v3",
+  "verified_on": "2026-09-17",
+  "scope": "智能预约Agent系统设计.md §18 的三张 Mermaid 白板图",
+  "closes": "architecture-verification.json 中 \"mermaid_sources\": 3, \"mermaid_rendered\": false",
+  "source_document": {
+    "path": "智能预约Agent系统设计.md",
+    "sha256": "d386972b64bf9b59902cea765c33675adcfbb296ae5297af8577b775a47985ac",
+    "extraction": "按 ```mermaid 围栏顺序抽取，与 §18.1 / §18.2 / §18.3 一一对应"
+  },
+  "toolchain": {
+    "node": "22.22.2",
+    "packages": ["mermaid", "jsdom"],
+    "stage_1_parse": "mermaid.parse() — 真实文法解析，无渲染",
+    "stage_2_render": "mermaid.render() — 产出 SVG；jsdom 无 SVG 布局引擎，getBBox/getComputedTextLength/getCTM 以桩函数替代"
+  },
+  "results": [
+    {
+      "section": "18.1 主链路时序",
+      "diagram_type": "sequenceDiagram",
+      "mmd": "verify/mermaid/18-1-主链路时序.mmd",
+      "mmd_sha256": "7bbe4b856ab5f3db752af2235efb29fd2250a1095e19939a3df8bdc69e233c82",
+      "svg": "verify/mermaid/18-1-主链路时序.svg",
+      "svg_sha256": "3333a3cd65e41203f06f01e522ffcc71703b867507489ca96f2217fa9c520d50",
+      "parse": "PASS",
+      "render": "PASS"
+    },
+    {
+      "section": "18.2 任务状态与分歧",
+      "diagram_type": "stateDiagram-v2",
+      "mmd": "verify/mermaid/18-2-任务状态机.mmd",
+      "mmd_sha256": "2486e5b8f070355e5287b6266dcaf14bd02a042b3272bb19f4ddca268d36a4a1",
+      "svg": "verify/mermaid/18-2-任务状态机.svg",
+      "svg_sha256": "49946aefd30eacf2729c209fc44e508b2c1df04262860df15f8b076968ae0a6f",
+      "parse": "PASS",
+      "render": "PASS"
+    },
+    {
+      "section": "18.3 两请求争抢同一资源",
+      "diagram_type": "sequenceDiagram",
+      "mmd": "verify/mermaid/18-3-资源争抢时序.mmd",
+      "mmd_sha256": "ec51948a392982d401d4bdf817f80bbd444432fab8b364609b6e3419c7e6e089",
+      "svg": "verify/mermaid/18-3-资源争抢时序.svg",
+      "svg_sha256": "654e88286528ecdf9152bd86393560b511d34332d2818fbc83c9e5b732fa667d",
+      "parse": "PASS",
+      "render": "PASS"
+    }
+  ],
+  "what_this_proves": [
+    "三张图的 Mermaid 文法正确，任何标准渲染器（GitHub / VS Code / mermaid.live）都能显示，不会在面试现场报语法错误",
+    "无未知图形关键字、未知事件类型、参与方别名冲突"
+  ],
+  "what_this_does_not_prove": [
+    "未在真实浏览器中布局：getBBox 被桩替代，因此不能据此声称文字不重叠、连线不交叉",
+    "未校对图与正文语义是否一致（该检查见 设计评审跟进_v3.md §4）"
+  ],
+  "artifacts_are_derived": "本目录 .mmd 为文档内代码块的抽取副本，SVG 为渲染产物；两者均不是新增设计内容"
+}

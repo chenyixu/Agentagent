@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "预约成功流程：查询、占位与提交",
+    "locale": "zh-CN",
+    "viewBox": [1060, 1060],
+    "quality_profile": "showcase",
+    "column_fit": "spread"
+  },
+  "participants": [
+    { "id": "user", "type": "external", "label": "用户", "sublabel": "自然语言与确认" },
+    { "id": "orchestrator", "type": "security", "label": "编排器 + 工具边界", "sublabel": "Orchestrator / invoke_tool" },
+    { "id": "adapter", "type": "backend", "label": "Agent 执行适配器", "sublabel": "deterministic / AgentScope" },
+    { "id": "booking", "type": "backend", "label": "预约领域服务", "sublabel": "查询 / 占位 / 下单" },
+    { "id": "postgres", "type": "database", "label": "PostgreSQL", "sublabel": "占位 / 订单 / Outbox" },
+    { "id": "worker", "type": "backend", "label": "Worker / 投递适配器", "sublabel": "Outbox/Job 模型；执行循环待补" }
+  ],
+  "segments": [
+    { "from": 150, "to": 430, "label": "查询与展示" },
+    { "from": 448, "to": 720, "label": "短期占位" },
+    { "from": 738, "to": 1010, "label": "确认、提交与异步投递" }
+  ],
+  "messages": [
+    { "from": "user", "to": "orchestrator", "y": 180, "label": "POST /v1/messages", "variant": "emphasis" },
+    { "from": "orchestrator", "to": "adapter", "y": 222, "label": "TurnRequest：task/slots/version/工具白名单", "variant": "security" },
+    { "from": "adapter", "to": "orchestrator", "y": 264, "label": "TurnOutput：槽位补丁 + 工具提议", "variant": "return" },
+    { "from": "orchestrator", "to": "booking", "y": 306, "label": "invoke_tool：参数/身份校验后执行", "variant": "security" },
+    { "from": "booking", "to": "orchestrator", "y": 348, "label": "候选快照 + 报价凭据", "variant": "return" },
+    { "from": "orchestrator", "to": "user", "y": 390, "label": "MessageResponse：展示候选", "variant": "return" },
+    { "from": "user", "to": "orchestrator", "y": 462, "label": "POST /v1/messages：第一个可以", "variant": "emphasis" },
+    { "from": "orchestrator", "to": "booking", "y": 504, "label": "create_hold（单个已选候选）", "variant": "security" },
+    { "from": "booking", "to": "postgres", "y": 546, "label": "锁 + 回收过期 + 插入 allocations", "variant": "emphasis" },
+    { "from": "postgres", "to": "booking", "y": 588, "label": "GiST 排他约束裁决", "variant": "return" },
+    { "from": "booking", "to": "orchestrator", "y": 630, "label": "hold + proposal/version + token", "variant": "return" },
+    { "from": "orchestrator", "to": "user", "y": 672, "label": "pending_confirmation + 截止时间", "variant": "return" },
+    { "from": "user", "to": "orchestrator", "y": 744, "label": "POST /v1/confirmations", "variant": "security" },
+    { "from": "orchestrator", "to": "booking", "y": 786, "label": "proposal/version + token + 幂等键", "variant": "security" },
+    { "from": "booking", "to": "postgres", "y": 828, "label": "锁定 + 重校验 + appointment + Outbox", "variant": "emphasis" },
+    { "from": "postgres", "to": "booking", "y": 870, "label": "CommitOutcome：权威结果", "variant": "return" },
+    { "from": "booking", "to": "orchestrator", "y": 912, "label": "appointment_id", "variant": "return" },
+    { "from": "orchestrator", "to": "user", "y": 954, "label": "APPOINTMENT_COMMITTED 事件", "variant": "return" },
+    { "from": "worker", "to": "postgres", "y": 970, "label": "领取 Outbox / Job（目标流程）", "variant": "dashed", "note": "通知前核对 appointment_version，再经 NotificationPort 投递；当前仓库未见独立 Worker loop" }
+  ],
+  "activations": [
+    { "participant": "orchestrator", "from": 176, "to": 972, "type": "security" },
+    { "participant": "adapter", "from": 218, "to": 270, "type": "backend" },
+    { "participant": "booking", "from": 300, "to": 928, "type": "backend" },
+    { "participant": "postgres", "from": 540, "to": 878, "type": "database" },
+    { "participant": "worker", "from": 990, "to": 1010, "type": "backend" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "入口与边界", "items": ["自然语言只产生结构化提议", "编排层决定允许的工具和可信上下文", "领域服务是查询与写入的业务边界"] },
+    { "dot": "orange", "title": "并发正确性", "items": ["占位需要回收过期记录并原子占用", "确认提交必须锁定并重校验方案版本", "幂等键贯穿确认到订单提交"] },
+    { "dot": "emerald", "title": "异步可靠性（设计契约）", "items": ["订单与 Outbox 在同一权威写入中产生", "Job、投递与供应商回执模型已定义", "独立 Worker 执行循环仍是后续实现点"] }
+  ]
+}
