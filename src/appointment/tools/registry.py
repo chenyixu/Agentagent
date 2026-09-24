@@ -266,7 +266,15 @@ async def invoke_tool(
             return ToolResult.failure(ctx.request_id, now, exc)
 
     try:
-        data = await spec.handler(session, ctx, payload, now=now, clock=clock)
+        if spec.side_effect == "write":
+            # Every write tool is an atomic unit inside the caller's task/event
+            # transaction. If a database constraint rejects a concurrent write,
+            # rolling back this savepoint keeps the outer session usable so the
+            # orchestrator can persist the rejected tool result and continue safely.
+            async with session.begin_nested():
+                data = await spec.handler(session, ctx, payload, now=now, clock=clock)
+        else:
+            data = await spec.handler(session, ctx, payload, now=now, clock=clock)
     except DomainError as exc:
         return ToolResult.failure(ctx.request_id, now, exc)
 

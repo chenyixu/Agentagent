@@ -19,7 +19,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
+from datetime import datetime, timedelta
 import json
+import re
 from typing import Any, Sequence
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -337,6 +339,7 @@ class AgentScopeRuntime:
             structured_schema=_StructuredTurn,
         )
         output = normalize_model_output(_coerce_mapping(raw), role=self.role)
+        output = _ground_service_patch(request, output)
         output = _ensure_required_search_read(request, output)
         if request.task_state is TaskState.PROPOSED:
             output = _ensure_explicit_candidate_hold(request, output)
@@ -348,6 +351,103 @@ class AgentScopeRuntime:
         ):
             raise DomainError(ErrorCode.VALIDATION_ERROR, "模型返回空的结构化决策")
         return output
+
+
+_SERVICE_INTENT_CUES = (
+    "项目", "服务", "按摩", "护理", "理疗", "放松", "做个", "来个", "换成", "改成",
+)
+
+
+def _normalize_service_text(value: str) -> str:
+    """Normalize harmless punctuation/spacing while preserving exact service words."""
+
+    return re.sub(r"[\W_]+", "", value.casefold())
+
+
+def _ground_service_patch(request: TurnRequest, output: TurnOutput) -> TurnOutput:
+    """Bind a model's service choice to an exact catalog name or alias in this turn.
+
+    A generic phrase such as ``放松项目`` must not be silently mapped to one
+    catalog item. Existing trusted service state remains usable on time-only turns,
+    but any new/changed service requires a unique exact catalog match.
+    """
+
+    service_patches = [
+        patch for patch in output.slot_patches
+        if patch.get("slot_name") == "service" and patch.get("op") == "SET"
+    ]
+    message = _normalize_service_text(request.user_message or "")
+    services = request.facts.get("services") or []
+    matched: dict[str, dict[str, Any]] = {}
+    for service in services:
+        if not isinstance(service, dict) or not service.get("service_id"):
+            continue
+        labels = [service.get("name"), *(service.get("aliases") or [])]
+        if any(
+            isinstance(label, str)
+            and _normalize_service_text(label)
+            and _normalize_service_text(label) in message
+            for label in labels
+        ):
+            matched[str(service["service_id"])] = service
+
+    selected_service = None
+    if len(matched) == 1:
+        selected_service = next(iter(matched.values()))
+    service_intent = any(cue in (request.user_message or "") for cue in _SERVICE_INTENT_CUES)
+
+    if selected_service is not None:
+        # The unique user-mentioned catalog item is the source of truth, even if
+        # the model selected a different service id.
+        grounded_patch = {
+            "slot_name": "service",
+            "op": "SET",
+            "value": {
+                "service_id": str(selected_service["service_id"]),
+                "name": selected_service.get("name"),
+            },
+            "source": "user_catalog_match",
+        }
+        remaining = tuple(
+            patch for patch in output.slot_patches
+            if not (patch.get("slot_name") == "service" and patch.get("op") == "SET")
+        )
+        return replace(output, slot_patches=(*remaining, grounded_patch))
+
+    current_service_id = str(
+        (((request.slots.get("service") or {}).get("value") or {}).get("service_id")) or ""
+    )
+    proposed_ids = {
+        str((patch.get("value") or {}).get("service_id"))
+        for patch in service_patches
+        if isinstance(patch.get("value"), dict) and (patch.get("value") or {}).get("service_id")
+    }
+    if not service_intent and len(proposed_ids) <= 1 and (
+        not proposed_ids or (current_service_id and proposed_ids == {current_service_id})
+    ):
+        return output
+
+    if not service_intent and not service_patches:
+        return output
+
+    # No match or multiple catalog matches: keep unrelated collected slots such
+    # as the requested time, but do not query/advance using an ungrounded service.
+    question = (
+        "您提到的项目可能对应多个服务，请告诉我具体的服务名称。"
+        if len(matched) > 1
+        else "请告诉我具体的服务项目名称，我再为您查询可预约时段。"
+    )
+    remaining = tuple(
+        patch for patch in output.slot_patches
+        if not (patch.get("slot_name") == "service" and patch.get("op") == "SET")
+    )
+    return replace(
+        output,
+        reply_text=question,
+        clarification_question=question,
+        slot_patches=remaining,
+        tool_requests=(),
+    )
 
 
 def _ensure_required_search_read(request: TurnRequest, output: TurnOutput) -> TurnOutput:
@@ -373,12 +473,13 @@ def _ensure_required_search_read(request: TurnRequest, output: TurnOutput) -> Tu
         arguments = {"store_id": store_id, "service_id": service_id}
         default_rationale = "查询阶段必须取得当前报价"
     elif not followups.get("availability") and "search_availability" in request.allowed_tools:
+        normalized_end = _availability_window_end(window, followups.get("quote") or {})
         tool_name = "search_availability"
         arguments = {
             "store_id": store_id,
             "service_id": service_id,
             "window_start": window["start_at"],
-            "window_end": window["end_at"],
+            "window_end": normalized_end,
             "desired_start": window.get("desired_start"),
             "limit": 5,
         }
@@ -400,6 +501,35 @@ def _ensure_required_search_read(request: TurnRequest, output: TurnOutput) -> Tu
         rationale=(proposed.rationale if proposed and proposed.rationale else default_rationale),
     )
     return replace(output, reply_text=None, tool_requests=(tool,))
+
+
+def _availability_window_end(window: dict[str, Any], quote: dict[str, Any]) -> str:
+    """Ensure an exact desired-start search spans the trusted quoted duration.
+
+    Flexible windows keep their caller-provided end. Search availability accounts
+    for service buffers itself; this only corrects a window too short for the
+    quoted service duration.
+    """
+
+    end_value = window.get("end_at")
+    start_value = window.get("start_at")
+    desired_value = window.get("desired_start")
+    duration = quote.get("duration_minutes")
+    if not end_value or not start_value or not desired_value or not duration:
+        return str(end_value or "")
+    try:
+        start_at = datetime.fromisoformat(str(start_value).replace("Z", "+00:00"))
+        desired_start = datetime.fromisoformat(str(desired_value).replace("Z", "+00:00"))
+        end_at = datetime.fromisoformat(str(end_value).replace("Z", "+00:00"))
+        duration_minutes = int(duration)
+        if duration_minutes <= 0 or start_at != desired_start:
+            return str(end_value)
+        required_end = desired_start + timedelta(minutes=duration_minutes)
+        if end_at >= required_end:
+            return str(end_value)
+        return required_end.isoformat()
+    except (TypeError, ValueError, OverflowError):
+        return str(end_value)
 
 
 def _ensure_explicit_candidate_hold(request: TurnRequest, output: TurnOutput) -> TurnOutput:

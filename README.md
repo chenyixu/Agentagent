@@ -98,7 +98,14 @@ cd frontend && pnpm install && pnpm dev
 DEEPSEEK_API_KEY=sk-xxx APPOINTMENT_EVAL_MODEL=deepseek-flash .venv/bin/python -B evals/run_agent_e2e_batch.py --runs 3  # 真实模型合成闭环重复评测
 APPOINTMENT_EVAL_MODEL=deepseek-flash .venv/bin/python -B evals/run_model_smoke.py --repeats 1  # 真实 DeepSeek 单步结构冒烟
 .venv/bin/python -B evals/run_agent_e2e_batch.py --case-set evals/cases/full_booking_pilot_v1.json  # 10 个合成预约场景；最近复测 10/10
+.venv/bin/python -B evals/generate_synthetic_business_data.py  # 生成多门店业务夹具与 64 个场景预期
+.venv/bin/python -B -m pytest -q -p no:cacheprovider tests/test_synthetic_business_data.py
+.venv/bin/python -B -m pytest -q -p no:cacheprovider tests/test_synthetic_business_database.py  # 34 个可用性场景 + 并发确认/幂等回放
 ```
+
+多门店合成业务数据的规模、复现方法和评测边界见[合成业务数据集说明](evals/合成业务数据集说明.md)。数据库评测直接调用预约领域服务，不是 64 项 Agent/API 端到端成绩。
+
+GitHub Actions 中的 `Synthetic Agent evaluation` 仅支持手动触发；仓库需先配置 Actions secret `DEEPSEEK_API_KEY`，并在运行时勾选确认以消耗模型额度。工作流执行 46 个首轮场景和 18 个事务场景，任一场景失败、报错、漏跑或未评分都会使门禁失败；原始 JSONL 与摘要作为 14 天 artifact 保存。该流程只使用生成的合成数据，不代表真实门店表现。
 
 数据库用例各自创建 `appointment_test` 下的隔离 schema，按仓库约束保留，不自动清理。
 300 次工具越权评测、150 个恢复场景、真实模型重复结构化决策冒烟、同场景及 10 场景完整预约评测、HTTP 并发确认和 3,200 次合成数据库争抢的结果与局限见

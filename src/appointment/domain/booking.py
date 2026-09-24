@@ -625,6 +625,8 @@ async def create_hold(
         raise validation_error("预约区间非法")
     if end_at - start_at != timedelta(minutes=service.duration_minutes):
         raise validation_error("预约时长与服务时长不一致")
+    buffer_minutes = int(service.requirements.get("buffer_minutes", 0) or 0)
+    allocation_end_at = end_at + timedelta(minutes=buffer_minutes)
 
     # 锁顺序：客户配额 guard → 门店 → 资源 → 资源日。
     await lock_customer_hold_guard(
@@ -645,7 +647,7 @@ async def create_hold(
         await lock_resource(session, sequencer, tenant_id=ctx.tenant_id, resource_id=rid)
 
     tz = load_zone(store.timezone)
-    days = iter_local_dates(start_at, end_at, tz)
+    days = iter_local_dates(start_at, allocation_end_at, tz)
     await lock_resource_day(
         session,
         sequencer,
@@ -671,7 +673,7 @@ async def create_hold(
         store_id=store_id,
         resource_ids=ordered_resource_ids,
         start_at=start_at,
-        end_at=end_at,
+        end_at=allocation_end_at,
         now=decision_now,
     )
     await validate_resource_composition(
@@ -758,7 +760,7 @@ async def create_hold(
                 hold_id=hold.id,
                 appointment_id=None,
                 start_at=start_at,
-                end_at=end_at,
+                end_at=allocation_end_at,
                 state=AllocationState.HELD.value,
                 expires_at=expires_at,
             )
@@ -1202,10 +1204,23 @@ async def confirm_appointment(
         raise stale_proposal("占位没有有效资源占用")
 
     start_at = min(a.start_at for a in allocations)
-    end_at = max(a.end_at for a in allocations)
+    allocation_end_at = max(a.end_at for a in allocations)
     resource_ids = [a.resource_id for a in allocations]
     if hold.store_id != hold_peek or set(resource_ids) != set(peek_resource_ids):
         raise stale_proposal("占位资源已变化，请重新确认")
+
+    requirements = await _requirements_for_snapshot(
+        session, tenant_id=ctx.tenant_id, snapshot=proposal_locked.canonical_content
+    )
+    duration_minutes = int(proposal_locked.canonical_content.get("duration_minutes", 0))
+    if duration_minutes <= 0:
+        raise stale_proposal("方案缺少有效服务时长")
+    end_at = start_at + timedelta(minutes=duration_minutes)
+    expected_allocation_end = end_at + timedelta(
+        minutes=int(requirements.get("buffer_minutes", 0) or 0)
+    )
+    if allocation_end_at != expected_allocation_end:
+        raise stale_proposal("占位资源区间与服务缓冲时长不一致")
 
     await validate_fulfillment(
         session,
@@ -1213,11 +1228,8 @@ async def confirm_appointment(
         store_id=hold.store_id,
         resource_ids=resource_ids,
         start_at=start_at,
-        end_at=end_at,
+        end_at=allocation_end_at,
         now=decision_now,
-    )
-    requirements = await _requirements_for_snapshot(
-        session, tenant_id=ctx.tenant_id, snapshot=proposal_locked.canonical_content
     )
     await validate_resource_composition(
         session,
@@ -1526,23 +1538,43 @@ async def reschedule_appointment(
 
     appointment_peek = (
         await session.execute(
-            select(m.Appointment.store_id, m.Appointment.start_at, m.Appointment.end_at)
-            .where(m.Appointment.tenant_id == ctx.tenant_id, m.Appointment.id == appointment_id)
+            select(
+                m.Appointment.store_id,
+                m.Appointment.start_at,
+                m.Appointment.end_at,
+                m.Appointment.service_snapshot,
+            ).where(
+                m.Appointment.tenant_id == ctx.tenant_id,
+                m.Appointment.id == appointment_id,
+            )
         )
     ).one_or_none()
     if appointment_peek is None:
         raise not_found("预约不存在或无权访问")
     ctx.require_store_scope(appointment_peek.store_id)
-    old_resource_ids = set(
+    old_allocation_peek = list(
         (
             await session.execute(
-                select(m.ResourceAllocation.resource_id).where(
+                select(
+                    m.ResourceAllocation.resource_id,
+                    m.ResourceAllocation.start_at,
+                    m.ResourceAllocation.end_at,
+                ).where(
                     m.ResourceAllocation.tenant_id == ctx.tenant_id,
                     m.ResourceAllocation.appointment_id == appointment_id,
                     m.ResourceAllocation.state == AllocationState.BOOKED.value,
                 )
             )
-        ).scalars().all()
+        ).all()
+    )
+    old_resource_ids = {row.resource_id for row in old_allocation_peek}
+    requirements = await _requirements_for_snapshot(
+        session,
+        tenant_id=ctx.tenant_id,
+        snapshot=appointment_peek.service_snapshot or {},
+    )
+    allocation_end_at = new_end_at + timedelta(
+        minutes=int(requirements.get("buffer_minutes", 0) or 0)
     )
     ordered = sorted(set(new_resource_ids), key=str)
     store_guard = await lock_store(
@@ -1555,12 +1587,13 @@ async def reschedule_appointment(
     zone = load_zone(store_guard.timezone)
     guard_days = [
         (resource_id, day)
-        for resource_id in old_resource_ids
-        for day in iter_local_dates(appointment_peek.start_at, appointment_peek.end_at, zone)
+        for old_allocation in old_allocation_peek
+        for resource_id in (old_allocation.resource_id,)
+        for day in iter_local_dates(old_allocation.start_at, old_allocation.end_at, zone)
     ] + [
         (resource_id, day)
         for resource_id in ordered
-        for day in iter_local_dates(new_start_at, new_end_at, zone)
+        for day in iter_local_dates(new_start_at, allocation_end_at, zone)
     ]
     if guard_days:
         await lock_resource_day(
@@ -1639,11 +1672,8 @@ async def reschedule_appointment(
         store_id=appointment.store_id,
         resource_ids=ordered,
         start_at=new_start_at,
-        end_at=new_end_at,
+        end_at=allocation_end_at,
         now=decision_now,
-    )
-    requirements = await _requirements_for_snapshot(
-        session, tenant_id=ctx.tenant_id, snapshot=appointment.service_snapshot or {}
     )
     await validate_resource_composition(
         session,
@@ -1677,7 +1707,7 @@ async def reschedule_appointment(
                     hold_id=None,
                     appointment_id=appointment.id,
                     start_at=new_start_at,
-                    end_at=new_end_at,
+                    end_at=allocation_end_at,
                     state=AllocationState.BOOKED.value,
                     expires_at=None,
                 )

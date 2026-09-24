@@ -387,6 +387,10 @@ async def search_availability(
 
     requirements = service.requirements or {}
     required_types, type_counts = _parse_requirements(requirements)
+    duration = timedelta(minutes=service.duration_minutes)
+    buffer_minutes = int(requirements.get("buffer_minutes", 0) or 0)
+    occupied = duration + timedelta(minutes=buffer_minutes)
+    resource_window_end = window_end + timedelta(minutes=buffer_minutes)
 
     resources = await _load_resources(
         session, tenant_id=tenant_id, store_id=store_id, types=required_types
@@ -405,21 +409,21 @@ async def search_availability(
         tenant_id=tenant_id,
         resource_ids=resource_ids,
         window_start=window_start,
-        window_end=window_end,
+        window_end=resource_window_end,
     )
     absences = await _load_absences(
         session,
         tenant_id=tenant_id,
         resource_ids=resource_ids,
         window_start=window_start,
-        window_end=window_end,
+        window_end=resource_window_end,
     )
     busy = await _load_busy_intervals(
         session,
         tenant_id=tenant_id,
         resource_ids=resource_ids,
         window_start=window_start,
-        window_end=window_end,
+        window_end=resource_window_end,
         now=now,
     )
     weekly, exceptions = await _load_calendar(
@@ -458,7 +462,7 @@ async def search_availability(
         named_free = [
             r
             for r in named_resources
-            if not _overlaps(busy.get(r.id, []), window_start, window_end)
+            if not _overlaps(busy.get(r.id, []), window_start, resource_window_end)
         ]
         if named_resources and not named_free:
             return AvailabilityResult(
@@ -467,9 +471,6 @@ async def search_availability(
                 notes=["用户点名的资源在该时间窗内不可用，且未表达可以换人，需要澄清"],
             )
 
-    duration = timedelta(minutes=service.duration_minutes)
-    buffer_minutes = int(requirements.get("buffer_minutes", 0) or 0)
-    occupied = duration + timedelta(minutes=buffer_minutes)
     window_seconds = max((window_end - window_start).total_seconds(), 1.0)
 
     candidates: list[Candidate] = []
@@ -497,7 +498,6 @@ async def search_availability(
                     absences=absences,
                     busy=busy,
                     slot_start=slot_start,
-                    slot_end=slot_end,
                     alloc_end=slot_start + occupied,
                 )
                 if per_type is None:
@@ -584,7 +584,6 @@ def _feasible_picks(
     absences: dict[UUID, list[tuple[datetime, datetime]]],
     busy: dict[UUID, list[tuple[datetime, datetime]]],
     slot_start: datetime,
-    slot_end: datetime,
     alloc_end: datetime,
 ) -> dict[str, list[m.Resource]] | None:
     """按类型挑选可用资源。任一类型数量不足即返回 None。"""
@@ -594,9 +593,11 @@ def _feasible_picks(
         need = type_counts.get(rtype, 1)
         picks: list[m.Resource] = []
         for resource in eligible_by_type.get(rtype, []):
-            if not _covered(shifts.get(resource.id, []), slot_start, slot_end):
+            # Shift and approved absence must cover/block the full occupied interval,
+            # including the cleanup buffer, to match the allocation we will persist.
+            if not _covered(shifts.get(resource.id, []), slot_start, alloc_end):
                 continue
-            if _overlaps(absences.get(resource.id, []), slot_start, slot_end):
+            if _overlaps(absences.get(resource.id, []), slot_start, alloc_end):
                 continue
             if _overlaps(busy.get(resource.id, []), slot_start, alloc_end):
                 continue

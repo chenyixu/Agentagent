@@ -1,0 +1,4970 @@
+{
+  "assumptions": [
+    "All stores, people, prices, shifts, histories and bookings are synthetic.",
+    "This fixture is constraint-focused and is not sampled from production distributions.",
+    "Availability uses 30-minute start increments and service duration plus a 15-minute resource buffer.",
+    "Appointment and operation effects in case expectations are evaluated in an isolated test database."
+  ],
+  "cases": [
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-C-006",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-C-01",
+            "therapist_id": "TECH-C-04"
+          },
+          {
+            "room_id": "ROOM-C-02",
+            "therapist_id": "TECH-C-04"
+          },
+          {
+            "room_id": "ROOM-C-01",
+            "therapist_id": "TECH-C-05"
+          },
+          {
+            "room_id": "ROOM-C-02",
+            "therapist_id": "TECH-C-05"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-001",
+      "request": "请帮我预约芳香舒缓，2026年10月03日 16:30。",
+      "requested_start_at": "2026-10-03T16:30+08:00",
+      "service_id": "aroma_relax",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-A-010",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-05"
+          },
+          {
+            "room_id": "ROOM-A-02",
+            "therapist_id": "TECH-A-05"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-002",
+      "request": "请帮我预约开背理疗，2026年09月27日 17:00。",
+      "requested_start_at": "2026-09-27T17:00+08:00",
+      "service_id": "back_therapy",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-B-005",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-B-03",
+            "therapist_id": "TECH-B-03"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-003",
+      "request": "请帮我预约足部放松，2026年10月03日 18:00。",
+      "requested_start_at": "2026-10-03T18:00+08:00",
+      "service_id": "foot_relax",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-A-004",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-02"
+          },
+          {
+            "room_id": "ROOM-A-02",
+            "therapist_id": "TECH-A-02"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-004",
+      "request": "请帮我预约肩颈舒缓，2026年10月06日 17:00。",
+      "requested_start_at": "2026-10-06T17:00+08:00",
+      "service_id": "neck_relief",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-C-007",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-C-01",
+            "therapist_id": "TECH-C-04"
+          },
+          {
+            "room_id": "ROOM-C-02",
+            "therapist_id": "TECH-C-04"
+          },
+          {
+            "room_id": "ROOM-C-01",
+            "therapist_id": "TECH-C-05"
+          },
+          {
+            "room_id": "ROOM-C-02",
+            "therapist_id": "TECH-C-05"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-005",
+      "request": "请帮我预约芳香舒缓，2026年10月01日 13:30。",
+      "requested_start_at": "2026-10-01T13:30+08:00",
+      "service_id": "aroma_relax",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-B-004",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-B-01",
+            "therapist_id": "TECH-B-05"
+          },
+          {
+            "room_id": "ROOM-B-02",
+            "therapist_id": "TECH-B-05"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-006",
+      "request": "请帮我预约肩颈舒缓，2026年10月03日 11:00。",
+      "requested_start_at": "2026-10-03T11:00+08:00",
+      "service_id": "neck_relief",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-B-006",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-B-03",
+            "therapist_id": "TECH-B-02"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-007",
+      "request": "请帮我预约足部放松，2026年09月27日 12:30。",
+      "requested_start_at": "2026-09-27T12:30+08:00",
+      "service_id": "foot_relax",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-A-007",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-03",
+            "therapist_id": "TECH-A-02"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-008",
+      "request": "请帮我预约足部放松，2026年09月30日 11:00。",
+      "requested_start_at": "2026-09-30T11:00+08:00",
+      "service_id": "foot_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-A-003",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-03",
+            "therapist_id": "TECH-A-03"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-009",
+      "request": "请帮我预约足部放松，2026年09月28日 15:00。",
+      "requested_start_at": "2026-09-28T15:00+08:00",
+      "service_id": "foot_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-C-009",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-C-02",
+            "therapist_id": "TECH-C-01"
+          },
+          {
+            "room_id": "ROOM-C-02",
+            "therapist_id": "TECH-C-04"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-010",
+      "request": "请帮我预约全身放松，2026年09月27日 14:30。",
+      "requested_start_at": "2026-09-27T14:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-B-009",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-B-01",
+            "therapist_id": "TECH-B-01"
+          },
+          {
+            "room_id": "ROOM-B-02",
+            "therapist_id": "TECH-B-01"
+          },
+          {
+            "room_id": "ROOM-B-01",
+            "therapist_id": "TECH-B-02"
+          },
+          {
+            "room_id": "ROOM-B-02",
+            "therapist_id": "TECH-B-02"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-011",
+      "request": "请帮我预约肩颈舒缓，2026年09月29日 12:00。",
+      "requested_start_at": "2026-09-29T12:00+08:00",
+      "service_id": "neck_relief",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "feasible_exact_slot",
+      "customer_id": "CUS-C-001",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-C-01",
+            "therapist_id": "TECH-C-03"
+          },
+          {
+            "room_id": "ROOM-C-02",
+            "therapist_id": "TECH-C-03"
+          }
+        ],
+        "decision": "offer_candidates",
+        "hold_count_delta_before_selection": 0
+      },
+      "id": "SB-FEASIBLE-012",
+      "request": "请帮我预约全身放松，2026年10月03日 13:30。",
+      "requested_start_at": "2026-10-03T13:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "missing_service",
+      "customer_id": "CUS-A-001",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "clarify",
+        "hold_count_delta": 0,
+        "required_fields": [
+          "service_id"
+        ]
+      },
+      "id": "SB-MISSING-SERVICE-001",
+      "request": "我想在2026年09月26日 15:00预约，能先介绍一下项目吗？",
+      "requested_start_at": "2026-09-26T15:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "missing_service",
+      "customer_id": "CUS-B-006",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "clarify",
+        "hold_count_delta": 0,
+        "required_fields": [
+          "service_id"
+        ]
+      },
+      "id": "SB-MISSING-SERVICE-002",
+      "request": "我想在2026年09月27日 15:00预约，能先介绍一下项目吗？",
+      "requested_start_at": "2026-09-27T15:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "missing_service",
+      "customer_id": "CUS-C-008",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "clarify",
+        "hold_count_delta": 0,
+        "required_fields": [
+          "service_id"
+        ]
+      },
+      "id": "SB-MISSING-SERVICE-003",
+      "request": "我想在2026年09月28日 15:00预约，能先介绍一下项目吗？",
+      "requested_start_at": "2026-09-28T15:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "missing_service",
+      "customer_id": "CUS-A-003",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "clarify",
+        "hold_count_delta": 0,
+        "required_fields": [
+          "service_id"
+        ]
+      },
+      "id": "SB-MISSING-SERVICE-004",
+      "request": "我想在2026年09月29日 15:00预约，能先介绍一下项目吗？",
+      "requested_start_at": "2026-09-29T15:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "missing_service",
+      "customer_id": "CUS-B-001",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "clarify",
+        "hold_count_delta": 0,
+        "required_fields": [
+          "service_id"
+        ]
+      },
+      "id": "SB-MISSING-SERVICE-005",
+      "request": "我想在2026年09月30日 15:00预约，能先介绍一下项目吗？",
+      "requested_start_at": "2026-09-30T15:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "missing_service",
+      "customer_id": "CUS-C-006",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "clarify",
+        "hold_count_delta": 0,
+        "required_fields": [
+          "service_id"
+        ]
+      },
+      "id": "SB-MISSING-SERVICE-006",
+      "request": "我想在2026年10月01日 15:00预约，能先介绍一下项目吗？",
+      "requested_start_at": "2026-10-01T15:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "ambiguous_service",
+      "customer_id": "CUS-A-002",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_service_ids": [
+          "neck_relief",
+          "back_therapy"
+        ],
+        "candidate_service_names": [
+          "肩颈舒缓",
+          "开背理疗"
+        ],
+        "decision": "clarify_service",
+        "hold_count_delta": 0
+      },
+      "id": "SB-AMBIGUOUS-SERVICE-001",
+      "request": "我想做个放松项目，2026年09月28日 16:00左右有空吗？",
+      "requested_start_at": "2026-09-28T16:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "ambiguous_service",
+      "customer_id": "CUS-B-008",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_service_ids": [
+          "neck_relief",
+          "foot_relax"
+        ],
+        "candidate_service_names": [
+          "肩颈舒缓",
+          "足部放松"
+        ],
+        "decision": "clarify_service",
+        "hold_count_delta": 0
+      },
+      "id": "SB-AMBIGUOUS-SERVICE-002",
+      "request": "我想做个放松项目，2026年09月29日 16:00左右有空吗？",
+      "requested_start_at": "2026-09-29T16:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "ambiguous_service",
+      "customer_id": "CUS-C-005",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_service_ids": [
+          "back_therapy",
+          "aroma_relax"
+        ],
+        "candidate_service_names": [
+          "开背理疗",
+          "芳香舒缓"
+        ],
+        "decision": "clarify_service",
+        "hold_count_delta": 0
+      },
+      "id": "SB-AMBIGUOUS-SERVICE-003",
+      "request": "我想做个放松项目，2026年09月30日 16:00左右有空吗？",
+      "requested_start_at": "2026-09-30T16:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "ambiguous_service",
+      "customer_id": "CUS-A-003",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_service_ids": [
+          "neck_relief",
+          "back_therapy"
+        ],
+        "candidate_service_names": [
+          "肩颈舒缓",
+          "开背理疗"
+        ],
+        "decision": "clarify_service",
+        "hold_count_delta": 0
+      },
+      "id": "SB-AMBIGUOUS-SERVICE-004",
+      "request": "我想做个放松项目，2026年10月01日 16:00左右有空吗？",
+      "requested_start_at": "2026-10-01T16:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "ambiguous_service",
+      "customer_id": "CUS-B-006",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_service_ids": [
+          "neck_relief",
+          "foot_relax"
+        ],
+        "candidate_service_names": [
+          "肩颈舒缓",
+          "足部放松"
+        ],
+        "decision": "clarify_service",
+        "hold_count_delta": 0
+      },
+      "id": "SB-AMBIGUOUS-SERVICE-005",
+      "request": "我想做个放松项目，2026年10月02日 16:00左右有空吗？",
+      "requested_start_at": "2026-10-02T16:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "ambiguous_service",
+      "customer_id": "CUS-C-009",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_service_ids": [
+          "back_therapy",
+          "aroma_relax"
+        ],
+        "candidate_service_names": [
+          "开背理疗",
+          "芳香舒缓"
+        ],
+        "decision": "clarify_service",
+        "hold_count_delta": 0
+      },
+      "id": "SB-AMBIGUOUS-SERVICE-006",
+      "request": "我想做个放松项目，2026年10月03日 16:00左右有空吗？",
+      "requested_start_at": "2026-10-03T16:00+08:00",
+      "service_id": null,
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "outside_hours",
+      "customer_id": "CUS-A-009",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_pairs": [],
+        "decision": "offer_alternative_or_explain_unavailable",
+        "hold_count_delta": 0
+      },
+      "id": "SB-OUTSIDE-HOURS-001",
+      "request": "请帮我预约肩颈舒缓，2026年09月30日 19:30。",
+      "requested_start_at": "2026-09-30T19:30+08:00",
+      "service_id": "neck_relief",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "outside_hours",
+      "customer_id": "CUS-B-009",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_pairs": [],
+        "decision": "offer_alternative_or_explain_unavailable",
+        "hold_count_delta": 0
+      },
+      "id": "SB-OUTSIDE-HOURS-002",
+      "request": "请帮我预约足部放松，2026年10月01日 20:30。",
+      "requested_start_at": "2026-10-01T20:30+08:00",
+      "service_id": "foot_relax",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "outside_hours",
+      "customer_id": "CUS-C-008",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_pairs": [],
+        "decision": "offer_alternative_or_explain_unavailable",
+        "hold_count_delta": 0
+      },
+      "id": "SB-OUTSIDE-HOURS-003",
+      "request": "请帮我预约全身放松，2026年10月02日 18:30。",
+      "requested_start_at": "2026-10-02T18:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "outside_hours",
+      "customer_id": "CUS-A-006",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_pairs": [],
+        "decision": "offer_alternative_or_explain_unavailable",
+        "hold_count_delta": 0
+      },
+      "id": "SB-OUTSIDE-HOURS-004",
+      "request": "请帮我预约全身放松，2026年10月03日 18:30。",
+      "requested_start_at": "2026-10-03T18:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "outside_hours",
+      "customer_id": "CUS-B-003",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_pairs": [],
+        "decision": "offer_alternative_or_explain_unavailable",
+        "hold_count_delta": 0
+      },
+      "id": "SB-OUTSIDE-HOURS-005",
+      "request": "请帮我预约肩颈舒缓，2026年10月04日 20:30。",
+      "requested_start_at": "2026-10-04T20:30+08:00",
+      "service_id": "neck_relief",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "outside_hours",
+      "customer_id": "CUS-C-009",
+      "expected": {
+        "appointment_count_delta": 0,
+        "candidate_pairs": [],
+        "decision": "offer_alternative_or_explain_unavailable",
+        "hold_count_delta": 0
+      },
+      "id": "SB-OUTSIDE-HOURS-006",
+      "request": "请帮我预约全身放松，2026年10月06日 18:30。",
+      "requested_start_at": "2026-10-06T18:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "preferred_therapist_unavailable",
+      "customer_id": "CUS-C-004",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-C-01",
+            "therapist_id": "TECH-C-05"
+          },
+          {
+            "room_id": "ROOM-C-02",
+            "therapist_id": "TECH-C-05"
+          }
+        ],
+        "decision": "offer_available_alternative",
+        "preferred_therapist_id": "TECH-C-04",
+        "preferred_therapist_must_not_be_offered": true
+      },
+      "id": "SB-PREFERRED-UNAVAILABLE-001",
+      "request": "请帮我预约芳香舒缓，2026年10月08日 11:30。如果可以，优先安排TECH-C-04。",
+      "requested_start_at": "2026-10-08T11:30+08:00",
+      "service_id": "aroma_relax",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "preferred_therapist_unavailable",
+      "customer_id": "CUS-A-001",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-01"
+          },
+          {
+            "room_id": "ROOM-A-02",
+            "therapist_id": "TECH-A-01"
+          },
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-05"
+          },
+          {
+            "room_id": "ROOM-A-02",
+            "therapist_id": "TECH-A-05"
+          }
+        ],
+        "decision": "offer_available_alternative",
+        "preferred_therapist_id": "TECH-A-02",
+        "preferred_therapist_must_not_be_offered": true
+      },
+      "id": "SB-PREFERRED-UNAVAILABLE-002",
+      "request": "请帮我预约肩颈舒缓，2026年10月03日 12:00。如果可以，优先安排TECH-A-02。",
+      "requested_start_at": "2026-10-03T12:00+08:00",
+      "service_id": "neck_relief",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "preferred_therapist_unavailable",
+      "customer_id": "CUS-A-009",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-01"
+          },
+          {
+            "room_id": "ROOM-A-02",
+            "therapist_id": "TECH-A-01"
+          }
+        ],
+        "decision": "offer_available_alternative",
+        "preferred_therapist_id": "TECH-A-05",
+        "preferred_therapist_must_not_be_offered": true
+      },
+      "id": "SB-PREFERRED-UNAVAILABLE-003",
+      "request": "请帮我预约肩颈舒缓，2026年10月08日 10:30。如果可以，优先安排TECH-A-05。",
+      "requested_start_at": "2026-10-08T10:30+08:00",
+      "service_id": "neck_relief",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "preferred_therapist_unavailable",
+      "customer_id": "CUS-A-003",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-03",
+            "therapist_id": "TECH-A-02"
+          }
+        ],
+        "decision": "offer_available_alternative",
+        "preferred_therapist_id": "TECH-A-03",
+        "preferred_therapist_must_not_be_offered": true
+      },
+      "id": "SB-PREFERRED-UNAVAILABLE-004",
+      "request": "请帮我预约足部放松，2026年09月25日 12:30。如果可以，优先安排TECH-A-03。",
+      "requested_start_at": "2026-09-25T12:30+08:00",
+      "service_id": "foot_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "preferred_therapist_unavailable",
+      "customer_id": "CUS-A-009",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-04"
+          },
+          {
+            "room_id": "ROOM-A-02",
+            "therapist_id": "TECH-A-04"
+          }
+        ],
+        "decision": "offer_available_alternative",
+        "preferred_therapist_id": "TECH-A-01",
+        "preferred_therapist_must_not_be_offered": true
+      },
+      "id": "SB-PREFERRED-UNAVAILABLE-005",
+      "request": "请帮我预约全身放松，2026年09月28日 15:30。如果可以，优先安排TECH-A-01。",
+      "requested_start_at": "2026-09-28T15:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "preferred_therapist_unavailable",
+      "customer_id": "CUS-B-009",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-B-02",
+            "therapist_id": "TECH-B-01"
+          },
+          {
+            "room_id": "ROOM-B-02",
+            "therapist_id": "TECH-B-05"
+          }
+        ],
+        "decision": "offer_available_alternative",
+        "preferred_therapist_id": "TECH-B-02",
+        "preferred_therapist_must_not_be_offered": true
+      },
+      "id": "SB-PREFERRED-UNAVAILABLE-006",
+      "request": "请帮我预约肩颈舒缓，2026年10月02日 13:00。如果可以，优先安排TECH-B-02。",
+      "requested_start_at": "2026-10-02T13:00+08:00",
+      "service_id": "neck_relief",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "preferred_therapist_unavailable",
+      "customer_id": "CUS-A-003",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-01"
+          },
+          {
+            "room_id": "ROOM-A-02",
+            "therapist_id": "TECH-A-01"
+          },
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-03"
+          },
+          {
+            "room_id": "ROOM-A-02",
+            "therapist_id": "TECH-A-03"
+          }
+        ],
+        "decision": "offer_available_alternative",
+        "preferred_therapist_id": "TECH-A-04",
+        "preferred_therapist_must_not_be_offered": true
+      },
+      "id": "SB-PREFERRED-UNAVAILABLE-007",
+      "request": "请帮我预约全身放松，2026年10月06日 12:30。如果可以，优先安排TECH-A-04。",
+      "requested_start_at": "2026-10-06T12:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "preferred_therapist_unavailable",
+      "customer_id": "CUS-B-009",
+      "expected": {
+        "appointment_count_delta_before_confirmation": 0,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-B-01",
+            "therapist_id": "TECH-B-05"
+          },
+          {
+            "room_id": "ROOM-B-02",
+            "therapist_id": "TECH-B-05"
+          }
+        ],
+        "decision": "offer_available_alternative",
+        "preferred_therapist_id": "TECH-B-04",
+        "preferred_therapist_must_not_be_offered": true
+      },
+      "id": "SB-PREFERRED-UNAVAILABLE-008",
+      "request": "请帮我预约芳香舒缓，2026年10月03日 12:00。如果可以，优先安排TECH-B-04。",
+      "requested_start_at": "2026-10-03T12:00+08:00",
+      "service_id": "aroma_relax",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "booking_conflict",
+      "customer_id": "CUS-C-008",
+      "expected": {
+        "blocked_booking_id": "BOOK-0050",
+        "blocked_pair": {
+          "room_id": "ROOM-C-01",
+          "therapist_id": "TECH-C-02"
+        },
+        "blocked_pair_must_not_be_offered": true,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-C-02",
+            "therapist_id": "TECH-C-05"
+          }
+        ],
+        "decision": "exclude_occupied_resources"
+      },
+      "id": "SB-BOOKING-CONFLICT-001",
+      "request": "请帮我预约开背理疗，2026年10月03日 11:00。",
+      "requested_start_at": "2026-10-03T11:00+08:00",
+      "service_id": "back_therapy",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "booking_conflict",
+      "customer_id": "CUS-A-005",
+      "expected": {
+        "blocked_booking_id": "BOOK-0004",
+        "blocked_pair": {
+          "room_id": "ROOM-A-02",
+          "therapist_id": "TECH-A-01"
+        },
+        "blocked_pair_must_not_be_offered": true,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-03"
+          }
+        ],
+        "decision": "exclude_occupied_resources"
+      },
+      "id": "SB-BOOKING-CONFLICT-002",
+      "request": "请帮我预约全身放松，2026年10月07日 12:30。",
+      "requested_start_at": "2026-10-07T12:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "booking_conflict",
+      "customer_id": "CUS-B-009",
+      "expected": {
+        "blocked_booking_id": "BOOK-0036",
+        "blocked_pair": {
+          "room_id": "ROOM-B-01",
+          "therapist_id": "TECH-B-04"
+        },
+        "blocked_pair_must_not_be_offered": true,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-B-02",
+            "therapist_id": "TECH-B-03"
+          }
+        ],
+        "decision": "exclude_occupied_resources"
+      },
+      "id": "SB-BOOKING-CONFLICT-003",
+      "request": "请帮我预约全身放松，2026年09月29日 15:00。",
+      "requested_start_at": "2026-09-29T15:00+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "booking_conflict",
+      "customer_id": "CUS-B-006",
+      "expected": {
+        "blocked_booking_id": "BOOK-0039",
+        "blocked_pair": {
+          "room_id": "ROOM-B-01",
+          "therapist_id": "TECH-B-04"
+        },
+        "blocked_pair_must_not_be_offered": true,
+        "candidate_pairs": [],
+        "decision": "exclude_occupied_resources"
+      },
+      "id": "SB-BOOKING-CONFLICT-004",
+      "request": "请帮我预约芳香舒缓，2026年10月04日 19:30。",
+      "requested_start_at": "2026-10-04T19:30+08:00",
+      "service_id": "aroma_relax",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "booking_conflict",
+      "customer_id": "CUS-B-005",
+      "expected": {
+        "blocked_booking_id": "BOOK-0027",
+        "blocked_pair": {
+          "room_id": "ROOM-B-01",
+          "therapist_id": "TECH-B-02"
+        },
+        "blocked_pair_must_not_be_offered": true,
+        "candidate_pairs": [],
+        "decision": "exclude_occupied_resources"
+      },
+      "id": "SB-BOOKING-CONFLICT-005",
+      "request": "请帮我预约肩颈舒缓，2026年09月27日 14:00。",
+      "requested_start_at": "2026-09-27T14:00+08:00",
+      "service_id": "neck_relief",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "booking_conflict",
+      "customer_id": "CUS-A-003",
+      "expected": {
+        "blocked_booking_id": "BOOK-0020",
+        "blocked_pair": {
+          "room_id": "ROOM-A-02",
+          "therapist_id": "TECH-A-05"
+        },
+        "blocked_pair_must_not_be_offered": true,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-01"
+          },
+          {
+            "room_id": "ROOM-A-01",
+            "therapist_id": "TECH-A-02"
+          }
+        ],
+        "decision": "exclude_occupied_resources"
+      },
+      "id": "SB-BOOKING-CONFLICT-006",
+      "request": "请帮我预约肩颈舒缓，2026年10月02日 16:30。",
+      "requested_start_at": "2026-10-02T16:30+08:00",
+      "service_id": "neck_relief",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "booking_conflict",
+      "customer_id": "CUS-B-010",
+      "expected": {
+        "blocked_booking_id": "BOOK-0034",
+        "blocked_pair": {
+          "room_id": "ROOM-B-03",
+          "therapist_id": "TECH-B-03"
+        },
+        "blocked_pair_must_not_be_offered": true,
+        "candidate_pairs": [],
+        "decision": "exclude_occupied_resources"
+      },
+      "id": "SB-BOOKING-CONFLICT-007",
+      "request": "请帮我预约足部放松，2026年10月07日 19:00。",
+      "requested_start_at": "2026-10-07T19:00+08:00",
+      "service_id": "foot_relax",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "booking_conflict",
+      "customer_id": "CUS-C-006",
+      "expected": {
+        "blocked_booking_id": "BOOK-0060",
+        "blocked_pair": {
+          "room_id": "ROOM-C-02",
+          "therapist_id": "TECH-C-05"
+        },
+        "blocked_pair_must_not_be_offered": true,
+        "candidate_pairs": [
+          {
+            "room_id": "ROOM-C-01",
+            "therapist_id": "TECH-C-04"
+          }
+        ],
+        "decision": "exclude_occupied_resources"
+      },
+      "id": "SB-BOOKING-CONFLICT-008",
+      "request": "请帮我预约芳香舒缓，2026年09月26日 16:30。",
+      "requested_start_at": "2026-09-26T16:30+08:00",
+      "service_id": "aroma_relax",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "stale_candidate",
+      "customer_id": "CUS-A-008",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "reject_stale_confirmation",
+        "hold_count_delta": 0,
+        "invalidation": "shift_revision_changed",
+        "operation_count_delta": 0
+      },
+      "id": "SB-STALE-CANDIDATE-001",
+      "request": "请帮我预约足部放松，2026年09月30日 11:00。",
+      "requested_start_at": "2026-09-30T11:00+08:00",
+      "service_id": "foot_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "stale_candidate",
+      "customer_id": "CUS-B-006",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "reject_stale_confirmation",
+        "hold_count_delta": 0,
+        "invalidation": "price_revision_changed",
+        "operation_count_delta": 0
+      },
+      "id": "SB-STALE-CANDIDATE-002",
+      "request": "请帮我预约芳香舒缓，2026年10月08日 12:30。",
+      "requested_start_at": "2026-10-08T12:30+08:00",
+      "service_id": "aroma_relax",
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "stale_candidate",
+      "customer_id": "CUS-A-004",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "reject_stale_confirmation",
+        "hold_count_delta": 0,
+        "invalidation": "candidate_expired",
+        "operation_count_delta": 0
+      },
+      "id": "SB-STALE-CANDIDATE-003",
+      "request": "请帮我预约全身放松，2026年09月28日 18:00。",
+      "requested_start_at": "2026-09-28T18:00+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "stale_candidate",
+      "customer_id": "CUS-A-004",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "reject_stale_confirmation",
+        "hold_count_delta": 0,
+        "invalidation": "shift_revision_changed",
+        "operation_count_delta": 0
+      },
+      "id": "SB-STALE-CANDIDATE-004",
+      "request": "请帮我预约全身放松，2026年10月03日 17:00。",
+      "requested_start_at": "2026-10-03T17:00+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "stale_candidate",
+      "customer_id": "CUS-A-007",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "reject_stale_confirmation",
+        "hold_count_delta": 0,
+        "invalidation": "price_revision_changed",
+        "operation_count_delta": 0
+      },
+      "id": "SB-STALE-CANDIDATE-005",
+      "request": "请帮我预约开背理疗，2026年09月29日 12:30。",
+      "requested_start_at": "2026-09-29T12:30+08:00",
+      "service_id": "back_therapy",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "stale_candidate",
+      "customer_id": "CUS-A-007",
+      "expected": {
+        "appointment_count_delta": 0,
+        "decision": "reject_stale_confirmation",
+        "hold_count_delta": 0,
+        "invalidation": "candidate_expired",
+        "operation_count_delta": 0
+      },
+      "id": "SB-STALE-CANDIDATE-006",
+      "request": "请帮我预约全身放松，2026年10月05日 13:30。",
+      "requested_start_at": "2026-10-05T13:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "idempotent_confirmation",
+      "customer_id": "CUS-A-001",
+      "expected": {
+        "appointment_count_delta": 1,
+        "decision": "replay_original_result",
+        "idempotency_key": "SYN-IDEMPOTENCY-001",
+        "operation_count_delta": 1,
+        "repeat_count": 2,
+        "request_digest": "a482f73cd7bc504027dcebbbe0c96d8c4f09320e9ccd3b2f839ece035edc3ed7",
+        "response_appointment_ids_equal": true,
+        "same_idempotency_key": true,
+        "same_request_digest": true
+      },
+      "id": "SB-IDEMPOTENCY-001",
+      "request": "对同一份待确认预约重复提交两次相同确认请求。",
+      "requested_start_at": null,
+      "service_id": null,
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "idempotent_confirmation",
+      "customer_id": "CUS-B-001",
+      "expected": {
+        "appointment_count_delta": 1,
+        "decision": "replay_original_result",
+        "idempotency_key": "SYN-IDEMPOTENCY-002",
+        "operation_count_delta": 1,
+        "repeat_count": 2,
+        "request_digest": "1cad9050810263bc9c3cd6728fdcd02b87c8148f268b4de7547424feb3cacfb3",
+        "response_appointment_ids_equal": true,
+        "same_idempotency_key": true,
+        "same_request_digest": true
+      },
+      "id": "SB-IDEMPOTENCY-002",
+      "request": "对同一份待确认预约重复提交两次相同确认请求。",
+      "requested_start_at": null,
+      "service_id": null,
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "idempotent_confirmation",
+      "customer_id": "CUS-C-001",
+      "expected": {
+        "appointment_count_delta": 1,
+        "decision": "replay_original_result",
+        "idempotency_key": "SYN-IDEMPOTENCY-003",
+        "operation_count_delta": 1,
+        "repeat_count": 2,
+        "request_digest": "76002998ceaec36141ff9c34d5451502a8f7616ea174e3f1f541d7073e984433",
+        "response_appointment_ids_equal": true,
+        "same_idempotency_key": true,
+        "same_request_digest": true
+      },
+      "id": "SB-IDEMPOTENCY-003",
+      "request": "对同一份待确认预约重复提交两次相同确认请求。",
+      "requested_start_at": null,
+      "service_id": null,
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "idempotent_confirmation",
+      "customer_id": "CUS-A-001",
+      "expected": {
+        "appointment_count_delta": 1,
+        "decision": "replay_original_result",
+        "idempotency_key": "SYN-IDEMPOTENCY-004",
+        "operation_count_delta": 1,
+        "repeat_count": 2,
+        "request_digest": "5ca3ba69d912f39e9fc29c9ddb51fd6e3f33bb0594ed72fcb59cd0b231f9c7e7",
+        "response_appointment_ids_equal": true,
+        "same_idempotency_key": true,
+        "same_request_digest": true
+      },
+      "id": "SB-IDEMPOTENCY-004",
+      "request": "对同一份待确认预约重复提交两次相同确认请求。",
+      "requested_start_at": null,
+      "service_id": null,
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "idempotent_confirmation",
+      "customer_id": "CUS-B-001",
+      "expected": {
+        "appointment_count_delta": 1,
+        "decision": "replay_original_result",
+        "idempotency_key": "SYN-IDEMPOTENCY-005",
+        "operation_count_delta": 1,
+        "repeat_count": 2,
+        "request_digest": "03dd5b497db3f11dbee0c800c5d559133fd891bfca5b6ec60852c00de81a2c59",
+        "response_appointment_ids_equal": true,
+        "same_idempotency_key": true,
+        "same_request_digest": true
+      },
+      "id": "SB-IDEMPOTENCY-005",
+      "request": "对同一份待确认预约重复提交两次相同确认请求。",
+      "requested_start_at": null,
+      "service_id": null,
+      "store_id": "STORE-B"
+    },
+    {
+      "category": "idempotent_confirmation",
+      "customer_id": "CUS-C-001",
+      "expected": {
+        "appointment_count_delta": 1,
+        "decision": "replay_original_result",
+        "idempotency_key": "SYN-IDEMPOTENCY-006",
+        "operation_count_delta": 1,
+        "repeat_count": 2,
+        "request_digest": "8672cf35ce396a79338ce2b9c7414db763e32b8a62fd5f4386f44b4cd63fa86d",
+        "response_appointment_ids_equal": true,
+        "same_idempotency_key": true,
+        "same_request_digest": true
+      },
+      "id": "SB-IDEMPOTENCY-006",
+      "request": "对同一份待确认预约重复提交两次相同确认请求。",
+      "requested_start_at": null,
+      "service_id": null,
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "concurrent_single_slot_race",
+      "customer_id": "CUS-A-005",
+      "expected": {
+        "confirmed_effect_count": 1,
+        "contending_customer_ids": [
+          "CUS-A-001",
+          "CUS-A-002"
+        ],
+        "decision": "exactly_one_competing_confirmation_wins",
+        "overlapping_allocations": 0,
+        "target_pair": {
+          "room_id": "ROOM-A-01",
+          "therapist_id": "TECH-A-03"
+        }
+      },
+      "id": "SB-CONCURRENT-RACE-001",
+      "request": "两个测试客户同时竞争body_relax的2026年09月28日 12:00时段。",
+      "requested_start_at": "2026-09-28T12:00+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "concurrent_single_slot_race",
+      "customer_id": "CUS-C-004",
+      "expected": {
+        "confirmed_effect_count": 1,
+        "contending_customer_ids": [
+          "CUS-C-001",
+          "CUS-C-002"
+        ],
+        "decision": "exactly_one_competing_confirmation_wins",
+        "overlapping_allocations": 0,
+        "target_pair": {
+          "room_id": "ROOM-C-02",
+          "therapist_id": "TECH-C-01"
+        }
+      },
+      "id": "SB-CONCURRENT-RACE-002",
+      "request": "两个测试客户同时竞争body_relax的2026年09月30日 10:30时段。",
+      "requested_start_at": "2026-09-30T10:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "concurrent_single_slot_race",
+      "customer_id": "CUS-A-001",
+      "expected": {
+        "confirmed_effect_count": 1,
+        "contending_customer_ids": [
+          "CUS-A-001",
+          "CUS-A-002"
+        ],
+        "decision": "exactly_one_competing_confirmation_wins",
+        "overlapping_allocations": 0,
+        "target_pair": {
+          "room_id": "ROOM-A-01",
+          "therapist_id": "TECH-A-01"
+        }
+      },
+      "id": "SB-CONCURRENT-RACE-003",
+      "request": "两个测试客户同时竞争back_therapy的2026年10月01日 10:00时段。",
+      "requested_start_at": "2026-10-01T10:00+08:00",
+      "service_id": "back_therapy",
+      "store_id": "STORE-A"
+    },
+    {
+      "category": "concurrent_single_slot_race",
+      "customer_id": "CUS-C-008",
+      "expected": {
+        "confirmed_effect_count": 1,
+        "contending_customer_ids": [
+          "CUS-C-001",
+          "CUS-C-002"
+        ],
+        "decision": "exactly_one_competing_confirmation_wins",
+        "overlapping_allocations": 0,
+        "target_pair": {
+          "room_id": "ROOM-C-01",
+          "therapist_id": "TECH-C-01"
+        }
+      },
+      "id": "SB-CONCURRENT-RACE-004",
+      "request": "两个测试客户同时竞争back_therapy的2026年10月07日 13:30时段。",
+      "requested_start_at": "2026-10-07T13:30+08:00",
+      "service_id": "back_therapy",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "concurrent_single_slot_race",
+      "customer_id": "CUS-C-008",
+      "expected": {
+        "confirmed_effect_count": 1,
+        "contending_customer_ids": [
+          "CUS-C-001",
+          "CUS-C-002"
+        ],
+        "decision": "exactly_one_competing_confirmation_wins",
+        "overlapping_allocations": 0,
+        "target_pair": {
+          "room_id": "ROOM-C-01",
+          "therapist_id": "TECH-C-01"
+        }
+      },
+      "id": "SB-CONCURRENT-RACE-005",
+      "request": "两个测试客户同时竞争body_relax的2026年10月08日 10:30时段。",
+      "requested_start_at": "2026-10-08T10:30+08:00",
+      "service_id": "body_relax",
+      "store_id": "STORE-C"
+    },
+    {
+      "category": "concurrent_single_slot_race",
+      "customer_id": "CUS-A-004",
+      "expected": {
+        "confirmed_effect_count": 1,
+        "contending_customer_ids": [
+          "CUS-A-001",
+          "CUS-A-002"
+        ],
+        "decision": "exactly_one_competing_confirmation_wins",
+        "overlapping_allocations": 0,
+        "target_pair": {
+          "room_id": "ROOM-A-01",
+          "therapist_id": "TECH-A-02"
+        }
+      },
+      "id": "SB-CONCURRENT-RACE-006",
+      "request": "两个测试客户同时竞争back_therapy的2026年09月30日 17:00时段。",
+      "requested_start_at": "2026-09-30T17:00+08:00",
+      "service_id": "back_therapy",
+      "store_id": "STORE-A"
+    }
+  ],
+  "data_origin": "generated_synthetic",
+  "dataset_version": "synthetic-business-v1",
+  "generator": "evals/generate_synthetic_business_data.py",
+  "reference_time": "2026-09-24T08:00+08:00",
+  "schedule_days": 14,
+  "schedule_start_date": "2026-09-25",
+  "seed": 20260924,
+  "timezone": "Asia/Shanghai",
+  "world": {
+    "customers": [
+      {
+        "customer_id": "CUS-A-001",
+        "history": [],
+        "store_id": "STORE-A"
+      },
+      {
+        "customer_id": "CUS-A-002",
+        "history": [],
+        "store_id": "STORE-A"
+      },
+      {
+        "customer_id": "CUS-A-003",
+        "history": [
+          {
+            "service_id": "back_therapy",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-05",
+            "visited_at": "2025-11-07T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-A"
+      },
+      {
+        "customer_id": "CUS-A-004",
+        "history": [
+          {
+            "service_id": "foot_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-03",
+            "visited_at": "2025-09-26T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-03",
+            "visited_at": "2026-01-11T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-02",
+            "visited_at": "2026-05-12T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-01",
+            "visited_at": "2025-10-26T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-03",
+            "visited_at": "2026-07-18T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-01",
+            "visited_at": "2025-12-11T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-03",
+            "visited_at": "2026-01-16T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-A"
+      },
+      {
+        "customer_id": "CUS-A-005",
+        "history": [
+          {
+            "service_id": "neck_relief",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-05",
+            "visited_at": "2026-06-01T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-01",
+            "visited_at": "2025-12-11T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-02",
+            "visited_at": "2025-12-04T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-01",
+            "visited_at": "2026-08-14T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-05",
+            "visited_at": "2026-03-29T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-A"
+      },
+      {
+        "customer_id": "CUS-A-006",
+        "history": [
+          {
+            "service_id": "back_therapy",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-02",
+            "visited_at": "2026-06-16T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-02",
+            "visited_at": "2026-01-29T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-A"
+      },
+      {
+        "customer_id": "CUS-A-007",
+        "history": [
+          {
+            "service_id": "foot_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-03",
+            "visited_at": "2026-05-06T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-02",
+            "visited_at": "2026-07-26T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-04",
+            "visited_at": "2026-08-15T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-02",
+            "visited_at": "2026-03-17T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-02",
+            "visited_at": "2026-06-09T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-01",
+            "visited_at": "2026-03-29T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-05",
+            "visited_at": "2026-06-18T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-A"
+      },
+      {
+        "customer_id": "CUS-A-008",
+        "history": [
+          {
+            "service_id": "foot_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-03",
+            "visited_at": "2026-07-19T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-A"
+      },
+      {
+        "customer_id": "CUS-A-009",
+        "history": [
+          {
+            "service_id": "back_therapy",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-05",
+            "visited_at": "2026-04-15T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-01",
+            "visited_at": "2025-11-28T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-A"
+      },
+      {
+        "customer_id": "CUS-A-010",
+        "history": [
+          {
+            "service_id": "neck_relief",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-02",
+            "visited_at": "2025-12-18T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-02",
+            "visited_at": "2026-01-15T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-03",
+            "visited_at": "2025-10-08T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-A-05",
+            "visited_at": "2026-01-07T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-A-03",
+            "visited_at": "2026-04-26T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-A"
+      },
+      {
+        "customer_id": "CUS-B-001",
+        "history": [],
+        "store_id": "STORE-B"
+      },
+      {
+        "customer_id": "CUS-B-002",
+        "history": [],
+        "store_id": "STORE-B"
+      },
+      {
+        "customer_id": "CUS-B-003",
+        "history": [
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-05",
+            "visited_at": "2026-01-02T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-01",
+            "visited_at": "2025-12-18T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-05",
+            "visited_at": "2025-11-09T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-05",
+            "visited_at": "2026-03-16T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-01",
+            "visited_at": "2025-11-04T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-02",
+            "visited_at": "2026-07-05T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-B"
+      },
+      {
+        "customer_id": "CUS-B-004",
+        "history": [
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2026-04-04T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-01",
+            "visited_at": "2026-05-15T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2025-12-26T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-02",
+            "visited_at": "2026-01-14T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-02",
+            "visited_at": "2026-03-09T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-05",
+            "visited_at": "2025-12-16T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-03",
+            "visited_at": "2026-01-01T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-B"
+      },
+      {
+        "customer_id": "CUS-B-005",
+        "history": [
+          {
+            "service_id": "foot_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-02",
+            "visited_at": "2025-11-25T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2026-08-24T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-01",
+            "visited_at": "2026-06-02T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-03",
+            "visited_at": "2026-08-14T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-B"
+      },
+      {
+        "customer_id": "CUS-B-006",
+        "history": [
+          {
+            "service_id": "neck_relief",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-01",
+            "visited_at": "2025-11-30T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-01",
+            "visited_at": "2026-01-19T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-03",
+            "visited_at": "2025-11-04T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-B"
+      },
+      {
+        "customer_id": "CUS-B-007",
+        "history": [
+          {
+            "service_id": "body_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-01",
+            "visited_at": "2025-12-03T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-03",
+            "visited_at": "2026-02-09T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2026-05-21T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-02",
+            "visited_at": "2026-01-30T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2026-07-18T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2025-12-27T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-03",
+            "visited_at": "2026-04-03T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-B"
+      },
+      {
+        "customer_id": "CUS-B-008",
+        "history": [
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2026-07-17T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-05",
+            "visited_at": "2026-05-25T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-03",
+            "visited_at": "2026-07-26T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2026-03-24T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-B"
+      },
+      {
+        "customer_id": "CUS-B-009",
+        "history": [
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-02",
+            "visited_at": "2026-07-19T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2026-02-14T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-03",
+            "visited_at": "2026-07-30T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-03",
+            "visited_at": "2025-11-03T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2025-10-03T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-03",
+            "visited_at": "2026-03-17T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2026-05-06T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-05",
+            "visited_at": "2026-01-06T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-B"
+      },
+      {
+        "customer_id": "CUS-B-010",
+        "history": [
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-05",
+            "visited_at": "2026-02-01T08:00+08:00"
+          },
+          {
+            "service_id": "foot_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-02",
+            "visited_at": "2026-08-24T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-04",
+            "visited_at": "2025-10-03T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-02",
+            "visited_at": "2026-02-01T08:00+08:00"
+          },
+          {
+            "service_id": "neck_relief",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-02",
+            "visited_at": "2026-05-05T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-05",
+            "visited_at": "2026-05-08T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-B-05",
+            "visited_at": "2026-08-22T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-B-05",
+            "visited_at": "2026-06-13T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-B"
+      },
+      {
+        "customer_id": "CUS-C-001",
+        "history": [],
+        "store_id": "STORE-C"
+      },
+      {
+        "customer_id": "CUS-C-002",
+        "history": [],
+        "store_id": "STORE-C"
+      },
+      {
+        "customer_id": "CUS-C-003",
+        "history": [
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-01",
+            "visited_at": "2025-11-24T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-C"
+      },
+      {
+        "customer_id": "CUS-C-004",
+        "history": [
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2025-11-23T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-04",
+            "visited_at": "2025-12-11T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-04",
+            "visited_at": "2025-11-18T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2026-01-02T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-04",
+            "visited_at": "2025-09-27T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-03",
+            "visited_at": "2025-10-28T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2026-07-12T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-03",
+            "visited_at": "2025-12-05T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-C"
+      },
+      {
+        "customer_id": "CUS-C-005",
+        "history": [
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-04",
+            "visited_at": "2025-12-06T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-01",
+            "visited_at": "2025-12-24T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-C"
+      },
+      {
+        "customer_id": "CUS-C-006",
+        "history": [
+          {
+            "service_id": "back_therapy",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2025-10-21T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-01",
+            "visited_at": "2026-01-29T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2025-11-10T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-03",
+            "visited_at": "2025-10-19T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2026-02-14T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-C"
+      },
+      {
+        "customer_id": "CUS-C-007",
+        "history": [
+          {
+            "service_id": "body_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-04",
+            "visited_at": "2025-12-26T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-01",
+            "visited_at": "2026-03-27T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-C"
+      },
+      {
+        "customer_id": "CUS-C-008",
+        "history": [
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-01",
+            "visited_at": "2025-12-13T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-C"
+      },
+      {
+        "customer_id": "CUS-C-009",
+        "history": [
+          {
+            "service_id": "body_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-03",
+            "visited_at": "2025-09-24T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2026-04-21T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2025-11-09T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2025-12-04T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2026-06-25T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-01",
+            "visited_at": "2026-03-12T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-C"
+      },
+      {
+        "customer_id": "CUS-C-010",
+        "history": [
+          {
+            "service_id": "back_therapy",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-01",
+            "visited_at": "2026-03-14T08:00+08:00"
+          },
+          {
+            "service_id": "aroma_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-05",
+            "visited_at": "2025-12-10T08:00+08:00"
+          },
+          {
+            "service_id": "back_therapy",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-02",
+            "visited_at": "2026-08-24T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-04",
+            "visited_at": "2026-06-02T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "positive_feedback",
+            "therapist_id": "TECH-C-04",
+            "visited_at": "2025-12-24T08:00+08:00"
+          },
+          {
+            "service_id": "body_relax",
+            "signal": "repeat_choice",
+            "therapist_id": "TECH-C-01",
+            "visited_at": "2026-04-13T08:00+08:00"
+          }
+        ],
+        "store_id": "STORE-C"
+      }
+    ],
+    "existing_bookings": [
+      {
+        "booking_id": "BOOK-0001",
+        "customer_id": "CUS-A-005",
+        "end_at": "2026-09-26T17:45+08:00",
+        "occupancy_end_at": "2026-09-26T18:00+08:00",
+        "room_id": "ROOM-A-01",
+        "service_id": "body_relax",
+        "start_at": "2026-09-26T16:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-01"
+      },
+      {
+        "booking_id": "BOOK-0002",
+        "customer_id": "CUS-A-008",
+        "end_at": "2026-10-01T16:30+08:00",
+        "occupancy_end_at": "2026-10-01T16:45+08:00",
+        "room_id": "ROOM-A-01",
+        "service_id": "back_therapy",
+        "start_at": "2026-10-01T15:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-01"
+      },
+      {
+        "booking_id": "BOOK-0003",
+        "customer_id": "CUS-A-002",
+        "end_at": "2026-10-02T16:15+08:00",
+        "occupancy_end_at": "2026-10-02T16:30+08:00",
+        "room_id": "ROOM-A-01",
+        "service_id": "body_relax",
+        "start_at": "2026-10-02T15:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-01"
+      },
+      {
+        "booking_id": "BOOK-0004",
+        "customer_id": "CUS-A-009",
+        "end_at": "2026-10-07T13:45+08:00",
+        "occupancy_end_at": "2026-10-07T14:00+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "body_relax",
+        "start_at": "2026-10-07T12:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-01"
+      },
+      {
+        "booking_id": "BOOK-0005",
+        "customer_id": "CUS-A-009",
+        "end_at": "2026-10-08T13:45+08:00",
+        "occupancy_end_at": "2026-10-08T14:00+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "body_relax",
+        "start_at": "2026-10-08T12:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-01"
+      },
+      {
+        "booking_id": "BOOK-0006",
+        "customer_id": "CUS-A-006",
+        "end_at": "2026-10-02T14:30+08:00",
+        "occupancy_end_at": "2026-10-02T14:45+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "back_therapy",
+        "start_at": "2026-10-02T13:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-02"
+      },
+      {
+        "booking_id": "BOOK-0007",
+        "customer_id": "CUS-A-010",
+        "end_at": "2026-10-05T17:00+08:00",
+        "occupancy_end_at": "2026-10-05T17:15+08:00",
+        "room_id": "ROOM-A-01",
+        "service_id": "back_therapy",
+        "start_at": "2026-10-05T15:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-02"
+      },
+      {
+        "booking_id": "BOOK-0008",
+        "customer_id": "CUS-A-006",
+        "end_at": "2026-10-06T16:15+08:00",
+        "occupancy_end_at": "2026-10-06T16:30+08:00",
+        "room_id": "ROOM-A-03",
+        "service_id": "foot_relax",
+        "start_at": "2026-10-06T15:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-02"
+      },
+      {
+        "booking_id": "BOOK-0009",
+        "customer_id": "CUS-A-007",
+        "end_at": "2026-09-30T13:45+08:00",
+        "occupancy_end_at": "2026-09-30T14:00+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "body_relax",
+        "start_at": "2026-09-30T12:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-03"
+      },
+      {
+        "booking_id": "BOOK-0010",
+        "customer_id": "CUS-A-001",
+        "end_at": "2026-10-01T14:45+08:00",
+        "occupancy_end_at": "2026-10-01T15:00+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "body_relax",
+        "start_at": "2026-10-01T13:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-03"
+      },
+      {
+        "booking_id": "BOOK-0011",
+        "customer_id": "CUS-A-009",
+        "end_at": "2026-10-04T14:45+08:00",
+        "occupancy_end_at": "2026-10-04T15:00+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "body_relax",
+        "start_at": "2026-10-04T13:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-03"
+      },
+      {
+        "booking_id": "BOOK-0012",
+        "customer_id": "CUS-A-002",
+        "end_at": "2026-10-06T19:15+08:00",
+        "occupancy_end_at": "2026-10-06T19:30+08:00",
+        "room_id": "ROOM-A-03",
+        "service_id": "foot_relax",
+        "start_at": "2026-10-06T18:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-03"
+      },
+      {
+        "booking_id": "BOOK-0013",
+        "customer_id": "CUS-A-007",
+        "end_at": "2026-09-26T12:45+08:00",
+        "occupancy_end_at": "2026-09-26T13:00+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "body_relax",
+        "start_at": "2026-09-26T11:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-04"
+      },
+      {
+        "booking_id": "BOOK-0014",
+        "customer_id": "CUS-A-003",
+        "end_at": "2026-09-28T19:15+08:00",
+        "occupancy_end_at": "2026-09-28T19:30+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "body_relax",
+        "start_at": "2026-09-28T18:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-04"
+      },
+      {
+        "booking_id": "BOOK-0015",
+        "customer_id": "CUS-A-008",
+        "end_at": "2026-10-06T19:45+08:00",
+        "occupancy_end_at": "2026-10-06T20:00+08:00",
+        "room_id": "ROOM-A-01",
+        "service_id": "body_relax",
+        "start_at": "2026-10-06T18:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-04"
+      },
+      {
+        "booking_id": "BOOK-0016",
+        "customer_id": "CUS-A-007",
+        "end_at": "2026-09-25T11:30+08:00",
+        "occupancy_end_at": "2026-09-25T11:45+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "neck_relief",
+        "start_at": "2026-09-25T10:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-05"
+      },
+      {
+        "booking_id": "BOOK-0017",
+        "customer_id": "CUS-A-009",
+        "end_at": "2026-09-26T18:00+08:00",
+        "occupancy_end_at": "2026-09-26T18:15+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "back_therapy",
+        "start_at": "2026-09-26T16:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-05"
+      },
+      {
+        "booking_id": "BOOK-0018",
+        "customer_id": "CUS-A-009",
+        "end_at": "2026-09-27T16:30+08:00",
+        "occupancy_end_at": "2026-09-27T16:45+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "neck_relief",
+        "start_at": "2026-09-27T15:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-05"
+      },
+      {
+        "booking_id": "BOOK-0019",
+        "customer_id": "CUS-A-008",
+        "end_at": "2026-09-28T13:30+08:00",
+        "occupancy_end_at": "2026-09-28T13:45+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "back_therapy",
+        "start_at": "2026-09-28T12:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-05"
+      },
+      {
+        "booking_id": "BOOK-0020",
+        "customer_id": "CUS-A-004",
+        "end_at": "2026-10-02T17:30+08:00",
+        "occupancy_end_at": "2026-10-02T17:45+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "neck_relief",
+        "start_at": "2026-10-02T16:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-05"
+      },
+      {
+        "booking_id": "BOOK-0021",
+        "customer_id": "CUS-A-005",
+        "end_at": "2026-10-03T18:00+08:00",
+        "occupancy_end_at": "2026-10-03T18:15+08:00",
+        "room_id": "ROOM-A-01",
+        "service_id": "back_therapy",
+        "start_at": "2026-10-03T16:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-05"
+      },
+      {
+        "booking_id": "BOOK-0022",
+        "customer_id": "CUS-A-010",
+        "end_at": "2026-10-05T17:00+08:00",
+        "occupancy_end_at": "2026-10-05T17:15+08:00",
+        "room_id": "ROOM-A-02",
+        "service_id": "back_therapy",
+        "start_at": "2026-10-05T15:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-05"
+      },
+      {
+        "booking_id": "BOOK-0023",
+        "customer_id": "CUS-B-002",
+        "end_at": "2026-09-28T14:30+08:00",
+        "occupancy_end_at": "2026-09-28T14:45+08:00",
+        "room_id": "ROOM-B-02",
+        "service_id": "neck_relief",
+        "start_at": "2026-09-28T13:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-01"
+      },
+      {
+        "booking_id": "BOOK-0024",
+        "customer_id": "CUS-B-008",
+        "end_at": "2026-09-29T18:00+08:00",
+        "occupancy_end_at": "2026-09-29T18:15+08:00",
+        "room_id": "ROOM-B-01",
+        "service_id": "neck_relief",
+        "start_at": "2026-09-29T17:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-01"
+      },
+      {
+        "booking_id": "BOOK-0025",
+        "customer_id": "CUS-B-003",
+        "end_at": "2026-10-02T18:45+08:00",
+        "occupancy_end_at": "2026-10-02T19:00+08:00",
+        "room_id": "ROOM-B-01",
+        "service_id": "body_relax",
+        "start_at": "2026-10-02T17:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-01"
+      },
+      {
+        "booking_id": "BOOK-0026",
+        "customer_id": "CUS-B-008",
+        "end_at": "2026-10-07T13:30+08:00",
+        "occupancy_end_at": "2026-10-07T13:45+08:00",
+        "room_id": "ROOM-B-01",
+        "service_id": "neck_relief",
+        "start_at": "2026-10-07T12:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-01"
+      },
+      {
+        "booking_id": "BOOK-0027",
+        "customer_id": "CUS-B-002",
+        "end_at": "2026-09-27T15:00+08:00",
+        "occupancy_end_at": "2026-09-27T15:15+08:00",
+        "room_id": "ROOM-B-01",
+        "service_id": "neck_relief",
+        "start_at": "2026-09-27T14:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-02"
+      },
+      {
+        "booking_id": "BOOK-0028",
+        "customer_id": "CUS-B-001",
+        "end_at": "2026-09-30T14:30+08:00",
+        "occupancy_end_at": "2026-09-30T14:45+08:00",
+        "room_id": "ROOM-B-02",
+        "service_id": "neck_relief",
+        "start_at": "2026-09-30T13:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-02"
+      },
+      {
+        "booking_id": "BOOK-0029",
+        "customer_id": "CUS-B-005",
+        "end_at": "2026-10-01T14:15+08:00",
+        "occupancy_end_at": "2026-10-01T14:30+08:00",
+        "room_id": "ROOM-B-03",
+        "service_id": "foot_relax",
+        "start_at": "2026-10-01T13:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-02"
+      },
+      {
+        "booking_id": "BOOK-0030",
+        "customer_id": "CUS-B-005",
+        "end_at": "2026-10-07T14:00+08:00",
+        "occupancy_end_at": "2026-10-07T14:15+08:00",
+        "room_id": "ROOM-B-02",
+        "service_id": "neck_relief",
+        "start_at": "2026-10-07T13:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-02"
+      },
+      {
+        "booking_id": "BOOK-0031",
+        "customer_id": "CUS-B-009",
+        "end_at": "2026-09-27T20:15+08:00",
+        "occupancy_end_at": "2026-09-27T20:30+08:00",
+        "room_id": "ROOM-B-01",
+        "service_id": "body_relax",
+        "start_at": "2026-09-27T19:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-03"
+      },
+      {
+        "booking_id": "BOOK-0032",
+        "customer_id": "CUS-B-009",
+        "end_at": "2026-09-28T16:45+08:00",
+        "occupancy_end_at": "2026-09-28T17:00+08:00",
+        "room_id": "ROOM-B-03",
+        "service_id": "foot_relax",
+        "start_at": "2026-09-28T16:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-03"
+      },
+      {
+        "booking_id": "BOOK-0033",
+        "customer_id": "CUS-B-002",
+        "end_at": "2026-09-30T16:15+08:00",
+        "occupancy_end_at": "2026-09-30T16:30+08:00",
+        "room_id": "ROOM-B-01",
+        "service_id": "body_relax",
+        "start_at": "2026-09-30T15:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-03"
+      },
+      {
+        "booking_id": "BOOK-0034",
+        "customer_id": "CUS-B-009",
+        "end_at": "2026-10-07T19:45+08:00",
+        "occupancy_end_at": "2026-10-07T20:00+08:00",
+        "room_id": "ROOM-B-03",
+        "service_id": "foot_relax",
+        "start_at": "2026-10-07T19:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-03"
+      },
+      {
+        "booking_id": "BOOK-0035",
+        "customer_id": "CUS-B-001",
+        "end_at": "2026-09-26T17:30+08:00",
+        "occupancy_end_at": "2026-09-26T17:45+08:00",
+        "room_id": "ROOM-B-02",
+        "service_id": "aroma_relax",
+        "start_at": "2026-09-26T16:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-04"
+      },
+      {
+        "booking_id": "BOOK-0036",
+        "customer_id": "CUS-B-004",
+        "end_at": "2026-09-29T16:15+08:00",
+        "occupancy_end_at": "2026-09-29T16:30+08:00",
+        "room_id": "ROOM-B-01",
+        "service_id": "body_relax",
+        "start_at": "2026-09-29T15:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-04"
+      },
+      {
+        "booking_id": "BOOK-0037",
+        "customer_id": "CUS-B-010",
+        "end_at": "2026-10-02T15:15+08:00",
+        "occupancy_end_at": "2026-10-02T15:30+08:00",
+        "room_id": "ROOM-B-01",
+        "service_id": "body_relax",
+        "start_at": "2026-10-02T14:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-04"
+      },
+      {
+        "booking_id": "BOOK-0038",
+        "customer_id": "CUS-B-001",
+        "end_at": "2026-10-03T15:00+08:00",
+        "occupancy_end_at": "2026-10-03T15:15+08:00",
+        "room_id": "ROOM-B-02",
+        "service_id": "aroma_relax",
+        "start_at": "2026-10-03T14:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-04"
+      },
+      {
+        "booking_id": "BOOK-0039",
+        "customer_id": "CUS-B-009",
+        "end_at": "2026-10-04T20:30+08:00",
+        "occupancy_end_at": "2026-10-04T20:45+08:00",
+        "room_id": "ROOM-B-01",
+        "service_id": "aroma_relax",
+        "start_at": "2026-10-04T19:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-04"
+      },
+      {
+        "booking_id": "BOOK-0040",
+        "customer_id": "CUS-B-002",
+        "end_at": "2026-10-05T17:00+08:00",
+        "occupancy_end_at": "2026-10-05T17:15+08:00",
+        "room_id": "ROOM-B-02",
+        "service_id": "aroma_relax",
+        "start_at": "2026-10-05T16:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-04"
+      },
+      {
+        "booking_id": "BOOK-0041",
+        "customer_id": "CUS-B-003",
+        "end_at": "2026-10-06T20:15+08:00",
+        "occupancy_end_at": "2026-10-06T20:30+08:00",
+        "room_id": "ROOM-B-02",
+        "service_id": "body_relax",
+        "start_at": "2026-10-06T19:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-04"
+      },
+      {
+        "booking_id": "BOOK-0042",
+        "customer_id": "CUS-B-008",
+        "end_at": "2026-09-25T14:00+08:00",
+        "occupancy_end_at": "2026-09-25T14:15+08:00",
+        "room_id": "ROOM-B-01",
+        "service_id": "neck_relief",
+        "start_at": "2026-09-25T13:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-05"
+      },
+      {
+        "booking_id": "BOOK-0043",
+        "customer_id": "CUS-B-003",
+        "end_at": "2026-10-03T17:30+08:00",
+        "occupancy_end_at": "2026-10-03T17:45+08:00",
+        "room_id": "ROOM-B-02",
+        "service_id": "aroma_relax",
+        "start_at": "2026-10-03T16:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-05"
+      },
+      {
+        "booking_id": "BOOK-0044",
+        "customer_id": "CUS-C-010",
+        "end_at": "2026-09-27T17:45+08:00",
+        "occupancy_end_at": "2026-09-27T18:00+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "body_relax",
+        "start_at": "2026-09-27T16:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-01"
+      },
+      {
+        "booking_id": "BOOK-0045",
+        "customer_id": "CUS-C-006",
+        "end_at": "2026-09-29T15:30+08:00",
+        "occupancy_end_at": "2026-09-29T15:45+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "back_therapy",
+        "start_at": "2026-09-29T14:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-01"
+      },
+      {
+        "booking_id": "BOOK-0046",
+        "customer_id": "CUS-C-004",
+        "end_at": "2026-10-06T11:00+08:00",
+        "occupancy_end_at": "2026-10-06T11:15+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "back_therapy",
+        "start_at": "2026-10-06T09:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-01"
+      },
+      {
+        "booking_id": "BOOK-0047",
+        "customer_id": "CUS-C-004",
+        "end_at": "2026-10-08T16:45+08:00",
+        "occupancy_end_at": "2026-10-08T17:00+08:00",
+        "room_id": "ROOM-C-02",
+        "service_id": "body_relax",
+        "start_at": "2026-10-08T15:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-01"
+      },
+      {
+        "booking_id": "BOOK-0048",
+        "customer_id": "CUS-C-010",
+        "end_at": "2026-09-26T12:30+08:00",
+        "occupancy_end_at": "2026-09-26T12:45+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "back_therapy",
+        "start_at": "2026-09-26T11:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-02"
+      },
+      {
+        "booking_id": "BOOK-0049",
+        "customer_id": "CUS-C-009",
+        "end_at": "2026-09-27T13:30+08:00",
+        "occupancy_end_at": "2026-09-27T13:45+08:00",
+        "room_id": "ROOM-C-02",
+        "service_id": "back_therapy",
+        "start_at": "2026-09-27T12:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-02"
+      },
+      {
+        "booking_id": "BOOK-0050",
+        "customer_id": "CUS-C-007",
+        "end_at": "2026-10-03T12:30+08:00",
+        "occupancy_end_at": "2026-10-03T12:45+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "back_therapy",
+        "start_at": "2026-10-03T11:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-02"
+      },
+      {
+        "booking_id": "BOOK-0051",
+        "customer_id": "CUS-C-001",
+        "end_at": "2026-10-06T16:30+08:00",
+        "occupancy_end_at": "2026-10-06T16:45+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "back_therapy",
+        "start_at": "2026-10-06T15:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-02"
+      },
+      {
+        "booking_id": "BOOK-0052",
+        "customer_id": "CUS-C-003",
+        "end_at": "2026-09-25T18:15+08:00",
+        "occupancy_end_at": "2026-09-25T18:30+08:00",
+        "room_id": "ROOM-C-02",
+        "service_id": "body_relax",
+        "start_at": "2026-09-25T17:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-03"
+      },
+      {
+        "booking_id": "BOOK-0053",
+        "customer_id": "CUS-C-001",
+        "end_at": "2026-09-27T14:45+08:00",
+        "occupancy_end_at": "2026-09-27T15:00+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "body_relax",
+        "start_at": "2026-09-27T13:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-03"
+      },
+      {
+        "booking_id": "BOOK-0054",
+        "customer_id": "CUS-C-010",
+        "end_at": "2026-10-04T17:45+08:00",
+        "occupancy_end_at": "2026-10-04T18:00+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "body_relax",
+        "start_at": "2026-10-04T16:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-03"
+      },
+      {
+        "booking_id": "BOOK-0055",
+        "customer_id": "CUS-C-006",
+        "end_at": "2026-10-06T12:15+08:00",
+        "occupancy_end_at": "2026-10-06T12:30+08:00",
+        "room_id": "ROOM-C-02",
+        "service_id": "body_relax",
+        "start_at": "2026-10-06T11:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-03"
+      },
+      {
+        "booking_id": "BOOK-0056",
+        "customer_id": "CUS-C-007",
+        "end_at": "2026-09-26T15:30+08:00",
+        "occupancy_end_at": "2026-09-26T15:45+08:00",
+        "room_id": "ROOM-C-02",
+        "service_id": "aroma_relax",
+        "start_at": "2026-09-26T14:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-04"
+      },
+      {
+        "booking_id": "BOOK-0057",
+        "customer_id": "CUS-C-005",
+        "end_at": "2026-10-02T14:15+08:00",
+        "occupancy_end_at": "2026-10-02T14:30+08:00",
+        "room_id": "ROOM-C-02",
+        "service_id": "body_relax",
+        "start_at": "2026-10-02T13:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-04"
+      },
+      {
+        "booking_id": "BOOK-0058",
+        "customer_id": "CUS-C-004",
+        "end_at": "2026-10-08T18:00+08:00",
+        "occupancy_end_at": "2026-10-08T18:15+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "aroma_relax",
+        "start_at": "2026-10-08T17:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-04"
+      },
+      {
+        "booking_id": "BOOK-0059",
+        "customer_id": "CUS-C-006",
+        "end_at": "2026-09-25T11:30+08:00",
+        "occupancy_end_at": "2026-09-25T11:45+08:00",
+        "room_id": "ROOM-C-02",
+        "service_id": "back_therapy",
+        "start_at": "2026-09-25T10:00+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-05"
+      },
+      {
+        "booking_id": "BOOK-0060",
+        "customer_id": "CUS-C-004",
+        "end_at": "2026-09-26T17:30+08:00",
+        "occupancy_end_at": "2026-09-26T17:45+08:00",
+        "room_id": "ROOM-C-02",
+        "service_id": "aroma_relax",
+        "start_at": "2026-09-26T16:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-05"
+      },
+      {
+        "booking_id": "BOOK-0061",
+        "customer_id": "CUS-C-009",
+        "end_at": "2026-09-27T13:00+08:00",
+        "occupancy_end_at": "2026-09-27T13:15+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "back_therapy",
+        "start_at": "2026-09-27T11:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-05"
+      },
+      {
+        "booking_id": "BOOK-0062",
+        "customer_id": "CUS-C-001",
+        "end_at": "2026-09-30T11:00+08:00",
+        "occupancy_end_at": "2026-09-30T11:15+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "back_therapy",
+        "start_at": "2026-09-30T09:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-05"
+      },
+      {
+        "booking_id": "BOOK-0063",
+        "customer_id": "CUS-C-009",
+        "end_at": "2026-10-02T14:30+08:00",
+        "occupancy_end_at": "2026-10-02T14:45+08:00",
+        "room_id": "ROOM-C-01",
+        "service_id": "aroma_relax",
+        "start_at": "2026-10-02T13:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-05"
+      },
+      {
+        "booking_id": "BOOK-0064",
+        "customer_id": "CUS-C-003",
+        "end_at": "2026-10-04T13:00+08:00",
+        "occupancy_end_at": "2026-10-04T13:15+08:00",
+        "room_id": "ROOM-C-02",
+        "service_id": "back_therapy",
+        "start_at": "2026-10-04T11:30+08:00",
+        "status": "CONFIRMED",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-05"
+      }
+    ],
+    "rooms": [
+      {
+        "room_id": "ROOM-A-01",
+        "room_type": "treatment",
+        "status": "ACTIVE",
+        "store_id": "STORE-A"
+      },
+      {
+        "room_id": "ROOM-A-02",
+        "room_type": "treatment",
+        "status": "ACTIVE",
+        "store_id": "STORE-A"
+      },
+      {
+        "room_id": "ROOM-A-03",
+        "room_type": "foot",
+        "status": "ACTIVE",
+        "store_id": "STORE-A"
+      },
+      {
+        "room_id": "ROOM-B-01",
+        "room_type": "treatment",
+        "status": "ACTIVE",
+        "store_id": "STORE-B"
+      },
+      {
+        "room_id": "ROOM-B-02",
+        "room_type": "treatment",
+        "status": "ACTIVE",
+        "store_id": "STORE-B"
+      },
+      {
+        "room_id": "ROOM-B-03",
+        "room_type": "foot",
+        "status": "ACTIVE",
+        "store_id": "STORE-B"
+      },
+      {
+        "room_id": "ROOM-C-01",
+        "room_type": "treatment",
+        "status": "ACTIVE",
+        "store_id": "STORE-C"
+      },
+      {
+        "room_id": "ROOM-C-02",
+        "room_type": "treatment",
+        "status": "ACTIVE",
+        "store_id": "STORE-C"
+      },
+      {
+        "room_id": "ROOM-C-03",
+        "room_type": "foot",
+        "status": "ACTIVE",
+        "store_id": "STORE-C"
+      }
+    ],
+    "services": [
+      {
+        "aliases": [
+          "肩颈",
+          "肩颈舒缓",
+          "肩颈按摩"
+        ],
+        "buffer_minutes": 15,
+        "duration_minutes": 60,
+        "name": "肩颈舒缓",
+        "price_minor": 26800,
+        "required_skill": "tuina",
+        "room_type": "treatment",
+        "service_id": "neck_relief"
+      },
+      {
+        "aliases": [
+          "开背",
+          "开背理疗"
+        ],
+        "buffer_minutes": 15,
+        "duration_minutes": 90,
+        "name": "开背理疗",
+        "price_minor": 39800,
+        "required_skill": "tuina",
+        "room_type": "treatment",
+        "service_id": "back_therapy"
+      },
+      {
+        "aliases": [
+          "足部",
+          "足部放松",
+          "足疗"
+        ],
+        "buffer_minutes": 15,
+        "duration_minutes": 45,
+        "name": "足部放松",
+        "price_minor": 19800,
+        "required_skill": "foot",
+        "room_type": "foot",
+        "service_id": "foot_relax"
+      },
+      {
+        "aliases": [
+          "芳香",
+          "芳香舒缓"
+        ],
+        "buffer_minutes": 15,
+        "duration_minutes": 60,
+        "name": "芳香舒缓",
+        "price_minor": 32800,
+        "required_skill": "aroma",
+        "room_type": "treatment",
+        "service_id": "aroma_relax"
+      },
+      {
+        "aliases": [
+          "全身放松",
+          "放松护理"
+        ],
+        "buffer_minutes": 15,
+        "duration_minutes": 75,
+        "name": "全身放松",
+        "price_minor": 35800,
+        "required_skill": "relax",
+        "room_type": "treatment",
+        "service_id": "body_relax"
+      }
+    ],
+    "stores": [
+      {
+        "closed_weekdays": [],
+        "name": "合成门店甲",
+        "service_ids": [
+          "neck_relief",
+          "back_therapy",
+          "foot_relax",
+          "body_relax"
+        ],
+        "store_id": "STORE-A",
+        "timezone": "Asia/Shanghai",
+        "weekly_hours": {
+          "fri": {
+            "close": "20:00",
+            "open": "10:00"
+          },
+          "mon": {
+            "close": "20:00",
+            "open": "10:00"
+          },
+          "sat": {
+            "close": "19:00",
+            "open": "11:00"
+          },
+          "sun": {
+            "close": "19:00",
+            "open": "11:00"
+          },
+          "thu": {
+            "close": "20:00",
+            "open": "10:00"
+          },
+          "tue": {
+            "close": "20:00",
+            "open": "10:00"
+          },
+          "wed": {
+            "close": "20:00",
+            "open": "10:00"
+          }
+        }
+      },
+      {
+        "closed_weekdays": [],
+        "name": "合成门店乙",
+        "service_ids": [
+          "neck_relief",
+          "foot_relax",
+          "aroma_relax",
+          "body_relax"
+        ],
+        "store_id": "STORE-B",
+        "timezone": "Asia/Shanghai",
+        "weekly_hours": {
+          "fri": {
+            "close": "21:00",
+            "open": "11:00"
+          },
+          "mon": {
+            "close": "21:00",
+            "open": "11:00"
+          },
+          "sat": {
+            "close": "21:00",
+            "open": "11:00"
+          },
+          "sun": {
+            "close": "21:00",
+            "open": "11:00"
+          },
+          "thu": {
+            "close": "21:00",
+            "open": "11:00"
+          },
+          "tue": {
+            "close": "21:00",
+            "open": "11:00"
+          },
+          "wed": {
+            "close": "21:00",
+            "open": "11:00"
+          }
+        }
+      },
+      {
+        "closed_weekdays": [
+          "mon"
+        ],
+        "name": "合成门店丙",
+        "service_ids": [
+          "back_therapy",
+          "aroma_relax",
+          "body_relax"
+        ],
+        "store_id": "STORE-C",
+        "timezone": "Asia/Shanghai",
+        "weekly_hours": {
+          "fri": {
+            "close": "19:00",
+            "open": "09:00"
+          },
+          "mon": null,
+          "sat": {
+            "close": "18:00",
+            "open": "10:00"
+          },
+          "sun": {
+            "close": "18:00",
+            "open": "10:00"
+          },
+          "thu": {
+            "close": "19:00",
+            "open": "09:00"
+          },
+          "tue": {
+            "close": "19:00",
+            "open": "09:00"
+          },
+          "wed": {
+            "close": "19:00",
+            "open": "09:00"
+          }
+        }
+      }
+    ],
+    "therapists": [
+      {
+        "display_name": "合成技师A-01",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-25T14:30+08:00",
+                "start_at": "2026-09-25T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-25",
+            "end_at": "2026-09-25T18:00+08:00",
+            "start_at": "2026-09-25T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-26T15:30+08:00",
+                "start_at": "2026-09-26T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-26",
+            "end_at": "2026-09-26T19:00+08:00",
+            "start_at": "2026-09-26T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T14:30+08:00",
+                "start_at": "2026-09-29T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T18:00+08:00",
+            "start_at": "2026-09-29T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-30T14:30+08:00",
+                "start_at": "2026-09-30T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-30",
+            "end_at": "2026-09-30T18:00+08:00",
+            "start_at": "2026-09-30T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-01T14:30+08:00",
+                "start_at": "2026-10-01T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-01",
+            "end_at": "2026-10-01T18:00+08:00",
+            "start_at": "2026-10-01T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-02T14:30+08:00",
+                "start_at": "2026-10-02T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-02",
+            "end_at": "2026-10-02T18:00+08:00",
+            "start_at": "2026-10-02T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-03T15:30+08:00",
+                "start_at": "2026-10-03T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-03",
+            "end_at": "2026-10-03T19:00+08:00",
+            "start_at": "2026-10-03T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T14:30+08:00",
+                "start_at": "2026-10-06T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T18:00+08:00",
+            "start_at": "2026-10-06T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-07T14:30+08:00",
+                "start_at": "2026-10-07T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-07",
+            "end_at": "2026-10-07T18:00+08:00",
+            "start_at": "2026-10-07T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-08T14:30+08:00",
+                "start_at": "2026-10-08T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-08",
+            "end_at": "2026-10-08T18:00+08:00",
+            "start_at": "2026-10-08T10:00+08:00"
+          }
+        ],
+        "skills": [
+          "tuina",
+          "relax"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-01"
+      },
+      {
+        "display_name": "合成技师A-02",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-25T15:30+08:00",
+                "start_at": "2026-09-25T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-25",
+            "end_at": "2026-09-25T19:00+08:00",
+            "start_at": "2026-09-25T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-28T15:30+08:00",
+                "start_at": "2026-09-28T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-28",
+            "end_at": "2026-09-28T19:00+08:00",
+            "start_at": "2026-09-28T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T15:30+08:00",
+                "start_at": "2026-09-29T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T19:00+08:00",
+            "start_at": "2026-09-29T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-30T15:30+08:00",
+                "start_at": "2026-09-30T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-30",
+            "end_at": "2026-09-30T19:00+08:00",
+            "start_at": "2026-09-30T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-01T15:30+08:00",
+                "start_at": "2026-10-01T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-01",
+            "end_at": "2026-10-01T19:00+08:00",
+            "start_at": "2026-10-01T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-02T15:30+08:00",
+                "start_at": "2026-10-02T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-02",
+            "end_at": "2026-10-02T19:00+08:00",
+            "start_at": "2026-10-02T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-05T15:30+08:00",
+                "start_at": "2026-10-05T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-05",
+            "end_at": "2026-10-05T19:00+08:00",
+            "start_at": "2026-10-05T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T15:30+08:00",
+                "start_at": "2026-10-06T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T19:00+08:00",
+            "start_at": "2026-10-06T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-07T15:30+08:00",
+                "start_at": "2026-10-07T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-07",
+            "end_at": "2026-10-07T19:00+08:00",
+            "start_at": "2026-10-07T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-08T15:30+08:00",
+                "start_at": "2026-10-08T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-08",
+            "end_at": "2026-10-08T19:00+08:00",
+            "start_at": "2026-10-08T11:00+08:00"
+          }
+        ],
+        "skills": [
+          "tuina",
+          "foot"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-02"
+      },
+      {
+        "display_name": "合成技师A-03",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T17:30+08:00",
+                "start_at": "2026-09-27T17:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T19:00+08:00",
+            "start_at": "2026-09-27T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-28T16:30+08:00",
+                "start_at": "2026-09-28T16:00+08:00"
+              }
+            ],
+            "date": "2026-09-28",
+            "end_at": "2026-09-28T20:00+08:00",
+            "start_at": "2026-09-28T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T16:30+08:00",
+                "start_at": "2026-09-29T16:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T20:00+08:00",
+            "start_at": "2026-09-29T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-30T16:30+08:00",
+                "start_at": "2026-09-30T16:00+08:00"
+              }
+            ],
+            "date": "2026-09-30",
+            "end_at": "2026-09-30T20:00+08:00",
+            "start_at": "2026-09-30T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-01T16:30+08:00",
+                "start_at": "2026-10-01T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-01",
+            "end_at": "2026-10-01T20:00+08:00",
+            "start_at": "2026-10-01T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T17:30+08:00",
+                "start_at": "2026-10-04T17:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T19:00+08:00",
+            "start_at": "2026-10-04T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-05T16:30+08:00",
+                "start_at": "2026-10-05T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-05",
+            "end_at": "2026-10-05T20:00+08:00",
+            "start_at": "2026-10-05T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T16:30+08:00",
+                "start_at": "2026-10-06T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T20:00+08:00",
+            "start_at": "2026-10-06T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-07T16:30+08:00",
+                "start_at": "2026-10-07T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-07",
+            "end_at": "2026-10-07T20:00+08:00",
+            "start_at": "2026-10-07T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-08T16:30+08:00",
+                "start_at": "2026-10-08T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-08",
+            "end_at": "2026-10-08T20:00+08:00",
+            "start_at": "2026-10-08T12:00+08:00"
+          }
+        ],
+        "skills": [
+          "foot",
+          "relax"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-03"
+      },
+      {
+        "display_name": "合成技师A-04",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-26T15:30+08:00",
+                "start_at": "2026-09-26T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-26",
+            "end_at": "2026-09-26T19:00+08:00",
+            "start_at": "2026-09-26T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T15:30+08:00",
+                "start_at": "2026-09-27T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T19:00+08:00",
+            "start_at": "2026-09-27T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-28T17:30+08:00",
+                "start_at": "2026-09-28T17:00+08:00"
+              }
+            ],
+            "date": "2026-09-28",
+            "end_at": "2026-09-28T20:00+08:00",
+            "start_at": "2026-09-28T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T17:30+08:00",
+                "start_at": "2026-09-29T17:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T20:00+08:00",
+            "start_at": "2026-09-29T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-30T17:30+08:00",
+                "start_at": "2026-09-30T17:00+08:00"
+              }
+            ],
+            "date": "2026-09-30",
+            "end_at": "2026-09-30T20:00+08:00",
+            "start_at": "2026-09-30T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-03T15:30+08:00",
+                "start_at": "2026-10-03T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-03",
+            "end_at": "2026-10-03T19:00+08:00",
+            "start_at": "2026-10-03T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T15:30+08:00",
+                "start_at": "2026-10-04T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T19:00+08:00",
+            "start_at": "2026-10-04T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-05T17:30+08:00",
+                "start_at": "2026-10-05T17:00+08:00"
+              }
+            ],
+            "date": "2026-10-05",
+            "end_at": "2026-10-05T20:00+08:00",
+            "start_at": "2026-10-05T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T17:30+08:00",
+                "start_at": "2026-10-06T17:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T20:00+08:00",
+            "start_at": "2026-10-06T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-07T17:30+08:00",
+                "start_at": "2026-10-07T17:00+08:00"
+              }
+            ],
+            "date": "2026-10-07",
+            "end_at": "2026-10-07T20:00+08:00",
+            "start_at": "2026-10-07T13:00+08:00"
+          }
+        ],
+        "skills": [
+          "aroma",
+          "relax"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-04"
+      },
+      {
+        "display_name": "合成技师A-05",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-25T14:30+08:00",
+                "start_at": "2026-09-25T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-25",
+            "end_at": "2026-09-25T18:00+08:00",
+            "start_at": "2026-09-25T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-26T15:30+08:00",
+                "start_at": "2026-09-26T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-26",
+            "end_at": "2026-09-26T19:00+08:00",
+            "start_at": "2026-09-26T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T15:30+08:00",
+                "start_at": "2026-09-27T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T19:00+08:00",
+            "start_at": "2026-09-27T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-28T14:30+08:00",
+                "start_at": "2026-09-28T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-28",
+            "end_at": "2026-09-28T18:00+08:00",
+            "start_at": "2026-09-28T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T14:30+08:00",
+                "start_at": "2026-09-29T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T18:00+08:00",
+            "start_at": "2026-09-29T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-02T14:30+08:00",
+                "start_at": "2026-10-02T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-02",
+            "end_at": "2026-10-02T18:00+08:00",
+            "start_at": "2026-10-02T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-03T15:30+08:00",
+                "start_at": "2026-10-03T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-03",
+            "end_at": "2026-10-03T19:00+08:00",
+            "start_at": "2026-10-03T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T15:30+08:00",
+                "start_at": "2026-10-04T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T19:00+08:00",
+            "start_at": "2026-10-04T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-05T14:30+08:00",
+                "start_at": "2026-10-05T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-05",
+            "end_at": "2026-10-05T18:00+08:00",
+            "start_at": "2026-10-05T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T14:30+08:00",
+                "start_at": "2026-10-06T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T18:00+08:00",
+            "start_at": "2026-10-06T10:00+08:00"
+          }
+        ],
+        "skills": [
+          "tuina",
+          "aroma"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-A",
+        "therapist_id": "TECH-A-05"
+      },
+      {
+        "display_name": "合成技师B-01",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-25T15:30+08:00",
+                "start_at": "2026-09-25T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-25",
+            "end_at": "2026-09-25T19:00+08:00",
+            "start_at": "2026-09-25T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-28T15:30+08:00",
+                "start_at": "2026-09-28T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-28",
+            "end_at": "2026-09-28T19:00+08:00",
+            "start_at": "2026-09-28T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T15:30+08:00",
+                "start_at": "2026-09-29T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T19:00+08:00",
+            "start_at": "2026-09-29T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-30T15:30+08:00",
+                "start_at": "2026-09-30T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-30",
+            "end_at": "2026-09-30T19:00+08:00",
+            "start_at": "2026-09-30T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-01T15:30+08:00",
+                "start_at": "2026-10-01T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-01",
+            "end_at": "2026-10-01T19:00+08:00",
+            "start_at": "2026-10-01T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-02T15:30+08:00",
+                "start_at": "2026-10-02T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-02",
+            "end_at": "2026-10-02T19:00+08:00",
+            "start_at": "2026-10-02T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-05T15:30+08:00",
+                "start_at": "2026-10-05T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-05",
+            "end_at": "2026-10-05T19:00+08:00",
+            "start_at": "2026-10-05T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T15:30+08:00",
+                "start_at": "2026-10-06T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T19:00+08:00",
+            "start_at": "2026-10-06T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-07T15:30+08:00",
+                "start_at": "2026-10-07T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-07",
+            "end_at": "2026-10-07T19:00+08:00",
+            "start_at": "2026-10-07T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-08T15:30+08:00",
+                "start_at": "2026-10-08T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-08",
+            "end_at": "2026-10-08T19:00+08:00",
+            "start_at": "2026-10-08T11:00+08:00"
+          }
+        ],
+        "skills": [
+          "tuina",
+          "relax"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-01"
+      },
+      {
+        "display_name": "合成技师B-02",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T16:30+08:00",
+                "start_at": "2026-09-27T16:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T20:00+08:00",
+            "start_at": "2026-09-27T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-28T16:30+08:00",
+                "start_at": "2026-09-28T16:00+08:00"
+              }
+            ],
+            "date": "2026-09-28",
+            "end_at": "2026-09-28T20:00+08:00",
+            "start_at": "2026-09-28T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T16:30+08:00",
+                "start_at": "2026-09-29T16:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T20:00+08:00",
+            "start_at": "2026-09-29T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-30T16:30+08:00",
+                "start_at": "2026-09-30T16:00+08:00"
+              }
+            ],
+            "date": "2026-09-30",
+            "end_at": "2026-09-30T20:00+08:00",
+            "start_at": "2026-09-30T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-01T16:30+08:00",
+                "start_at": "2026-10-01T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-01",
+            "end_at": "2026-10-01T20:00+08:00",
+            "start_at": "2026-10-01T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T16:30+08:00",
+                "start_at": "2026-10-04T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T20:00+08:00",
+            "start_at": "2026-10-04T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-05T16:30+08:00",
+                "start_at": "2026-10-05T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-05",
+            "end_at": "2026-10-05T20:00+08:00",
+            "start_at": "2026-10-05T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T16:30+08:00",
+                "start_at": "2026-10-06T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T20:00+08:00",
+            "start_at": "2026-10-06T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-07T16:30+08:00",
+                "start_at": "2026-10-07T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-07",
+            "end_at": "2026-10-07T20:00+08:00",
+            "start_at": "2026-10-07T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-08T16:30+08:00",
+                "start_at": "2026-10-08T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-08",
+            "end_at": "2026-10-08T20:00+08:00",
+            "start_at": "2026-10-08T12:00+08:00"
+          }
+        ],
+        "skills": [
+          "tuina",
+          "foot"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-02"
+      },
+      {
+        "display_name": "合成技师B-03",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-26T17:30+08:00",
+                "start_at": "2026-09-26T17:00+08:00"
+              }
+            ],
+            "date": "2026-09-26",
+            "end_at": "2026-09-26T21:00+08:00",
+            "start_at": "2026-09-26T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T17:30+08:00",
+                "start_at": "2026-09-27T17:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T21:00+08:00",
+            "start_at": "2026-09-27T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-28T17:30+08:00",
+                "start_at": "2026-09-28T17:00+08:00"
+              }
+            ],
+            "date": "2026-09-28",
+            "end_at": "2026-09-28T21:00+08:00",
+            "start_at": "2026-09-28T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T17:30+08:00",
+                "start_at": "2026-09-29T17:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T21:00+08:00",
+            "start_at": "2026-09-29T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-30T17:30+08:00",
+                "start_at": "2026-09-30T17:00+08:00"
+              }
+            ],
+            "date": "2026-09-30",
+            "end_at": "2026-09-30T21:00+08:00",
+            "start_at": "2026-09-30T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-03T17:30+08:00",
+                "start_at": "2026-10-03T17:00+08:00"
+              }
+            ],
+            "date": "2026-10-03",
+            "end_at": "2026-10-03T21:00+08:00",
+            "start_at": "2026-10-03T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T17:30+08:00",
+                "start_at": "2026-10-04T17:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T21:00+08:00",
+            "start_at": "2026-10-04T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-05T17:30+08:00",
+                "start_at": "2026-10-05T17:00+08:00"
+              }
+            ],
+            "date": "2026-10-05",
+            "end_at": "2026-10-05T21:00+08:00",
+            "start_at": "2026-10-05T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T17:30+08:00",
+                "start_at": "2026-10-06T17:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T21:00+08:00",
+            "start_at": "2026-10-06T13:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-07T17:30+08:00",
+                "start_at": "2026-10-07T17:00+08:00"
+              }
+            ],
+            "date": "2026-10-07",
+            "end_at": "2026-10-07T21:00+08:00",
+            "start_at": "2026-10-07T13:00+08:00"
+          }
+        ],
+        "skills": [
+          "foot",
+          "relax"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-03"
+      },
+      {
+        "display_name": "合成技师B-04",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-25T18:30+08:00",
+                "start_at": "2026-09-25T18:00+08:00"
+              }
+            ],
+            "date": "2026-09-25",
+            "end_at": "2026-09-25T21:00+08:00",
+            "start_at": "2026-09-25T14:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-26T18:30+08:00",
+                "start_at": "2026-09-26T18:00+08:00"
+              }
+            ],
+            "date": "2026-09-26",
+            "end_at": "2026-09-26T21:00+08:00",
+            "start_at": "2026-09-26T14:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T18:30+08:00",
+                "start_at": "2026-09-27T18:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T21:00+08:00",
+            "start_at": "2026-09-27T14:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-28T18:30+08:00",
+                "start_at": "2026-09-28T18:00+08:00"
+              }
+            ],
+            "date": "2026-09-28",
+            "end_at": "2026-09-28T21:00+08:00",
+            "start_at": "2026-09-28T14:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T18:30+08:00",
+                "start_at": "2026-09-29T18:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T21:00+08:00",
+            "start_at": "2026-09-29T14:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-02T18:30+08:00",
+                "start_at": "2026-10-02T18:00+08:00"
+              }
+            ],
+            "date": "2026-10-02",
+            "end_at": "2026-10-02T21:00+08:00",
+            "start_at": "2026-10-02T14:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-03T18:30+08:00",
+                "start_at": "2026-10-03T18:00+08:00"
+              }
+            ],
+            "date": "2026-10-03",
+            "end_at": "2026-10-03T21:00+08:00",
+            "start_at": "2026-10-03T14:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T18:30+08:00",
+                "start_at": "2026-10-04T18:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T21:00+08:00",
+            "start_at": "2026-10-04T14:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-05T18:30+08:00",
+                "start_at": "2026-10-05T18:00+08:00"
+              }
+            ],
+            "date": "2026-10-05",
+            "end_at": "2026-10-05T21:00+08:00",
+            "start_at": "2026-10-05T14:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T18:30+08:00",
+                "start_at": "2026-10-06T18:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T21:00+08:00",
+            "start_at": "2026-10-06T14:00+08:00"
+          }
+        ],
+        "skills": [
+          "aroma",
+          "relax"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-04"
+      },
+      {
+        "display_name": "合成技师B-05",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-25T15:30+08:00",
+                "start_at": "2026-09-25T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-25",
+            "end_at": "2026-09-25T19:00+08:00",
+            "start_at": "2026-09-25T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-26T15:30+08:00",
+                "start_at": "2026-09-26T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-26",
+            "end_at": "2026-09-26T19:00+08:00",
+            "start_at": "2026-09-26T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T15:30+08:00",
+                "start_at": "2026-09-27T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T19:00+08:00",
+            "start_at": "2026-09-27T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-28T15:30+08:00",
+                "start_at": "2026-09-28T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-28",
+            "end_at": "2026-09-28T19:00+08:00",
+            "start_at": "2026-09-28T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-01T15:30+08:00",
+                "start_at": "2026-10-01T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-01",
+            "end_at": "2026-10-01T19:00+08:00",
+            "start_at": "2026-10-01T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-02T15:30+08:00",
+                "start_at": "2026-10-02T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-02",
+            "end_at": "2026-10-02T19:00+08:00",
+            "start_at": "2026-10-02T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-03T15:30+08:00",
+                "start_at": "2026-10-03T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-03",
+            "end_at": "2026-10-03T19:00+08:00",
+            "start_at": "2026-10-03T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T15:30+08:00",
+                "start_at": "2026-10-04T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T19:00+08:00",
+            "start_at": "2026-10-04T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-05T15:30+08:00",
+                "start_at": "2026-10-05T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-05",
+            "end_at": "2026-10-05T19:00+08:00",
+            "start_at": "2026-10-05T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-08T15:30+08:00",
+                "start_at": "2026-10-08T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-08",
+            "end_at": "2026-10-08T19:00+08:00",
+            "start_at": "2026-10-08T11:00+08:00"
+          }
+        ],
+        "skills": [
+          "tuina",
+          "aroma"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-B",
+        "therapist_id": "TECH-B-05"
+      },
+      {
+        "display_name": "合成技师C-01",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T14:30+08:00",
+                "start_at": "2026-09-27T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T18:00+08:00",
+            "start_at": "2026-09-27T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T13:30+08:00",
+                "start_at": "2026-09-29T13:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T17:00+08:00",
+            "start_at": "2026-09-29T09:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-30T13:30+08:00",
+                "start_at": "2026-09-30T13:00+08:00"
+              }
+            ],
+            "date": "2026-09-30",
+            "end_at": "2026-09-30T17:00+08:00",
+            "start_at": "2026-09-30T09:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-01T13:30+08:00",
+                "start_at": "2026-10-01T13:00+08:00"
+              }
+            ],
+            "date": "2026-10-01",
+            "end_at": "2026-10-01T17:00+08:00",
+            "start_at": "2026-10-01T09:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T14:30+08:00",
+                "start_at": "2026-10-04T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T18:00+08:00",
+            "start_at": "2026-10-04T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T13:30+08:00",
+                "start_at": "2026-10-06T13:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T17:00+08:00",
+            "start_at": "2026-10-06T09:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-07T13:30+08:00",
+                "start_at": "2026-10-07T13:00+08:00"
+              }
+            ],
+            "date": "2026-10-07",
+            "end_at": "2026-10-07T17:00+08:00",
+            "start_at": "2026-10-07T09:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-08T13:30+08:00",
+                "start_at": "2026-10-08T13:00+08:00"
+              }
+            ],
+            "date": "2026-10-08",
+            "end_at": "2026-10-08T17:00+08:00",
+            "start_at": "2026-10-08T09:00+08:00"
+          }
+        ],
+        "skills": [
+          "tuina",
+          "relax"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-01"
+      },
+      {
+        "display_name": "合成技师C-02",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-26T15:30+08:00",
+                "start_at": "2026-09-26T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-26",
+            "end_at": "2026-09-26T18:00+08:00",
+            "start_at": "2026-09-26T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T15:30+08:00",
+                "start_at": "2026-09-27T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T18:00+08:00",
+            "start_at": "2026-09-27T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T14:30+08:00",
+                "start_at": "2026-09-29T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T18:00+08:00",
+            "start_at": "2026-09-29T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-30T14:30+08:00",
+                "start_at": "2026-09-30T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-30",
+            "end_at": "2026-09-30T18:00+08:00",
+            "start_at": "2026-09-30T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-03T15:30+08:00",
+                "start_at": "2026-10-03T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-03",
+            "end_at": "2026-10-03T18:00+08:00",
+            "start_at": "2026-10-03T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T15:30+08:00",
+                "start_at": "2026-10-04T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T18:00+08:00",
+            "start_at": "2026-10-04T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T14:30+08:00",
+                "start_at": "2026-10-06T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T18:00+08:00",
+            "start_at": "2026-10-06T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-07T14:30+08:00",
+                "start_at": "2026-10-07T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-07",
+            "end_at": "2026-10-07T18:00+08:00",
+            "start_at": "2026-10-07T10:00+08:00"
+          }
+        ],
+        "skills": [
+          "tuina",
+          "foot"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-02"
+      },
+      {
+        "display_name": "合成技师C-03",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-25T15:30+08:00",
+                "start_at": "2026-09-25T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-25",
+            "end_at": "2026-09-25T19:00+08:00",
+            "start_at": "2026-09-25T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-26T16:30+08:00",
+                "start_at": "2026-09-26T16:00+08:00"
+              }
+            ],
+            "date": "2026-09-26",
+            "end_at": "2026-09-26T18:00+08:00",
+            "start_at": "2026-09-26T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T16:30+08:00",
+                "start_at": "2026-09-27T16:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T18:00+08:00",
+            "start_at": "2026-09-27T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-29T15:30+08:00",
+                "start_at": "2026-09-29T15:00+08:00"
+              }
+            ],
+            "date": "2026-09-29",
+            "end_at": "2026-09-29T19:00+08:00",
+            "start_at": "2026-09-29T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-02T15:30+08:00",
+                "start_at": "2026-10-02T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-02",
+            "end_at": "2026-10-02T19:00+08:00",
+            "start_at": "2026-10-02T11:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-03T16:30+08:00",
+                "start_at": "2026-10-03T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-03",
+            "end_at": "2026-10-03T18:00+08:00",
+            "start_at": "2026-10-03T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T16:30+08:00",
+                "start_at": "2026-10-04T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T18:00+08:00",
+            "start_at": "2026-10-04T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-06T15:30+08:00",
+                "start_at": "2026-10-06T15:00+08:00"
+              }
+            ],
+            "date": "2026-10-06",
+            "end_at": "2026-10-06T19:00+08:00",
+            "start_at": "2026-10-06T11:00+08:00"
+          }
+        ],
+        "skills": [
+          "foot",
+          "relax"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-03"
+      },
+      {
+        "display_name": "合成技师C-04",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-25T16:30+08:00",
+                "start_at": "2026-09-25T16:00+08:00"
+              }
+            ],
+            "date": "2026-09-25",
+            "end_at": "2026-09-25T19:00+08:00",
+            "start_at": "2026-09-25T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-26T14:30+08:00",
+                "start_at": "2026-09-26T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-26",
+            "end_at": "2026-09-26T18:00+08:00",
+            "start_at": "2026-09-26T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T14:30+08:00",
+                "start_at": "2026-09-27T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T18:00+08:00",
+            "start_at": "2026-09-27T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-01T16:30+08:00",
+                "start_at": "2026-10-01T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-01",
+            "end_at": "2026-10-01T19:00+08:00",
+            "start_at": "2026-10-01T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-02T16:30+08:00",
+                "start_at": "2026-10-02T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-02",
+            "end_at": "2026-10-02T19:00+08:00",
+            "start_at": "2026-10-02T12:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-03T14:30+08:00",
+                "start_at": "2026-10-03T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-03",
+            "end_at": "2026-10-03T18:00+08:00",
+            "start_at": "2026-10-03T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T14:30+08:00",
+                "start_at": "2026-10-04T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T18:00+08:00",
+            "start_at": "2026-10-04T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-08T16:30+08:00",
+                "start_at": "2026-10-08T16:00+08:00"
+              }
+            ],
+            "date": "2026-10-08",
+            "end_at": "2026-10-08T19:00+08:00",
+            "start_at": "2026-10-08T12:00+08:00"
+          }
+        ],
+        "skills": [
+          "aroma",
+          "relax"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-04"
+      },
+      {
+        "display_name": "合成技师C-05",
+        "shifts": [
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-25T13:30+08:00",
+                "start_at": "2026-09-25T13:00+08:00"
+              }
+            ],
+            "date": "2026-09-25",
+            "end_at": "2026-09-25T17:00+08:00",
+            "start_at": "2026-09-25T09:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-26T14:30+08:00",
+                "start_at": "2026-09-26T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-26",
+            "end_at": "2026-09-26T18:00+08:00",
+            "start_at": "2026-09-26T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-27T14:30+08:00",
+                "start_at": "2026-09-27T14:00+08:00"
+              }
+            ],
+            "date": "2026-09-27",
+            "end_at": "2026-09-27T18:00+08:00",
+            "start_at": "2026-09-27T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-09-30T13:30+08:00",
+                "start_at": "2026-09-30T13:00+08:00"
+              }
+            ],
+            "date": "2026-09-30",
+            "end_at": "2026-09-30T17:00+08:00",
+            "start_at": "2026-09-30T09:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-01T13:30+08:00",
+                "start_at": "2026-10-01T13:00+08:00"
+              }
+            ],
+            "date": "2026-10-01",
+            "end_at": "2026-10-01T17:00+08:00",
+            "start_at": "2026-10-01T09:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-02T13:30+08:00",
+                "start_at": "2026-10-02T13:00+08:00"
+              }
+            ],
+            "date": "2026-10-02",
+            "end_at": "2026-10-02T17:00+08:00",
+            "start_at": "2026-10-02T09:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-03T14:30+08:00",
+                "start_at": "2026-10-03T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-03",
+            "end_at": "2026-10-03T18:00+08:00",
+            "start_at": "2026-10-03T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-04T14:30+08:00",
+                "start_at": "2026-10-04T14:00+08:00"
+              }
+            ],
+            "date": "2026-10-04",
+            "end_at": "2026-10-04T18:00+08:00",
+            "start_at": "2026-10-04T10:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-07T13:30+08:00",
+                "start_at": "2026-10-07T13:00+08:00"
+              }
+            ],
+            "date": "2026-10-07",
+            "end_at": "2026-10-07T17:00+08:00",
+            "start_at": "2026-10-07T09:00+08:00"
+          },
+          {
+            "breaks": [
+              {
+                "occupancy_end_at": "2026-10-08T13:30+08:00",
+                "start_at": "2026-10-08T13:00+08:00"
+              }
+            ],
+            "date": "2026-10-08",
+            "end_at": "2026-10-08T17:00+08:00",
+            "start_at": "2026-10-08T09:00+08:00"
+          }
+        ],
+        "skills": [
+          "tuina",
+          "aroma"
+        ],
+        "status": "ACTIVE",
+        "store_id": "STORE-C",
+        "therapist_id": "TECH-C-05"
+      }
+    ]
+  }
+}

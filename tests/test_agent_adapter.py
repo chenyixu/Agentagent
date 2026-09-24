@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import pytest
+from uuid import uuid4
 
 from appointment.agent import build_runtime
 from appointment.agent.agentscope_adapter import (
@@ -15,10 +16,15 @@ from appointment.agent.agentscope_adapter import (
     AgentScopeRuntime,
     allowed_tools_for,
     assert_tool_allowed,
+    _availability_window_end,
+    _ensure_required_search_read,
+    _ground_service_patch,
     normalize_model_output,
 )
-from appointment.core.enums import AgentRole, ErrorCode
+from appointment.core.enums import AgentRole, ErrorCode, TaskState
 from appointment.core.errors import DomainError
+from appointment.domain.context import TrustedContext
+from appointment.agent.ports import TurnRequest
 from appointment.tools.registry import TOOL_REGISTRY
 
 pytestmark = pytest.mark.tool_boundary
@@ -131,3 +137,106 @@ def test_sdk_runtime_reports_a_missing_dependency_clearly(monkeypatch):
     runtime = AgentScopeRuntime(role=AgentRole.CONSULTANT, config=AdapterConfig())
     assert runtime.runtime_name.startswith("agentscope-")
     assert runtime.permission_mode.value == "EXPLORE"
+
+
+def _turn_request(*, user_message, facts=None, slots=None, task_state=TaskState.COLLECTING):
+    return TurnRequest(
+        ctx=TrustedContext(
+            tenant_id=uuid4(), actor_id=uuid4(), role="customer",
+            request_id="test", release_id="test",
+        ),
+        task_id=uuid4(),
+        task_state=task_state,
+        task_version=1,
+        slots=slots or {},
+        user_message=user_message,
+        allowed_tools=allowed_tools_for(AgentRole.RECEPTION),
+        facts=facts or {},
+    )
+
+
+def test_exact_start_availability_window_covers_trusted_quote_duration():
+    request = _turn_request(
+        user_message="查询 17:00",
+        task_state=TaskState.SEARCHING,
+        slots={
+            "service": {"value": {"service_id": "svc-90"}},
+            "time_window": {"value": {
+                "start_at": "2026-09-30T17:00:00+08:00",
+                "end_at": "2026-09-30T18:00:00+08:00",
+                "desired_start": "2026-09-30T17:00:00+08:00",
+            }},
+        },
+        facts={
+            "store_id": "store-1",
+            "followups": {"quote": {"duration_minutes": 90}},
+        },
+    )
+    output = _ensure_required_search_read(request, normalize_model_output({}, role=AgentRole.RECEPTION))
+    call = output.tool_requests[0]
+    assert call.tool_name == "search_availability"
+    assert call.arguments["window_end"] == "2026-09-30T18:30:00+08:00"
+
+
+def test_flexible_availability_window_is_not_replaced_by_quote_duration():
+    assert _availability_window_end(
+        {
+            "start_at": "2026-09-30T16:00:00+08:00",
+            "end_at": "2026-09-30T20:00:00+08:00",
+            "desired_start": "2026-09-30T17:00:00+08:00",
+        },
+        {"duration_minutes": 90},
+    ) == "2026-09-30T20:00:00+08:00"
+
+
+def test_generic_service_phrase_is_clarified_instead_of_model_guess():
+    request = _turn_request(
+        user_message="我想做个放松项目，2026年09月30日 16:00左右有空吗？",
+        facts={"services": [{"service_id": "svc-relax", "name": "全身放松", "aliases": []}]},
+    )
+    output = normalize_model_output(
+        {
+            "slot_patches": [
+                {"slot_name": "service", "op": "SET", "value": {"service_id": "svc-relax", "name": "全身放松"}},
+                {"slot_name": "time_window", "op": "SET", "value": {"start_at": "2026-09-30T16:00:00+08:00"}},
+            ],
+            "tool_requests": [{"tool_name": "search_availability", "arguments": {}}],
+        },
+        role=AgentRole.RECEPTION,
+    )
+    grounded = _ground_service_patch(request, output)
+    assert grounded.clarification_question
+    assert not any(patch["slot_name"] == "service" for patch in grounded.slot_patches)
+    assert [patch["slot_name"] for patch in grounded.slot_patches] == ["time_window"]
+    assert grounded.tool_requests == ()
+
+
+def test_unique_exact_service_alias_overrides_model_service_guess():
+    request = _turn_request(
+        user_message="约个肩颈按摩",
+        facts={"services": [
+            {"service_id": "svc-shoulder", "name": "肩颈舒缓", "aliases": ["肩颈按摩"]},
+            {"service_id": "svc-back", "name": "背部理疗", "aliases": ["开背理疗"]},
+        ]},
+    )
+    output = normalize_model_output(
+        {"slot_patches": [{"slot_name": "service", "op": "SET", "value": {"service_id": "svc-back", "name": "背部理疗"}}]},
+        role=AgentRole.RECEPTION,
+    )
+    grounded = _ground_service_patch(request, output)
+    service_patch = next(patch for patch in grounded.slot_patches if patch["slot_name"] == "service")
+    assert service_patch["value"] == {"service_id": "svc-shoulder", "name": "肩颈舒缓"}
+
+
+def test_time_only_turn_keeps_already_selected_service():
+    request = _turn_request(
+        user_message="明天下午四点",
+        slots={"service": {"value": {"service_id": "svc-shoulder", "name": "肩颈舒缓"}}},
+    )
+    output = normalize_model_output(
+        {"slot_patches": [{"slot_name": "service", "op": "SET", "value": {"service_id": "svc-shoulder", "name": "肩颈舒缓"}}]},
+        role=AgentRole.RECEPTION,
+    )
+    grounded = _ground_service_patch(request, output)
+    assert grounded.clarification_question is None
+    assert grounded.slot_patches == output.slot_patches
