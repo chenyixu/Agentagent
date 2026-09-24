@@ -100,7 +100,7 @@ cd frontend && pnpm install && pnpm dev
 在装配时 AttributeError。仓库自带了构建好的 wheel：
 
 ```bash
-.venv/bin/pip install vendor/agentscope-2.0.8-py3-none-any.whl
+.venv/bin/pip install 'vendor/agentscope-2.0.8-py3-none-any.whl[service]'
 ```
 
 来源与重建方式见 `vendor/README.md`。机器客户端接口（`/v1/*`）在

@@ -74,7 +74,7 @@ curl -s http://127.0.0.1:8000/healthz     # 期望 status=ok
 浏览器侧（三个进程，端口 8010 而非 3000——本机 3000 被 Grafana 占着）：
 
 ```bash
-.venv/bin/pip install vendor/agentscope-2.0.8-py3-none-any.whl   # 首次
+.venv/bin/pip install 'vendor/agentscope-2.0.8-py3-none-any.whl[service]'   # 首次，含浏览器 App 依赖
 .venv/bin/python scripts/dev_reset.py
 DEEPSEEK_API_KEY=sk-xxx APPOINTMENT_AGENT_RUNTIME=agentscope \
 APPOINTMENT_MODEL_BACKEND=deepseek \

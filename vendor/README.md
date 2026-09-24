@@ -45,8 +45,10 @@ from agentscope.credential import DeepSeekCredential
 
 ## 装
 
+浏览器侧导入 `agentscope.app`，需要 AgentScope 的 `service` 可选依赖（包括 APScheduler 与 `ag-ui-protocol`）：
+
 ```bash
-.venv/bin/pip install vendor/agentscope-2.0.8-py3-none-any.whl
+.venv/bin/pip install 'vendor/agentscope-2.0.8-py3-none-any.whl[service]'
 ```
 
 ## 重建（有上游 checkout 的时候）
