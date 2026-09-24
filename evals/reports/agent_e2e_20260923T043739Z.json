@@ -1,0 +1,43 @@
+{
+  "kind": "real_model_single_message_orchestrator_smoke",
+  "schema": "exp_9ed5a543f61e4b03988b788ed698b5af",
+  "database": "appointment_test",
+  "model_backend": "deepseek",
+  "model_name": "deepseek-v4-flash",
+  "prompt_version": "reception-v3",
+  "input": "我想约肩颈，明天下午三点",
+  "elapsed_ms": 4134.498,
+  "outcome": {
+    "status": "ok",
+    "turn": {
+      "task_id": "2e41bd33-cb55-48a7-8c03-3c3421e432b1",
+      "task_state": "SEARCHING",
+      "task_version": 3,
+      "reply_text": "好的，肩颈舒缓 60 分钟，明天下午三点（2026-09-24 15:00）。我先为您查询该项目价格和时长。",
+      "clarification_question": null,
+      "tool_calls": [],
+      "end_reason": "COMPLETED",
+      "budget": {
+        "tool_calls": 0,
+        "max_tool_calls": 6,
+        "consult_delegations": 0,
+        "repairs": 0,
+        "no_progress_rounds": 0,
+        "distinct_calls": 0,
+        "repeated_calls": 0
+      },
+      "waiting_id": null,
+      "pending_confirmation": null,
+      "event_cursor": 4
+    }
+  },
+  "database_counts": {
+    "tasks": 1,
+    "tool_executions": 0,
+    "holds": 0,
+    "appointments": 0,
+    "allocations": 0
+  },
+  "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+  "note": "单条合成消息；不包含用户选候选、确认或订单完成。"
+}

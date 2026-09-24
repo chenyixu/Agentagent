@@ -1,0 +1,277 @@
+{
+  "kind": "real_model_full_booking_smoke",
+  "schema": "exp_af8244a8d33f4d54b71f7ecf4f1a892f",
+  "database": "appointment_test",
+  "model_backend": "deepseek",
+  "model_name": "deepseek-flash",
+  "prompt_version": "reception-v3",
+  "case_id": "C02_clarify_missing_time_then_ambiguous_selection",
+  "input": "我想约肩颈",
+  "selection_input": "第一个可以",
+  "conversation_steps": [
+    {
+      "kind": "message",
+      "text": "我想约肩颈"
+    },
+    {
+      "kind": "answer",
+      "text": "明天下午"
+    },
+    {
+      "kind": "message",
+      "text": "可以"
+    },
+    {
+      "kind": "message",
+      "text": "第一个可以"
+    }
+  ],
+  "elapsed_ms": 5522.804,
+  "outcome": {
+    "status": "ok",
+    "turn": {
+      "task_id": "a240be4a-992a-4f32-9e3a-0c7bb88f30c3",
+      "task_state": "WAITING_USER",
+      "task_version": 3,
+      "reply_text": "好的，为您选择「肩颈舒缓 60 分钟」。请问您想预约哪一天、几点左右呢？",
+      "clarification_question": "您想约肩颈舒缓 60 分钟——请问希望安排在哪一天、哪个时间段呢？（例如：明天下午 3 点）",
+      "tool_calls": [],
+      "end_reason": "WAITING",
+      "budget": {
+        "tool_calls": 0,
+        "max_tool_calls": 6,
+        "consult_delegations": 0,
+        "repairs": 0,
+        "no_progress_rounds": 0,
+        "distinct_calls": 0,
+        "repeated_calls": 0
+      },
+      "waiting_id": "6837d8fd-7938-452a-8df6-23d29dbce76e",
+      "pending_confirmation": null,
+      "event_cursor": 5
+    },
+    "interactions": [
+      {
+        "index": 1,
+        "kind": "message",
+        "input": "我想约肩颈",
+        "task_state": "WAITING_USER",
+        "task_version": 3,
+        "waiting_id": "6837d8fd-7938-452a-8df6-23d29dbce76e",
+        "reply_text": "好的，为您选择「肩颈舒缓 60 分钟」。请问您想预约哪一天、几点左右呢？",
+        "clarification_question": "您想约肩颈舒缓 60 分钟——请问希望安排在哪一天、哪个时间段呢？（例如：明天下午 3 点）",
+        "tool_calls": [],
+        "counts": {
+          "holds": 0,
+          "appointments": 0
+        },
+        "report": {
+          "task_id": "a240be4a-992a-4f32-9e3a-0c7bb88f30c3",
+          "task_state": "WAITING_USER",
+          "task_version": 3,
+          "reply_text": "好的，为您选择「肩颈舒缓 60 分钟」。请问您想预约哪一天、几点左右呢？",
+          "clarification_question": "您想约肩颈舒缓 60 分钟——请问希望安排在哪一天、哪个时间段呢？（例如：明天下午 3 点）",
+          "tool_calls": [],
+          "end_reason": "WAITING",
+          "budget": {
+            "tool_calls": 0,
+            "max_tool_calls": 6,
+            "consult_delegations": 0,
+            "repairs": 0,
+            "no_progress_rounds": 0,
+            "distinct_calls": 0,
+            "repeated_calls": 0
+          },
+          "waiting_id": "6837d8fd-7938-452a-8df6-23d29dbce76e",
+          "pending_confirmation": null,
+          "event_cursor": 5
+        }
+      },
+      {
+        "index": 2,
+        "kind": "answer",
+        "input": "明天下午",
+        "task_state": "WAITING_USER",
+        "task_version": 6,
+        "waiting_id": "5682dd5f-ed07-42e3-9536-3a6ed0c544e9",
+        "reply_text": "好的，项目是「肩颈舒缓 60 分钟」，日期是明天（9月24日）下午。为了准确查询可约时段，麻烦确认一下下午几点开始合适？",
+        "clarification_question": "「明天下午」具体想约几点开始呢？我们营业时段内下午的整点/半点都可以，请告诉我期望的开始时间（例如 14:00 或 15:30）。",
+        "tool_calls": [],
+        "counts": {
+          "holds": 0,
+          "appointments": 0
+        },
+        "report": {
+          "task_id": "a240be4a-992a-4f32-9e3a-0c7bb88f30c3",
+          "task_state": "WAITING_USER",
+          "task_version": 6,
+          "reply_text": "好的，项目是「肩颈舒缓 60 分钟」，日期是明天（9月24日）下午。为了准确查询可约时段，麻烦确认一下下午几点开始合适？",
+          "clarification_question": "「明天下午」具体想约几点开始呢？我们营业时段内下午的整点/半点都可以，请告诉我期望的开始时间（例如 14:00 或 15:30）。",
+          "tool_calls": [],
+          "end_reason": "WAITING",
+          "budget": {
+            "tool_calls": 0,
+            "max_tool_calls": 6,
+            "consult_delegations": 0,
+            "repairs": 0,
+            "no_progress_rounds": 0,
+            "distinct_calls": 0,
+            "repeated_calls": 0
+          },
+          "waiting_id": "5682dd5f-ed07-42e3-9536-3a6ed0c544e9",
+          "pending_confirmation": null,
+          "event_cursor": 11
+        }
+      },
+      {
+        "index": 3,
+        "kind": "message",
+        "input": "可以",
+        "task_state": "WAITING_USER",
+        "task_version": 6,
+        "waiting_id": null,
+        "reply_text": "好的，我先为您确认「肩颈舒缓 60 分钟」的价格与 2026-09-24 13:00–18:00 的可约时段。",
+        "clarification_question": null,
+        "tool_calls": [],
+        "counts": {
+          "holds": 0,
+          "appointments": 0
+        },
+        "report": {
+          "task_id": "a240be4a-992a-4f32-9e3a-0c7bb88f30c3",
+          "task_state": "WAITING_USER",
+          "task_version": 6,
+          "reply_text": "好的，我先为您确认「肩颈舒缓 60 分钟」的价格与 2026-09-24 13:00–18:00 的可约时段。",
+          "clarification_question": null,
+          "tool_calls": [],
+          "end_reason": "COMPLETED",
+          "budget": {
+            "tool_calls": 0,
+            "max_tool_calls": 6,
+            "consult_delegations": 0,
+            "repairs": 0,
+            "no_progress_rounds": 0,
+            "distinct_calls": 0,
+            "repeated_calls": 0
+          },
+          "waiting_id": null,
+          "pending_confirmation": null,
+          "event_cursor": 13
+        }
+      },
+      {
+        "index": 4,
+        "kind": "message",
+        "input": "第一个可以",
+        "task_state": "WAITING_USER",
+        "task_version": 6,
+        "waiting_id": null,
+        "reply_text": "好的，已记录您选择第一个候选时段。请稍等，我来核对价格与可用情况。",
+        "clarification_question": null,
+        "tool_calls": [],
+        "counts": {
+          "holds": 0,
+          "appointments": 0
+        },
+        "report": {
+          "task_id": "a240be4a-992a-4f32-9e3a-0c7bb88f30c3",
+          "task_state": "WAITING_USER",
+          "task_version": 6,
+          "reply_text": "好的，已记录您选择第一个候选时段。请稍等，我来核对价格与可用情况。",
+          "clarification_question": null,
+          "tool_calls": [],
+          "end_reason": "COMPLETED",
+          "budget": {
+            "tool_calls": 0,
+            "max_tool_calls": 6,
+            "consult_delegations": 0,
+            "repairs": 0,
+            "no_progress_rounds": 0,
+            "distinct_calls": 0,
+            "repeated_calls": 0
+          },
+          "waiting_id": null,
+          "pending_confirmation": null,
+          "event_cursor": 15
+        }
+      }
+    ],
+    "selection_turn": {
+      "task_id": "a240be4a-992a-4f32-9e3a-0c7bb88f30c3",
+      "task_state": "WAITING_USER",
+      "task_version": 6,
+      "reply_text": "好的，已记录您选择第一个候选时段。请稍等，我来核对价格与可用情况。",
+      "clarification_question": null,
+      "tool_calls": [],
+      "end_reason": "COMPLETED",
+      "budget": {
+        "tool_calls": 0,
+        "max_tool_calls": 6,
+        "consult_delegations": 0,
+        "repairs": 0,
+        "no_progress_rounds": 0,
+        "distinct_calls": 0,
+        "repeated_calls": 0
+      },
+      "waiting_id": null,
+      "pending_confirmation": null,
+      "event_cursor": 15
+    }
+  },
+  "database_counts": {
+    "tasks": 1,
+    "tool_executions": 0,
+    "holds": 0,
+    "appointments": 0,
+    "allocations": 0,
+    "operations": 0
+  },
+  "task_states": [
+    "WAITING_USER"
+  ],
+  "allocation_states": [],
+  "model_turns": [
+    {
+      "state": "COLLECTING",
+      "task_version": 1,
+      "status": "ok",
+      "slot_names": [
+        "service"
+      ],
+      "tool_names": [],
+      "reply_present": true,
+      "clarification_present": true
+    },
+    {
+      "state": "COLLECTING",
+      "task_version": 4,
+      "status": "ok",
+      "slot_names": [
+        "time_window"
+      ],
+      "tool_names": [],
+      "reply_present": true,
+      "clarification_present": true
+    },
+    {
+      "state": "WAITING_USER",
+      "task_version": 6,
+      "status": "ok",
+      "slot_names": [],
+      "tool_names": [],
+      "reply_present": true,
+      "clarification_present": false
+    },
+    {
+      "state": "WAITING_USER",
+      "task_version": 6,
+      "status": "ok",
+      "slot_names": [],
+      "tool_names": [],
+      "reply_present": true,
+      "clarification_present": false
+    }
+  ],
+  "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+  "note": "合成用户明确选第一个候选并通过专用确认凭据提交。"
+}

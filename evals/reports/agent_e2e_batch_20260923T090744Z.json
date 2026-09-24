@@ -1,0 +1,152 @@
+{
+  "kind": "real_model_synthetic_booking_repeated_eval",
+  "started_at": "2026-09-23T09:07:44.180351+00:00",
+  "runs": 3,
+  "passed": 3,
+  "pass_rate": 1.0,
+  "elapsed_ms_median": 11626.495,
+  "elapsed_ms_min": 11338.353,
+  "elapsed_ms_max": 12647.085,
+  "source_sha256": {
+    "src/appointment/agent/agentscope_adapter.py": "b0760b1db33f54b083e02c02ad17bb1e882244e7b772161fd54e3920741537dc",
+    "src/appointment/orchestrator/engine.py": "fccd672f8c4a11577e783cada56a1c7c081688d19381ea451b64bdcb6eb8a920",
+    "src/appointment/domain/booking.py": "60e848ba1b92208860816a905e43229eec4d9ba82dffeb506279869d284da494",
+    "evals/run_agent_e2e_smoke.py": "797620654d453a2ba75f75db8da2531b2f6f555a47afa2775bfeff86f1c6743f",
+    "evals/run_agent_e2e_batch.py": "b4a07b2335d547903247f4c615d493ce1d690e00aa548de0064529dd16b03b9c"
+  },
+  "trials": [
+    {
+      "trial": 1,
+      "report_path": "evals/reports/agent_e2e_20260923T090756Z.json",
+      "passed": true,
+      "elapsed_ms": 11338.353,
+      "schema": "exp_fd5f8e9a05fe4a1ba3d225f8f23fb652",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "e3a0d27e-8a32-4a8f-af9f-3a7a07035336",
+        "operation_id": "2a25a76c-5f51-44b6-9b3d-c8488f32e031",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "e3a0d27e-8a32-4a8f-af9f-3a7a07035336",
+        "operation_id": "2a25a76c-5f51-44b6-9b3d-c8488f32e031",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-v4-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 2,
+      "report_path": "evals/reports/agent_e2e_20260923T090809Z.json",
+      "passed": true,
+      "elapsed_ms": 12647.085,
+      "schema": "exp_5ca6442c9ac842eb8bc52ca0847d904c",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "deadf09a-6517-485e-a77b-08a83b8f5779",
+        "operation_id": "333c6f11-b944-4c62-9308-c04262922345",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "deadf09a-6517-485e-a77b-08a83b8f5779",
+        "operation_id": "333c6f11-b944-4c62-9308-c04262922345",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-v4-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 3,
+      "report_path": "evals/reports/agent_e2e_20260923T090821Z.json",
+      "passed": true,
+      "elapsed_ms": 11626.495,
+      "schema": "exp_4ca1838412cf41018e98dbcd9a1de5fe",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "f0df1f3c-d4f2-4673-b0fd-9a22cfc03ea3",
+        "operation_id": "6e23194d-b058-4a3d-a2f6-1d7e7840130c",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "f0df1f3c-d4f2-4673-b0fd-9a22cfc03ea3",
+        "operation_id": "6e23194d-b058-4a3d-a2f6-1d7e7840130c",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-v4-flash",
+      "prompt_version": "reception-v3"
+    }
+  ],
+  "case": {
+    "request": "我想约肩颈，明天下午三点",
+    "candidate_selection": "第一个可以",
+    "confirmation": "server-issued confirmation token and idempotency key",
+    "assertion": "SUCCEEDED task; exactly one appointment and hold; two BOOKED allocations; two operations; confirmation retry returns the original appointment and operation"
+  },
+  "limitations": [
+    "All trials use one hand-authored synthetic booking scenario; pass_rate is not general task completion rate.",
+    "Business reads and hold creation include deterministic server orchestration; this does not isolate model tool-choice quality.",
+    "Model provider usage and cost are unavailable in the underlying reports.",
+    "Latency is full local synthetic flow duration for each trial; no p95 is reported for this small sample.",
+    "Each trial leaves its isolated test schema and raw report in place."
+  ]
+}

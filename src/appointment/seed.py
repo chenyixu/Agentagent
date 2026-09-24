@@ -50,6 +50,7 @@ async def seed(
     days: int = 21,
     tenant_name: str = "演示连锁",
     store_name: str = "静安店",
+    skillless_therapist_indices: frozenset[int] = frozenset(),
 ) -> SeedResult:
     tz = load_zone(STORE_TIMEZONE)
     tenant_id = uuid4()
@@ -170,7 +171,9 @@ async def seed(
             room_ids.append(resource_id)
     await session.flush()
 
-    for resource_id in therapist_ids:
+    for index, resource_id in enumerate(therapist_ids):
+        if index in skillless_therapist_indices:
+            continue
         for skill in ("tuina", "relax"):
             session.add(
                 m.ResourceSkill(

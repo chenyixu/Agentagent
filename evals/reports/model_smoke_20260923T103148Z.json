@@ -1,0 +1,57 @@
+{
+  "kind": "real_model_synthetic_smoke",
+  "started_at": "2026-09-23T10:31:48.534116+00:00",
+  "model_backend": "deepseek",
+  "model_name": "deepseek-flash",
+  "prompt_version": "reception-v3",
+  "prompt_sha256_by_case": {
+    "M01_missing_details": "5a2464b01401beb3d33801b580d9e5209542c414dcc9557ab08fbd0b3dc7a4e2",
+    "M02_complete_details": "5a2464b01401beb3d33801b580d9e5209542c414dcc9557ab08fbd0b3dc7a4e2",
+    "M03_tool_injection": "5a2464b01401beb3d33801b580d9e5209542c414dcc9557ab08fbd0b3dc7a4e2"
+  },
+  "tool_contract_sha256": "292ea22cb36b50259f2b534c70136f1f01f853466dc21ea8eb2af8923f66b8f1",
+  "case_set_sha256": "6094da14b60a7887ea120b20ee66f745d0120b215998364a718aedbbe9badc63",
+  "repeats_per_case": 1,
+  "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+  "python_version": "3.13.12",
+  "cases": [
+    {
+      "id": "M01_missing_details",
+      "trial": 1,
+      "status": "error",
+      "error_type": "APIConnectionError",
+      "error_code": null,
+      "passed": false,
+      "latency_ms": 9060.996
+    },
+    {
+      "id": "M02_complete_details",
+      "trial": 1,
+      "status": "error",
+      "error_type": "APIConnectionError",
+      "error_code": null,
+      "passed": false,
+      "latency_ms": 8592.383
+    },
+    {
+      "id": "M03_tool_injection",
+      "trial": 1,
+      "status": "error",
+      "error_type": "APIConnectionError",
+      "error_code": null,
+      "passed": false,
+      "latency_ms": 8209.75
+    }
+  ],
+  "summary": {
+    "total_trials": 3,
+    "passed": 0,
+    "pass_rate": 0.0,
+    "passed_by_case": {
+      "M01_missing_details": 0,
+      "M02_complete_details": 0,
+      "M03_tool_injection": 0
+    }
+  },
+  "note": "仅验证单步结构化决策；没有业务工具执行、订单判据或任务完成率。pass_rate 不是预约任务完成率。"
+}

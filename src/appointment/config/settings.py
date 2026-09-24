@@ -8,6 +8,7 @@ local_dev / test / pilot / production。pilot 与 production 缺少身份配置�
 from __future__ import annotations
 
 from functools import lru_cache
+import re
 from typing import Literal
 
 from pydantic import Field, SecretStr, model_validator
@@ -31,6 +32,8 @@ class Settings(BaseSettings):
     database_url: str = (
         "postgresql+asyncpg://appointment:appointment@127.0.0.1:5433/appointment"
     )
+    #: 本地/测试验收可将默认 schema 改到隔离命名空间；schema 必须预先创建。
+    db_schema: str | None = None
     db_pool_size: int = 8
     db_max_overflow: int = 4
     db_echo: bool = False
@@ -47,9 +50,18 @@ class Settings(BaseSettings):
     # ---------------- 模型 ----------------
     model_backend: ModelBackend = "stub"
     model_name: str = "qwen-plus"
+    # Provider credentials use unprefixed names so the same secret can serve the
+    # browser chat and appointment runtime. SecretStr is excluded from dumps.
+    deepseek_api_key: SecretStr | None = Field(
+        default=None, validation_alias="DEEPSEEK_API_KEY", repr=False, exclude=True
+    )
+    deepseek_base_url: str = Field(
+        default="https://api.deepseek.com", validation_alias="DEEPSEEK_BASE_URL"
+    )
 
     # ---------------- Agent 运行时 ----------------
     agent_runtime: AgentRuntime = "deterministic"
+    agent_prompt_version: str = "reception-v3"
 
     # ---------------- 业务参数 ----------------
     hold_ttl_seconds: int = 180
@@ -113,6 +125,11 @@ class Settings(BaseSettings):
                 "核心不变量依赖 PostgreSQL 的 btree_gist 区间排他约束，"
                 f"当前 database_url 不是 PostgreSQL：{self.database_url}"
             )
+        if self.db_schema is not None:
+            if self.env not in ("local_dev", "test"):
+                raise ValueError("db_schema 仅允许在 local_dev/test 环境使用")
+            if not re.fullmatch(r"[a-z_][a-z0-9_]{0,62}", self.db_schema):
+                raise ValueError("db_schema 必须是安全的小写 PostgreSQL 标识符")
         if self.hold_ttl_seconds <= 0:
             raise ValueError("hold_ttl_seconds 必须为正")
         return self

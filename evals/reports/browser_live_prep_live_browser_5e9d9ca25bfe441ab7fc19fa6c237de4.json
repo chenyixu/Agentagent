@@ -1,0 +1,23 @@
+{
+  "kind": "browser_live_schema_preparation",
+  "prepared_at": "2026-09-23T11:16:24.024420+00:00",
+  "database": "appointment_test",
+  "schema": "live_browser_5e9d9ca25bfe441ab7fc19fa6c237de4",
+  "database_host": "127.0.0.1",
+  "database_port": 5433,
+  "seed": {
+    "tenant_id": "7bd07292-a3eb-4574-bb72-e65f939cfdef",
+    "store_id": "c3d55e9b-cfca-4345-8626-3f6bc41ef6ab",
+    "customers": 2,
+    "therapists": 3,
+    "rooms": 2,
+    "services": 2,
+    "login_ids": [
+      "customer-1",
+      "customer-2",
+      "manager"
+    ]
+  },
+  "exclusion_constraint_verified": true,
+  "cleanup": "none; isolated schema retained for audit"
+}

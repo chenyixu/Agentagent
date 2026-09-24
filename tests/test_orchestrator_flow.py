@@ -14,15 +14,17 @@
 from __future__ import annotations
 
 from datetime import timedelta
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import pytest
 from sqlalchemy import select
 
 from appointment.agent import DeterministicRuntime
+from appointment.agent.ports import TurnOutput
 from appointment.core.enums import (
     ErrorCode,
     ExecutionEndReason,
+    Intent,
     TaskEventType,
     TaskState,
     ToolStatus,
@@ -122,6 +124,146 @@ async def test_missing_slots_lead_to_persistent_clarification(session, seeded, c
         )
     ).scalar_one()
     assert answered.status == WaitingStatus.ANSWERED.value
+
+
+async def test_recovery_refreshes_price_and_drops_expired_quote_fact(
+    session, seeded, clock
+):
+    class QuoteFactsRuntime:
+        runtime_name = "quote-facts-inspection"
+
+        def __init__(self):
+            self.quotes = []
+
+        async def run_turn(self, request):
+            quote = (request.facts.get("followups") or {}).get("quote")
+            self.quotes.append(
+                None
+                if quote is None
+                else {
+                    "price_version_id": quote.get("price_version_id"),
+                    "amount_minor": quote.get("amount_minor"),
+                    "valid_until": quote.get("valid_until"),
+                }
+            )
+            return TurnOutput(reply_text="已重新核对当前报价。", intent=Intent.BOOK)
+
+    ctx = customer_ctx(seeded)
+    initial_now = clock.now()
+    first = await _orchestrator(session, clock).handle_user_message(
+        ctx,
+        text="我想约肩颈，明天下午三点",
+        client_message_id="quote-refresh-initial",
+        store_id=seeded.store_id,
+        now=initial_now,
+    )
+    await session.commit()
+    assert first.task_state == TaskState.PROPOSED.value
+
+    service = (
+        await session.execute(
+            select(m.ServiceCatalog).where(
+                m.ServiceCatalog.tenant_id == seeded.tenant_id,
+                m.ServiceCatalog.id == seeded.service_ids["shoulder"],
+            )
+        )
+    ).scalar_one()
+    old_price = (
+        await session.execute(
+            select(m.PriceVersion).where(
+                m.PriceVersion.tenant_id == seeded.tenant_id,
+                m.PriceVersion.store_id == seeded.store_id,
+                m.PriceVersion.service_version_id == service.current_version_id,
+            )
+        )
+    ).scalars().one()
+
+    refreshed_at = initial_now + timedelta(seconds=1801)
+    old_price.valid_to = refreshed_at
+    new_price = m.PriceVersion(
+        id=uuid4(),
+        tenant_id=seeded.tenant_id,
+        store_id=seeded.store_id,
+        service_version_id=service.current_version_id,
+        revision=old_price.revision + 1,
+        amount_minor=old_price.amount_minor + 1234,
+        currency=old_price.currency,
+        currency_exponent=old_price.currency_exponent,
+        terms_snapshot={**old_price.terms_snapshot, "rule_version": "rules-next"},
+        valid_from=refreshed_at - timedelta(seconds=60),
+    )
+    session.add(new_price)
+    await session.flush()
+    clock.set(refreshed_at)
+
+    runtime = QuoteFactsRuntime()
+    refreshed = await Orchestrator(session, runtime=runtime, clock=clock).handle_user_message(
+        ctx,
+        text="继续",
+        client_message_id="quote-refresh-after-price-change",
+        store_id=seeded.store_id,
+        now=refreshed_at,
+    )
+    await session.commit()
+    assert refreshed.task_state == TaskState.PROPOSED.value
+    assert runtime.quotes[0] is not None
+    assert runtime.quotes[0]["price_version_id"] == str(new_price.id)
+    assert runtime.quotes[0]["amount_minor"] == new_price.amount_minor
+    assert runtime.quotes[0]["valid_until"]
+
+    expired_at = refreshed_at + timedelta(seconds=1)
+    new_price.valid_to = expired_at
+    await session.flush()
+    clock.set(expired_at)
+    expired_runtime = QuoteFactsRuntime()
+    expired = await Orchestrator(
+        session, runtime=expired_runtime, clock=clock
+    ).handle_user_message(
+        ctx,
+        text="继续",
+        client_message_id="quote-refresh-after-price-expiry",
+        store_id=seeded.store_id,
+        now=expired_at,
+    )
+    await session.commit()
+    assert expired.task_state == TaskState.PROPOSED.value
+    assert expired_runtime.quotes == [None], "没有有效价目时不能注入旧报价"
+
+
+async def test_reply_only_booking_question_is_persisted_as_waiting(session, seeded, clock):
+    class ReplyOnlyRuntime:
+        runtime_name = "reply-only-test"
+
+        async def run_turn(self, request):
+            # Models can put the question in free text and omit the structured
+            # clarification field. The orchestrator must still persist a wait.
+            return TurnOutput(
+                reply_text="请告诉我想做什么项目和什么时候到店。",
+                intent=Intent.BOOK,
+            )
+
+    ctx = customer_ctx(seeded)
+    report = await Orchestrator(
+        session, runtime=ReplyOnlyRuntime(), clock=clock
+    ).handle_user_message(
+        ctx,
+        text="我想预约",
+        client_message_id="reply-only-booking-clarification",
+        store_id=seeded.store_id,
+        now=clock.now(),
+    )
+    await session.commit()
+
+    assert report.task_state == TaskState.WAITING_USER.value
+    assert report.waiting_id is not None
+    assert report.clarification_question == "请告诉我想预约的服务项目，以及希望预约的日期和时间。"
+    assert report.tool_calls == []
+    waiting = (
+        await session.execute(
+            select(m.WaitingRequest).where(m.WaitingRequest.id == report.waiting_id)
+        )
+    ).scalar_one()
+    assert waiting.status == WaitingStatus.OPEN.value
 
 
 async def test_stale_answer_is_rejected_without_reviving_task(session, seeded, clock):
@@ -323,6 +465,117 @@ async def test_changing_time_after_proposal_invalidates_candidates(
         )
     ).scalars().all()
     assert holds == []
+
+
+@pytest.mark.parametrize("stale_reason", ["past_start", "schedule_changed"])
+async def test_recovery_cannot_hold_a_stale_candidate(
+    session, seeded, clock, stale_reason
+):
+    """恢复后旧候选若已过时或班次撤销，不能创建占位或留下写操作。"""
+
+    from datetime import datetime
+
+    from appointment.core.enums import AllocationState
+
+    ctx = customer_ctx(seeded)
+    first = await _orchestrator(session, clock).handle_user_message(
+        ctx,
+        text="我要约肩颈，明天下午三点",
+        client_message_id=f"stale-candidate-{stale_reason}-initial",
+        store_id=seeded.store_id,
+        now=clock.now(),
+    )
+    await session.commit()
+    assert first.task_state == TaskState.PROPOSED.value, first.to_dict()
+
+    availability_call = next(
+        item for item in first.tool_calls if item["tool"] == "search_availability"
+    )
+    candidate = availability_call["data"]["candidates"][0]
+    candidate_start = datetime.fromisoformat(candidate["start_at"])
+    candidate_end = datetime.fromisoformat(candidate["end_at"])
+    resource_ids = [UUID(unit["resource_id"]) for unit in candidate["resources"]]
+
+    if stale_reason == "past_start":
+        clock.set(candidate_start + timedelta(seconds=1))
+    else:
+        # 模拟用户中断期间的真实排班变更：撤销覆盖旧候选的每个资源班次。
+        shifts = (
+            await session.execute(
+                select(m.Shift).where(
+                    m.Shift.tenant_id == seeded.tenant_id,
+                    m.Shift.resource_id.in_(resource_ids),
+                    m.Shift.status == "SCHEDULED",
+                    m.Shift.start_at <= candidate_start,
+                    m.Shift.end_at >= candidate_end,
+                )
+            )
+        ).scalars().all()
+        assert {shift.resource_id for shift in shifts} == set(resource_ids)
+        for shift in shifts:
+            shift.status = "CANCELLED"
+        # 同时跨过报价有效期，恢复时必须重新取价后再校验旧候选。
+        clock.advance(seconds=1801)
+    await session.commit()
+
+    resumed = await _orchestrator(session, clock).handle_user_message(
+        ctx,
+        text="第一个",
+        client_message_id=f"stale-candidate-{stale_reason}-resume",
+        store_id=seeded.store_id,
+        now=clock.now(),
+    )
+    await session.commit()
+
+    hold_call = next(
+        item for item in resumed.tool_calls if item["tool"] == "create_hold"
+    )
+    assert hold_call["status"] == ToolStatus.ERROR.value, resumed.to_dict()
+    assert hold_call["error_code"] == ErrorCode.STALE_PROPOSAL.value
+    assert resumed.task_state == TaskState.PROPOSED.value
+    assert resumed.pending_confirmation is None
+
+    holds = (
+        await session.execute(
+            select(m.Hold).where(
+                m.Hold.tenant_id == seeded.tenant_id,
+                m.Hold.task_id == first.task_id,
+            )
+        )
+    ).scalars().all()
+    assert holds == []
+    appointments = (
+        await session.execute(
+            select(m.Appointment).where(
+                m.Appointment.tenant_id == seeded.tenant_id,
+                m.Appointment.customer_id == ctx.customer_id,
+            )
+        )
+    ).scalars().all()
+    assert appointments == []
+    allocations = (
+        await session.execute(
+            select(m.ResourceAllocation).where(
+                m.ResourceAllocation.tenant_id == seeded.tenant_id,
+                m.ResourceAllocation.resource_id.in_(resource_ids),
+                m.ResourceAllocation.start_at == candidate_start,
+                m.ResourceAllocation.end_at == candidate_end,
+                m.ResourceAllocation.state.in_(
+                    [AllocationState.HELD.value, AllocationState.BOOKED.value]
+                ),
+            )
+        )
+    ).scalars().all()
+    assert allocations == []
+    operations = (
+        await session.execute(
+            select(m.Operation).where(
+                m.Operation.tenant_id == seeded.tenant_id,
+                m.Operation.task_id == first.task_id,
+            )
+        )
+    ).scalars().all()
+    assert operations == [], "失效候选不能留下未完成的业务操作记录"
 
 
 async def test_unrelated_reply_does_not_pick_a_candidate(session, seeded, clock):

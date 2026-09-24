@@ -90,12 +90,22 @@ def get_engine() -> AsyncEngine:
     global _engine
     if _engine is None:
         settings = get_settings()
+        connect_args = (
+            {
+                "server_settings": {
+                    "search_path": f"{settings.db_schema},public"
+                }
+            }
+            if settings.db_schema
+            else {}
+        )
         _engine = create_async_engine(
             settings.database_url,
             echo=settings.db_echo,
             pool_size=settings.db_pool_size,
             max_overflow=settings.db_max_overflow,
             pool_pre_ping=True,
+            connect_args=connect_args,
         )
     return _engine
 

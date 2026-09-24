@@ -37,7 +37,9 @@ async def create_extensions(engine: AsyncEngine) -> list[str]:
                     f"数据库缺少扩展 {ext}；核心不变量依赖区间排他约束，"
                     "请先安装对应 contrib 包"
                 )
-            await conn.execute(text(f'CREATE EXTENSION IF NOT EXISTS "{ext}"'))
+            # 扩展安装在公共 schema，避免首个隔离测试 schema 抢占扩展归属，
+            # 导致后续 schema 的 GiST opclass 在 search_path 中不可见。
+            await conn.execute(text(f'CREATE EXTENSION IF NOT EXISTS "{ext}" WITH SCHEMA public'))
             enabled.append(ext)
     return enabled
 
@@ -53,21 +55,26 @@ async def verify_exclusion_constraint(engine: AsyncEngine) -> bool:
         found = (
             await conn.execute(
                 text(
-                    "SELECT 1 FROM pg_constraint "
-                    "WHERE conname = 'ck_resource_allocation_no_overlap' "
-                    "   OR conname = 'ex_resource_allocation_no_overlap' "
-                    "   OR (conrelid = 'resource_allocation'::regclass "
-                    "       AND contype = 'x')"
+                    "SELECT 1 FROM pg_constraint c "
+                    "JOIN pg_class t ON t.oid = c.conrelid "
+                    "JOIN pg_namespace n ON n.oid = t.relnamespace "
+                    "WHERE n.nspname = current_schema() "
+                    "  AND t.relname = 'resource_allocation' "
+                    "  AND c.contype = 'x'"
                 )
             )
         ).first()
         return found is not None
 
 
-async def create_all(engine: AsyncEngine) -> None:
+async def create_all(engine: AsyncEngine, *, schema: str | None = None) -> None:
     await create_extensions(engine)
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+        if schema is None:
+            await conn.run_sync(Base.metadata.create_all)
+        else:
+            scoped = await conn.execution_options(schema_translate_map={None: schema})
+            await scoped.run_sync(Base.metadata.create_all)
 
 
 async def drop_all(engine: AsyncEngine) -> None:

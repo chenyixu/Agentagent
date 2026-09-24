@@ -1,0 +1,356 @@
+{
+  "kind": "real_model_synthetic_booking_scenario_eval",
+  "started_at": "2026-09-23T11:42:12.385589+00:00",
+  "runs": 2,
+  "passed": 0,
+  "pass_rate": 0.0,
+  "passed_by_category": {
+    "clarification_and_ambiguity": {
+      "passed": 0,
+      "total": 2
+    }
+  },
+  "elapsed_ms_median": 12540.94,
+  "elapsed_ms_min": 11800.57,
+  "elapsed_ms_max": 13281.31,
+  "source_sha256": {
+    "src/appointment/agent/agentscope_adapter.py": "2769576798ab8332f4bdbe788e20ed35168bf0d9a3c9fe03dae578970b46478e",
+    "src/appointment/orchestrator/engine.py": "cd6f5ed7ff0215fa60ab8a57899d26847ed053716f4cf99626ba73f316bedd6b",
+    "src/appointment/domain/booking.py": "60e848ba1b92208860816a905e43229eec4d9ba82dffeb506279869d284da494",
+    "evals/run_agent_e2e_smoke.py": "e5cc7ac06a3baee2feb0c49b272b9ab900f4e7e9ad80be4df4d4a186d4b70db7",
+    "evals/run_agent_e2e_batch.py": "6e15a7118174fe04fb81bc35aef21f1c7d09c034219e127564453b1d4ca03213"
+  },
+  "dataset_version": "clarification-booking-v1",
+  "dataset_origin": "handwritten_synthetic",
+  "case_set_sha256": "0afd692fe9d0d6ba5169e0860985940019e2e1637274a834f1150ea2c66fa6c6",
+  "trials": [
+    {
+      "trial": 1,
+      "case_id": "C01_clarify_missing_service_then_ambiguous_selection",
+      "category": "clarification_and_ambiguity",
+      "input": "明天下午两点到六点都可以",
+      "expected_start_at": "2026-09-24T14:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "report_path": "evals/reports/agent_e2e_20260923T114225Z.json",
+      "passed": false,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true,
+        "expected_interaction_states": true,
+        "hold_counts_at_interaction_boundaries": true,
+        "expected_clarification_presence": false,
+        "multiple_candidates_offered": true
+      },
+      "failed_checks": [
+        "expected_clarification_presence"
+      ],
+      "elapsed_ms": 11800.57,
+      "schema": "exp_c5b4b4423e7f47cea5372ffb5ffecae4",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "e3600fb5-532d-437b-a040-0348f57207bc",
+        "operation_id": "fed23d61-e144-4a3f-a465-eeab7da65931",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "e3600fb5-532d-437b-a040-0348f57207bc",
+        "operation_id": "fed23d61-e144-4a3f-a465-eeab7da65931",
+        "replayed": true
+      },
+      "model_turns": 8,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "明天下午两点到六点都可以",
+          "task_state": "WAITING_USER",
+          "waiting_id": "bdb65bd5-e8a9-4121-92aa-0ac5aa68f913",
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        },
+        {
+          "kind": "answer",
+          "input": "肩颈按摩",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            5
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "可以",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "model_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "tool_names": []
+        },
+        {
+          "state": "COLLECTING",
+          "tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 2,
+      "case_id": "C02_clarify_missing_time_then_ambiguous_selection",
+      "category": "clarification_and_ambiguity",
+      "input": "我想约肩颈",
+      "expected_start_at": "2026-09-24T14:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "report_path": "evals/reports/agent_e2e_20260923T114239Z.json",
+      "passed": false,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true,
+        "expected_interaction_states": true,
+        "hold_counts_at_interaction_boundaries": true,
+        "expected_clarification_presence": false,
+        "multiple_candidates_offered": true
+      },
+      "failed_checks": [
+        "expected_clarification_presence"
+      ],
+      "elapsed_ms": 13281.31,
+      "schema": "exp_dd0d9f4329bb43769d0733fa0f2395db",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "2daa1005-d3c9-4213-9cc8-e2cedf370808",
+        "operation_id": "cff9edf4-c160-4f84-86c5-7a8fd2d3e4dd",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "2daa1005-d3c9-4213-9cc8-e2cedf370808",
+        "operation_id": "cff9edf4-c160-4f84-86c5-7a8fd2d3e4dd",
+        "replayed": true
+      },
+      "model_turns": 8,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "我想约肩颈",
+          "task_state": "WAITING_USER",
+          "waiting_id": "cc4a456d-e29d-4a34-8ed4-26dcb6706e6b",
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        },
+        {
+          "kind": "answer",
+          "input": "明天下午两点到六点都可以",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            5
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "可以",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "model_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "tool_names": []
+        },
+        {
+          "state": "COLLECTING",
+          "tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    }
+  ],
+  "case": {
+    "selection_message": "第一个可以",
+    "confirmation": "server-issued confirmation token and idempotency key",
+    "assertion": "Expected quote amount and exact slot offered; proposal and explicit candidate selection; SUCCEEDED task; exactly one appointment and hold; two BOOKED allocations; two operations; confirmation retry returns the original appointment and operation"
+  },
+  "limitations": [
+    "All cases are hand-authored synthetic scenarios against a two-service seeded store; results are not production task completion rates.",
+    "Business reads and hold creation include deterministic server orchestration; this does not isolate model tool-choice quality.",
+    "Model provider usage and cost are unavailable in the underlying reports.",
+    "Latency is full local synthetic flow duration for each trial; no p95 is reported for this small sample.",
+    "Each trial leaves its isolated test schema and raw report in place."
+  ]
+}

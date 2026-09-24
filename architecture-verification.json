@@ -1,5 +1,5 @@
 {
-  "revision": "review-v3.1-data-contracts",
+  "revision": "review-v3.2-recommendation-flow",
   "diagram_type": "architecture",
   "files": {
     "appointment-architecture.json": {
@@ -11,8 +11,8 @@
       "sha256": "1d76bccaba4d76aa0784a04900721993857e7ddc616083b97ba6b4fd0d1a2d58"
     },
     "智能预约Agent系统设计.md": {
-      "bytes": 93023,
-      "sha256": "c526fd7f4660a220984b468e257968235e7d034a2ad4f293d08a935f04d3fe42"
+      "bytes": 123299,
+      "sha256": "61b952768441c4d25ab5f2476fc58e54af4f08fd04383c61951be52e29b3f786"
     },
     "评审处理说明.md": {
       "bytes": 9506,
@@ -23,8 +23,8 @@
       "sha256": "c8487ea2e13ae5e548ef1299e8f987bb5c84f38b83a5e0f2eeccd5211f27f061"
     },
     "数据契约与库表设计.md": {
-      "bytes": 38431,
-      "sha256": "5722303be9d56dd7644e32c5bf043d2916af8e0b821d5fb7dd0005aee500f3ae"
+      "bytes": 43416,
+      "sha256": "72e7106e270c53eb25b1f21d383f3eebd29058ee10551bf691c8f3d25b9ea6ad"
     }
   },
   "validation": "9/9 showcase, 0 errors, 0 warnings",
@@ -45,15 +45,16 @@
     "required_architecture_edges": "passed",
     "recovery_authority": "business ledger; rebuild new reply; no SDK parked resume",
     "R1_R5": "design consistency and source checks passed; runtime tests not run",
+    "recommendation_flow": "candidate recommendation inserted between validated availability and hold; user selection required before hold; no long-term-memory learning details added",
     "data_contracts": {
       "智能预约Agent系统设计.md": {
-        "lines": 759,
+        "lines": 984,
         "mermaid_sources": 3,
         "local_links": "passed",
         "fences": "balanced"
       },
       "数据契约与库表设计.md": {
-        "lines": 226,
+        "lines": 245,
         "mermaid_sources": 1,
         "local_links": "passed",
         "fences": "balanced"
@@ -65,7 +66,7 @@
   "delivery_method": "render + validate + check; atomic deliver omitted to respect no-deletion instruction",
   "browser_evidence": "not collected; prior local-URL policy block not bypassed",
   "visual_review": "not completed",
-  "correction_rounds": 2,
+  "correction_rounds": 3,
   "business_tests": "not run; design artifacts only",
   "diagram_changed_this_round": false
 }

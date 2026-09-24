@@ -279,6 +279,9 @@ async def test_hold_rejects_resource_without_required_skill(
     await session.rollback()
 
 
+@pytest.mark.parametrize(
+    "seeded", [{"skillless_therapist_indices": frozenset({0, 1, 2})}], indirect=True
+)
 async def test_skill_requirement_without_any_skill_data_is_a_loud_error(
     session, seeded, clock, tomorrow_window
 ):
@@ -286,9 +289,6 @@ async def test_skill_requirement_without_any_skill_data_is_a_loud_error(
 
     now = clock.now()
     service = await _service(session, seeded)
-
-    await session.execute(m.ResourceSkill.__table__.delete())
-    await session.flush()
 
     with pytest.raises(DomainError) as excinfo:
         await search_availability(
@@ -303,6 +303,9 @@ async def test_skill_requirement_without_any_skill_data_is_a_loud_error(
     assert excinfo.value.code == ErrorCode.VALIDATION_ERROR
 
 
+@pytest.mark.parametrize(
+    "seeded", [{"skillless_therapist_indices": frozenset({0})}], indirect=True
+)
 async def test_therapist_missing_required_skill_never_appears_as_candidate(
     session, seeded, clock, tomorrow_window
 ):
@@ -311,13 +314,6 @@ async def test_therapist_missing_required_skill_never_appears_as_candidate(
     unskilled_id = seeded.therapist_ids[0]
     now = clock.now()
     service = await _service(session, seeded)
-
-    await session.execute(
-        m.ResourceSkill.__table__.delete().where(
-            m.ResourceSkill.resource_id == unskilled_id
-        )
-    )
-    await session.flush()
 
     result = await search_availability(
         session,

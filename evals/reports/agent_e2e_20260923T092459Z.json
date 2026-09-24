@@ -1,0 +1,66 @@
+{
+  "kind": "real_model_full_booking_smoke",
+  "schema": "exp_ebe0c46b4df1436e867a55103fadf606",
+  "database": "appointment_test",
+  "model_backend": "deepseek",
+  "model_name": "deepseek-v4-flash",
+  "prompt_version": "reception-v3",
+  "case_id": "P03_shoulder_weekday",
+  "input": "周日14:00有肩颈舒缓吗？可以的话想预约。",
+  "selection_input": "第一个可以",
+  "elapsed_ms": 1574.67,
+  "outcome": {
+    "status": "ok",
+    "turn": {
+      "task_id": "841e2405-db69-4ee4-90e9-2464bd08aea0",
+      "task_state": "COLLECTING",
+      "task_version": 2,
+      "reply_text": "模型决策期间任务已变化，请基于最新状态重试",
+      "clarification_question": null,
+      "tool_calls": [],
+      "end_reason": "ERROR",
+      "budget": {
+        "tool_calls": 0,
+        "max_tool_calls": 6,
+        "consult_delegations": 0,
+        "repairs": 0,
+        "no_progress_rounds": 0,
+        "distinct_calls": 1,
+        "repeated_calls": 0
+      },
+      "waiting_id": null,
+      "pending_confirmation": null,
+      "event_cursor": 3
+    }
+  },
+  "database_counts": {
+    "tasks": 1,
+    "tool_executions": 0,
+    "holds": 0,
+    "appointments": 0,
+    "allocations": 0,
+    "operations": 0
+  },
+  "task_states": [
+    "COLLECTING"
+  ],
+  "allocation_states": [],
+  "model_turns": [
+    {
+      "state": "COLLECTING",
+      "task_version": 1,
+      "status": "ok",
+      "slot_names": [
+        "service",
+        "time_window"
+      ],
+      "tool_names": [
+        "get_service_quote"
+      ],
+      "reply_present": true,
+      "clarification_present": false
+    }
+  ],
+  "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+  "note": "合成用户明确选第一个候选并通过专用确认凭据提交。"
+}

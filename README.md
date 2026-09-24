@@ -12,12 +12,13 @@
 | 入口 | 端口 | 面向谁 | 能力 |
 | --- | --- | --- | --- |
 | `appointment.api.app:create_app` | 8000 | 机器客户端（`/v1/*`，curl） | **完整链路**：提需求 → 选时段 → 确认下单 → 事件流 |
-| `webapp.service` + `frontend/` | 8010 / 5173 | 浏览器里的人 | **只读**：报价、可用时段、政策问答 |
+| `webapp.service` + `frontend/` | 8010 / 5173 | 浏览器里的人 | AgentScope 对话只读；独立预约页支持查看方案、显式确认和续查结果 |
 
 两个入口都不是"另一套实现"：`webapp/` 的工具最终调用的是同一个
 `appointment.tools.registry.invoke_tool`——白名单、参数校验、权限判定、领域规则只有
-一条代码路径。浏览器侧之所以只读，是因为写工具（占位、确认）需要幂等键与审计关联，
-还没接；提示词要求模型**如实说明**这一点，不许说"已为您约上"。
+一条代码路径。模型可见的 AgentScope 工具仍然只读；`/appointment` 页面把写入请求
+直接送到带服务端身份映射的预约 API，由领域事务复核凭据、权限与幂等键。模型不能触发
+预约写入，只有用户查看方案后点击确认才会提交。
 
 ## 布局
 
@@ -25,7 +26,7 @@
 src/appointment/          领域层（业务事实的唯一来源）
   api/                    FastAPI 装配、路由、SSE、错误映射、身份依赖
   domain/                 预约语义：可用时段、报价、状态机、事件、知识
-  orchestrator/           受约束的编排：轮次预算、工具调用上限、咨询委派
+  orchestrator/           受约束的编排：轮次预算、工具调用上限、任务恢复
   agent/                  执行适配器：deterministic（基线） | agentscope（SDK 嵌入）
   tools/                  工具白名单与处理器——所有工具调用的唯一入口
   worker/                 异步投递：Outbox、认领、投递账本、回执、对账
@@ -36,7 +37,8 @@ src/appointment/          领域层（业务事实的唯一来源）
 webapp/                   浏览器侧适配层（把 AgentScope App 服务接到领域层）
   identity.py             登录名 ↔ 业务主键映射
   authorization.py        登录名 → ToolScope / ToolScope → 身份，失败即 403
-  tools.py                只读业务工具的装配（身份由闭包捕获）
+  tools.py                AgentScope 只读业务工具的装配（身份由闭包捕获）
+  booking_api.py          浏览器身份映射与预约 API 挂载
   prompt.py               系统提示词（含能力边界）
   service.py              应用装配、Redis 播种、启动横幅
 
@@ -44,7 +46,7 @@ frontend/                 浏览器界面（AgentScope web_ui 的工作树副本
 
 vendor/                   agentscope 本地改动版 wheel + 改动补丁（见 vendor/README.md）
 
-tests/                    135 个测试，按不变量 / 恢复 / 工具边界 / 契约分组
+tests/                    回归测试，按不变量 / 恢复 / 工具边界 / 契约分组
 
 scripts/                  dev_reset.py（种子+清会话）、dev_receipt.py、webui_smoke.mjs
 docs/screenshots/         浏览器验收截图
@@ -74,19 +76,40 @@ curl -s http://127.0.0.1:8000/healthz     # 期望 status=ok
 ```bash
 .venv/bin/pip install vendor/agentscope-2.0.8-py3-none-any.whl   # 首次
 .venv/bin/python scripts/dev_reset.py
-DEEPSEEK_API_KEY=sk-xxx .venv/bin/python -m webapp.service
+DEEPSEEK_API_KEY=sk-xxx APPOINTMENT_AGENT_RUNTIME=agentscope \
+APPOINTMENT_MODEL_BACKEND=deepseek \
+APPOINTMENT_MODEL_NAME=deepseek-flash \
+APPOINTMENT_AGENT_PROMPT_VERSION=reception-v3 \
+.venv/bin/python -m webapp.service  # 预约 API 与浏览器 Agent 调用真实 DeepSeek
 cd frontend && pnpm install && pnpm dev
 ```
 
 打开 http://localhost:5173 ，服务器地址填 `http://127.0.0.1:8010`，用户名填
 `customer-1`。细节见 `人工测试指引.md` 第 7 节与 `webapp/README.md`。
+进入左侧「智能预约」可提交自然语言需求、查看待确认方案并显式确认；刷新后页面先查
+原操作，再从任务快照恢复待确认凭据，不会自动提交。
 
-## 测试
+## 测试与实验证据
 
 ```bash
-.venv/bin/python -m pytest -q                          # 135 个
-.venv/bin/python -m pytest -q -m invariant             # 只看不变量
-.venv/bin/python -m pytest tests/test_webapp_bridge.py -q
+.venv/bin/python -B -m pytest -q -p no:cacheprovider --tb=short  # 最新 192/192 通过
+.venv/bin/python -B -m pytest -q -p no:cacheprovider -m invariant
+.venv/bin/python -B -m pytest -q -p no:cacheprovider tests/test_webapp_bridge.py
+DEEPSEEK_API_KEY=sk-xxx APPOINTMENT_EVAL_MODEL=deepseek-flash .venv/bin/python -B evals/run_agent_e2e_batch.py --runs 3  # 真实模型合成闭环重复评测
+APPOINTMENT_EVAL_MODEL=deepseek-flash .venv/bin/python -B evals/run_model_smoke.py --repeats 1  # 真实 DeepSeek 单步结构冒烟
+.venv/bin/python -B evals/run_agent_e2e_batch.py --case-set evals/cases/full_booking_pilot_v1.json  # 10 个合成预约场景；最近复测 10/10
+```
+
+数据库用例各自创建 `appointment_test` 下的隔离 schema，按仓库约束保留，不自动清理。
+300 次工具越权评测、150 个恢复场景、真实模型重复结构化决策冒烟、同场景及 10 场景完整预约评测、HTTP 并发确认和 3,200 次合成数据库争抢的结果与局限见
+[实验阶段报告](evals/reports/实验阶段报告_2026-09-23.md)；[简历项目描述](docs/简历项目描述_智能预约Agent.md)
+只引用已核验的结果。模型样本和数据库争抢都不是生产预约量或正式多场景完成率。
+
+两项可复跑的入口评测（仅允许 `appointment_test`，每次运行会新建并保留隔离 schema）：
+
+```bash
+.venv/bin/python -B evals/run_boundary_eval.py --requests 300
+.venv/bin/python -B evals/run_recovery_eval.py --cases-per-group 50
 ```
 
 浏览器侧端到端冒烟（用系统 Chrome，不下载 Chromium；前后端都起着时跑）：
@@ -99,7 +122,9 @@ node scripts/webui_smoke.mjs
 
 - **默认不发起真实 LLM 调用。** 机器客户端默认 `APPOINTMENT_MODEL_BACKEND=stub` +
   `APPOINTMENT_AGENT_RUNTIME=deterministic`，回复是确定性文本，测试因此可重复。
-  浏览器侧相反，它用 `DEEPSEEK_API_KEY` 走真实模型。
+  浏览器聊天使用 `DEEPSEEK_API_KEY` 调用 DeepSeek；浏览器预约 API 只有在启动时设置
+  `APPOINTMENT_AGENT_RUNTIME=agentscope`、`APPOINTMENT_MODEL_BACKEND=deepseek` 和
+  `APPOINTMENT_MODEL_NAME=deepseek-flash` 后才启用真实模型，缺少配置时仍保持确定性基线。
 - **身份不能由请求体声明。** 请求里带 `tenant_id` 一律 400；身份只从请求头/令牌解析。
   换个租户的身份头去读别人的任务返回 `NOT_FOUND` 而不是 403——不泄露存在性。
 - **回调入口是唯一不带租户身份的路由。** 身份来自 `(provider, account_id)` 路径 + 签名

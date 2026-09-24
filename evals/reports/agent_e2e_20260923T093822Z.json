@@ -1,0 +1,290 @@
+{
+  "kind": "real_model_full_booking_smoke",
+  "schema": "exp_747bcd9bd51e4cada8a13d3c9484a410",
+  "database": "appointment_test",
+  "model_backend": "deepseek",
+  "model_name": "deepseek-v4-flash",
+  "prompt_version": "reception-v3",
+  "case_id": "P04_shoulder_date_time",
+  "input": "请帮我预约肩颈服务，9月28日16:00。",
+  "selection_input": "第一个可以",
+  "elapsed_ms": 10658.105,
+  "outcome": {
+    "status": "ok",
+    "turn": {
+      "task_id": "936e5df2-dc49-4fdd-a56d-8c168b5ecd0d",
+      "task_state": "PROPOSED",
+      "task_version": 4,
+      "reply_text": "已为你查到 9 月 28 日 16:00 的肩颈舒缓 60 分钟可约时段：\\n\\n- 项目：肩颈舒缓 60 分钟\\n- 时间：2026-09-28 16:00–17:00（北京时间）\\n- 价格：268.00 元\\n- 配置：按摩房1 + 王技师（女）\\n\\n该时段目前只是查询快照，尚未锁定。需要我为你占位保留吗？确认后即可发起占位。",
+      "clarification_question": null,
+      "tool_calls": [
+        {
+          "tool": "get_service_quote",
+          "status": "OK",
+          "tool_call_id": "725ebd4343fc4c2a92329e9ccbd8d2f0",
+          "data": {
+            "quote_id": "b6a22878-c145-464a-869d-6cdc9ec234e9",
+            "quote_version": 1,
+            "service_version_id": "d5eb60f6-1fdd-41cc-b4be-1ad96bf980af",
+            "price_version_id": "3e2b4f40-519a-4cc3-abaa-5f2193594dd3",
+            "duration_minutes": 60,
+            "amount_minor": 26800,
+            "currency": "CNY",
+            "currency_exponent": 2,
+            "valid_until": "2026-09-23T05:15:00+00:00",
+            "terms_hash": "8dbb6a137165f79760932b0919797bb1056dd4b710f00cb0600f72e80bc27bb2",
+            "terms_snapshot": {
+              "rule_version": "rules-2026-09-17",
+              "cancel_fee_minor": 0,
+              "cancel_window_hours": 4
+            },
+            "lock_policy": "VALID_WINDOW_LOCK",
+            "quote_token": "eyJhbW91bnRfbWlub3IiOjI2ODAwLCJjdXJyZW5jeSI6IkNOWSIsImN1cnJlbmN5X2V4cG9uZW50IjoyLCJjdXN0b21lcl9pZCI6ImRmMTlhOTJmLWU0ODAtNGM3MS05YjMzLTU0YTU5MGU2NDU1ZiIsImR1cmF0aW9uX21pbnV0ZXMiOjYwLCJsb2NrX3BvbGljeSI6IlZBTElEX1dJTkRPV19MT0NLIiwicHJpY2VfdmVyc2lvbl9pZCI6IjNlMmI0ZjQwLTUxOWEtNGNjMy1hYmFhLTVmMjE5MzU5NGRkMyIsInF1b3RlX2lkIjoiYjZhMjI4NzgtYzE0NS00NjRhLTg2OWQtNmNkYzllYzIzNGU5IiwicXVvdGVfdmVyc2lvbiI6MSwic2VydmljZV92ZXJzaW9uX2lkIjoiZDVlYjYwZjYtMWZkZC00MWNjLWI0YmUtMWFkOTZiZjk4MGFmIiwic3RvcmVfaWQiOiI5OWY2MTNiZi1mODFjLTRkNGUtOGEzMC01MTFmOGNkNDQ2ZTkiLCJ0ZW5hbnRfaWQiOiIxYjU4ODJkZi0yMGYyLTQ2NDUtOWE1Mi0wMWI2MDdjMTFlNDgiLCJ0ZXJtc19oYXNoIjoiOGRiYjZhMTM3MTY1Zjc5NzYwOTMyYjA5MTk3OTdiYjEwNTZkZDRiNzEwZjAwY2IwNjAwZjcyZTgwYmMyN2JiMiIsInZhbGlkX3VudGlsIjoiMjAyNi0wOS0yM1QwNToxNTowMCswMDowMCJ9.e245b2e8284dd106e0c55b55be50546f4813463c830f0e03f1ed85da7c84f68f",
+            "service_id": "5c4a56f2-bd09-4a22-a794-a68178ff6887",
+            "store_id": "99f613bf-f81c-4d4e-8a30-511f8cd446e9"
+          }
+        },
+        {
+          "tool": "search_availability",
+          "status": "OK",
+          "tool_call_id": "0c0fe6da15ce44578f3d27a89abf88c4",
+          "data": {
+            "candidates": [
+              {
+                "candidate_id": "b3449aa6af4a7496c0a9d7784c58afb5d61719551ff637566088523f7007d400",
+                "service_version_id": "d5eb60f6-1fdd-41cc-b4be-1ad96bf980af",
+                "start_at": "2026-09-28T16:00:00+08:00",
+                "end_at": "2026-09-28T17:00:00+08:00",
+                "resources": [
+                  {
+                    "resource_id": "97307b3f-e7b0-4bc7-bf10-2b549469a0e7",
+                    "type": "room",
+                    "unit_code": "room-04",
+                    "display_name": "按摩房1",
+                    "gender": null
+                  },
+                  {
+                    "resource_id": "864822c9-eeb3-4898-9947-6df68f1f6143",
+                    "type": "therapist",
+                    "unit_code": "therapist-01",
+                    "display_name": "王技师",
+                    "gender": "female"
+                  }
+                ],
+                "constraints": [
+                  "资源班次覆盖该时段",
+                  "资源技能满足服务要求",
+                  "落在门店营业窗口内",
+                  "与现有有效占用不重叠（快照时点）"
+                ],
+                "dependency_versions": {
+                  "store_calendar_version": 1,
+                  "service_version_revision": 1,
+                  "snapshot_at": "2026-09-23T05:00:00+00:00"
+                },
+                "snapshot_at": "2026-09-23T05:00:00+00:00",
+                "guarantee": "NONE",
+                "score": 1.0,
+                "score_detail": {
+                  "score": 1.0,
+                  "breakdown": {
+                    "skill_match": 0.6364,
+                    "time_fit": 0.3636
+                  },
+                  "missing_features": [
+                    "explicit_preference",
+                    "price_fit",
+                    "reputation"
+                  ],
+                  "evidence": []
+                },
+                "fallback": false,
+                "reasons": [
+                  "技能匹配贡献 0.64",
+                  "时间贴合贡献 0.36",
+                  "显式偏好：无可用数据，未参与打分",
+                  "价格贴合：无可用数据，未参与打分",
+                  "可用评价：无可用数据，未参与打分"
+                ]
+              }
+            ],
+            "snapshot_at": "2026-09-23T05:00:00+00:00",
+            "guarantee": "NONE",
+            "notes": []
+          }
+        }
+      ],
+      "end_reason": "COMPLETED",
+      "budget": {
+        "tool_calls": 2,
+        "max_tool_calls": 6,
+        "consult_delegations": 0,
+        "repairs": 0,
+        "no_progress_rounds": 0,
+        "distinct_calls": 2,
+        "repeated_calls": 0
+      },
+      "waiting_id": null,
+      "pending_confirmation": null,
+      "event_cursor": 6
+    },
+    "selection_turn": {
+      "task_id": "936e5df2-dc49-4fdd-a56d-8c168b5ecd0d",
+      "task_state": "WAITING_CONFIRMATION",
+      "task_version": 5,
+      "reply_text": "好的，请确认以下预约方案：肩颈舒缓 60 分钟，2026年9月28日 16:00–17:00（Asia/Shanghai），技师：王技师（女），房间：按摩房1，价格 268.00 CNY，时长 60 分钟。确认后我将为您提交预约。",
+      "clarification_question": "是否确认以上时间与方案？确认后即提交预约。",
+      "tool_calls": [
+        {
+          "tool": "create_hold",
+          "status": "OK",
+          "tool_call_id": "ed561765584b429a9895fef2e35411b9",
+          "data": {
+            "hold_id": "688e80a4-05f5-4499-bc8f-6e61af470058",
+            "hold_state": "HELD",
+            "expires_at": "2026-09-23T05:03:00+00:00",
+            "proposal_id": "e8690a1d-486b-462a-bded-b5d59d9a4a0c",
+            "proposal_version": 5,
+            "proposal_content_hash": "b96e38f33a07e3765c2b2d870b91e8dc63d10d55c91d0e0989e721c75dbbd3e5",
+            "confirmation_id": "e44935ce-7ba9-4fde-85c7-ae0ae6e9d530",
+            "confirmation_token": "cft.d3fe8629a44c4871b7fde672bbbb6abb.b96e38f33a07e3765c2b2d870b91e8dc63d10d55c91d0e0989e721c75dbbd3e5",
+            "confirmation_expires_at": "2026-09-23T05:03:00+00:00",
+            "task_version": 5,
+            "replayed": false,
+            "allocations": [
+              {
+                "resource_id": "864822c9-eeb3-4898-9947-6df68f1f6143",
+                "state": "HELD",
+                "start_at": "2026-09-28T16:00:00+08:00",
+                "end_at": "2026-09-28T17:00:00+08:00"
+              },
+              {
+                "resource_id": "97307b3f-e7b0-4bc7-bf10-2b549469a0e7",
+                "state": "HELD",
+                "start_at": "2026-09-28T16:00:00+08:00",
+                "end_at": "2026-09-28T17:00:00+08:00"
+              }
+            ]
+          }
+        }
+      ],
+      "end_reason": "COMPLETED",
+      "budget": {
+        "tool_calls": 1,
+        "max_tool_calls": 6,
+        "consult_delegations": 0,
+        "repairs": 0,
+        "no_progress_rounds": 0,
+        "distinct_calls": 0,
+        "repeated_calls": 0
+      },
+      "waiting_id": null,
+      "pending_confirmation": {
+        "proposal_id": "e8690a1d-486b-462a-bded-b5d59d9a4a0c",
+        "proposal_version": 5,
+        "proposal_content_hash": "b96e38f33a07e3765c2b2d870b91e8dc63d10d55c91d0e0989e721c75dbbd3e5",
+        "confirmation_token": "cft.d3fe8629a44c4871b7fde672bbbb6abb.b96e38f33a07e3765c2b2d870b91e8dc63d10d55c91d0e0989e721c75dbbd3e5",
+        "expires_at": "2026-09-23T05:03:00+00:00",
+        "hold_id": "688e80a4-05f5-4499-bc8f-6e61af470058",
+        "hold_expires_at": "2026-09-23T05:03:00+00:00",
+        "expected_task_version": 5
+      },
+      "event_cursor": 9
+    },
+    "confirmation": {
+      "appointment_id": "d20a30bd-9e0b-4bff-a2ce-e4aa5224a174",
+      "operation_id": "85149320-b00e-4fa3-a4be-19151d82404f",
+      "replayed": false
+    },
+    "confirmation_replay": {
+      "appointment_id": "d20a30bd-9e0b-4bff-a2ce-e4aa5224a174",
+      "operation_id": "85149320-b00e-4fa3-a4be-19151d82404f",
+      "replayed": true
+    }
+  },
+  "database_counts": {
+    "tasks": 1,
+    "tool_executions": 3,
+    "holds": 1,
+    "appointments": 1,
+    "allocations": 2,
+    "operations": 2
+  },
+  "task_states": [
+    "SUCCEEDED"
+  ],
+  "allocation_states": [
+    "BOOKED",
+    "BOOKED"
+  ],
+  "model_turns": [
+    {
+      "state": "COLLECTING",
+      "task_version": 1,
+      "status": "ok",
+      "slot_names": [
+        "service",
+        "time_window"
+      ],
+      "tool_names": [],
+      "reply_present": true,
+      "clarification_present": false
+    },
+    {
+      "state": "SEARCHING",
+      "task_version": 3,
+      "status": "ok",
+      "slot_names": [
+        "service",
+        "time_window"
+      ],
+      "tool_names": [
+        "get_service_quote"
+      ],
+      "reply_present": false,
+      "clarification_present": false
+    },
+    {
+      "state": "SEARCHING",
+      "task_version": 3,
+      "status": "ok",
+      "slot_names": [],
+      "tool_names": [
+        "search_availability"
+      ],
+      "reply_present": false,
+      "clarification_present": false
+    },
+    {
+      "state": "PROPOSED",
+      "task_version": 4,
+      "status": "ok",
+      "slot_names": [],
+      "tool_names": [],
+      "reply_present": true,
+      "clarification_present": false
+    },
+    {
+      "state": "PROPOSED",
+      "task_version": 4,
+      "status": "ok",
+      "slot_names": [],
+      "tool_names": [
+        "create_hold"
+      ],
+      "reply_present": false,
+      "clarification_present": false
+    },
+    {
+      "state": "WAITING_CONFIRMATION",
+      "task_version": 5,
+      "status": "ok",
+      "slot_names": [],
+      "tool_names": [],
+      "reply_present": true,
+      "clarification_present": true
+    }
+  ],
+  "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+  "note": "合成用户明确选第一个候选并通过专用确认凭据提交。"
+}

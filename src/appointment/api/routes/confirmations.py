@@ -9,21 +9,114 @@ token 哈希与消费状态，仅有签名而没有重放约束是不够的。
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends
+from uuid import UUID
+
+from fastapi import APIRouter, Depends, Response
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from ...core.enums import ConfirmationStatus, HoldState, ProposalStatus, TaskState
 from ...core.enums import ErrorCode
 from ...core.errors import DomainError
 from ...db import models as m
 from ...db.session import live_now
-from ...domain.booking import confirm_appointment
+from ...domain.booking import confirmation_token_for, confirm_appointment
 from ...domain.context import TrustedContext
 from ..deps import get_identity, get_session
-from ..schemas import ConfirmResponse, ConfirmationSubmit
+from ..schemas import ConfirmResponse, ConfirmationSubmit, PendingConfirmation
 from ..sse import latest_sequence
 
 router = APIRouter(prefix="/v1", tags=["confirmations"])
+
+
+@router.post(
+    "/tasks/{task_id}/confirmation-credential",
+    response_model=PendingConfirmation,
+)
+async def refresh_confirmation_credential(
+    task_id: UUID,
+    response: Response,
+    ctx: TrustedContext = Depends(get_identity),
+    session: AsyncSession = Depends(get_session),
+) -> PendingConfirmation:
+    """给已授权的顾客恢复待确认卡凭据；本接口不提交预约。
+
+    凭据不进入任务快照或事件流。页面重载后，客户可在重新查看方案后取回同一凭据，
+    再通过专用确认接口显式确认。只允许当前仍有效的方案、占位和未消费凭据。
+    """
+
+    ctx.require("task:write")
+    response.headers["Cache-Control"] = "no-store"
+    now = await live_now(session)
+    task = (
+        await session.execute(
+            select(m.Task)
+            .where(m.Task.tenant_id == ctx.tenant_id, m.Task.id == task_id)
+            .with_for_update(read=True)
+        )
+    ).scalar_one_or_none()
+    if (
+        task is None
+        or (ctx.role == "customer" and task.customer_id != ctx.customer_id)
+        or task.state != TaskState.WAITING_CONFIRMATION.value
+        or task.current_proposal_id is None
+        or task.current_proposal_version is None
+    ):
+        raise DomainError(ErrorCode.CONFIRMATION_REQUIRED, "当前任务没有可恢复的待确认方案")
+
+    proposal = (
+        await session.execute(
+            select(m.Proposal).where(
+                m.Proposal.tenant_id == ctx.tenant_id,
+                m.Proposal.id == task.current_proposal_id,
+                m.Proposal.version == task.current_proposal_version,
+                m.Proposal.task_id == task.id,
+                m.Proposal.status == ProposalStatus.ACTIVE.value,
+                m.Proposal.expires_at > now,
+            )
+        )
+    ).scalar_one_or_none()
+    if proposal is None:
+        raise DomainError(ErrorCode.CONFIRMATION_REQUIRED, "待确认方案已失效")
+
+    confirmation = (
+        await session.execute(
+            select(m.Confirmation).where(
+                m.Confirmation.tenant_id == ctx.tenant_id,
+                m.Confirmation.task_id == task.id,
+                m.Confirmation.actor_id == ctx.actor_id,
+                m.Confirmation.proposal_id == proposal.id,
+                m.Confirmation.proposal_version == proposal.version,
+                m.Confirmation.status == ConfirmationStatus.ISSUED.value,
+                m.Confirmation.expires_at > now,
+            )
+        )
+    ).scalar_one_or_none()
+    hold = (
+        await session.execute(
+            select(m.Hold).where(
+                m.Hold.tenant_id == ctx.tenant_id,
+                m.Hold.id == proposal.hold_id,
+                m.Hold.task_id == task.id,
+                m.Hold.state == HoldState.HELD.value,
+                m.Hold.expires_at > now,
+            )
+        )
+    ).scalar_one_or_none()
+    if confirmation is None or hold is None:
+        raise DomainError(ErrorCode.CONFIRMATION_REQUIRED, "确认凭据或预约占位已失效")
+
+    await session.commit()
+    return PendingConfirmation(
+        proposal_id=str(proposal.id),
+        proposal_version=proposal.version,
+        proposal_content_hash=proposal.content_hash,
+        confirmation_token=confirmation_token_for(confirmation),
+        expires_at=proposal.expires_at.isoformat(),
+        hold_id=str(hold.id),
+        hold_expires_at=hold.expires_at.isoformat(),
+        expected_task_version=task.version,
+    )
 
 
 @router.post("/confirmations", response_model=ConfirmResponse)

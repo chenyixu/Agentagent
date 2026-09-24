@@ -1,0 +1,54 @@
+{
+  "run_id": "20260923T041125Z_9bfe15dd",
+  "kind": "synthetic_database_contention",
+  "scope": "单资源、单时段数据库实验；不是完整预约 API 或生产 QPS",
+  "mode": "resource_guard_then_insert",
+  "schema": "exp_f180dcd01e244737816b74204843ec46",
+  "database": "appointment_test",
+  "database_version": "PostgreSQL 16.15 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+  "python_version": "3.13.12",
+  "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+  "pool_size": 12,
+  "groups": [
+    {
+      "clients_per_round": 10,
+      "rounds": 20,
+      "attempts": 200,
+      "committed": 20,
+      "overlap_rejected": 180,
+      "unexpected_count": 0,
+      "unexpected_examples": [],
+      "latency_ms_p50": 2.898,
+      "latency_ms_p95": 5.058,
+      "latency_ms_mean": 7.515
+    },
+    {
+      "clients_per_round": 50,
+      "rounds": 20,
+      "attempts": 1000,
+      "committed": 20,
+      "overlap_rejected": 980,
+      "unexpected_count": 0,
+      "unexpected_examples": [],
+      "latency_ms_p50": 9.742,
+      "latency_ms_p95": 17.753,
+      "latency_ms_mean": 10.426
+    },
+    {
+      "clients_per_round": 100,
+      "rounds": 20,
+      "attempts": 2000,
+      "committed": 20,
+      "overlap_rejected": 1980,
+      "unexpected_count": 0,
+      "unexpected_examples": [],
+      "latency_ms_p50": 17.647,
+      "latency_ms_p95": 32.342,
+      "latency_ms_mean": 17.718
+    }
+  ],
+  "total_attempts": 3200,
+  "booked_count": 60,
+  "overlap_pairs": 0,
+  "wall_seconds": 1.243
+}

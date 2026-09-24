@@ -1,0 +1,78 @@
+{
+  "dataset_version": "full-booking-pilot-v1",
+  "data_origin": "handwritten_synthetic",
+  "reference_time": "2026-09-23T13:00:00+08:00",
+  "selection_message": "第一个可以",
+  "cases": [
+    {
+      "id": "P01_shoulder_relative_date",
+      "category": "shoulder_relative_date",
+      "input": "我想约肩颈，明天下午三点。",
+      "expected_start_at": "2026-09-24T15:00:00+08:00",
+      "expected_amount_minor": 26800
+    },
+    {
+      "id": "P02_shoulder_numeric_date",
+      "category": "shoulder_numeric_date",
+      "input": "帮我预约肩颈按摩，9月25日下午三点。",
+      "expected_start_at": "2026-09-25T15:00:00+08:00",
+      "expected_amount_minor": 26800
+    },
+    {
+      "id": "P03_shoulder_weekday",
+      "category": "shoulder_weekday",
+      "input": "周日14:00有肩颈舒缓吗？可以的话想预约。",
+      "expected_start_at": "2026-09-27T14:00:00+08:00",
+      "expected_amount_minor": 26800
+    },
+    {
+      "id": "P04_shoulder_date_time",
+      "category": "shoulder_date_time",
+      "input": "请帮我预约肩颈服务，9月28日16:00。",
+      "expected_start_at": "2026-09-28T16:00:00+08:00",
+      "expected_amount_minor": 26800
+    },
+    {
+      "id": "P05_shoulder_evening",
+      "category": "shoulder_evening",
+      "input": "9月29号晚上7点想做肩颈按摩，帮我看看有没有空。",
+      "expected_start_at": "2026-09-29T19:00:00+08:00",
+      "expected_amount_minor": 26800
+    },
+    {
+      "id": "P06_shoulder_midday",
+      "category": "shoulder_midday",
+      "input": "肩颈舒缓，9月30日中午12点左右，麻烦安排。",
+      "expected_start_at": "2026-09-30T12:00:00+08:00",
+      "expected_amount_minor": 26800
+    },
+    {
+      "id": "P07_back_relative_date",
+      "category": "back_relative_date",
+      "input": "想做开背，明天下午四点。",
+      "expected_start_at": "2026-09-24T16:00:00+08:00",
+      "expected_amount_minor": 39800
+    },
+    {
+      "id": "P08_back_numeric_evening",
+      "category": "back_numeric_evening",
+      "input": "帮我约开背理疗，9月25日晚上六点。",
+      "expected_start_at": "2026-09-25T18:00:00+08:00",
+      "expected_amount_minor": 39800
+    },
+    {
+      "id": "P09_back_weekday",
+      "category": "back_weekday",
+      "input": "下周一上午11点做开背理疗。",
+      "expected_start_at": "2026-09-28T11:00:00+08:00",
+      "expected_amount_minor": 39800
+    },
+    {
+      "id": "P10_back_absolute_date",
+      "category": "back_absolute_date",
+      "input": "我想在2026年10月1日下午两点做开背。",
+      "expected_start_at": "2026-10-01T14:00:00+08:00",
+      "expected_amount_minor": 39800
+    }
+  ]
+}

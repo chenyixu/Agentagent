@@ -318,6 +318,21 @@ async def test_confirmation_requires_credential_and_is_idempotent(client, seeded
     card = body["pending_confirmation"]
     assert card and card["confirmation_token"], body
 
+    # 模拟页面重载：授权客户可恢复同一个待确认凭据，但读取本身不提交订单。
+    snapshot = await client.get(f"/v1/tasks/{body['task_id']}", headers=headers)
+    assert snapshot.status_code == 200, snapshot.text
+    assert snapshot.json()["appointment"] is None
+    restored = await client.post(
+        f"/v1/tasks/{body['task_id']}/confirmation-credential",
+        headers=headers,
+    )
+    assert restored.status_code == 200, restored.text
+    assert restored.headers["cache-control"] == "no-store"
+    assert restored.json()["proposal_id"] == card["proposal_id"]
+    assert restored.json()["confirmation_token"] == card["confirmation_token"]
+    assert restored.json()["expected_task_version"] == card["expected_task_version"]
+    card = restored.json()
+
     # 带错凭据的确认必须被拒（不是"用户说好就算"）。
     bad = await client.post(
         "/v1/confirmations",
@@ -348,6 +363,12 @@ async def test_confirmation_requires_credential_and_is_idempotent(client, seeded
     assert committed["committed_status"] == "CONFIRMED"
     assert committed["appointment_id"]
     assert committed["replayed"] is False
+
+    stale_credential = await client.post(
+        f"/v1/tasks/{body['task_id']}/confirmation-credential",
+        headers=headers,
+    )
+    assert stale_credential.status_code == 428
 
     # 响应丢失后的重试：同键同参数重放原订单，不产生第二笔。
     #
@@ -389,6 +410,100 @@ async def test_confirmation_requires_credential_and_is_idempotent(client, seeded
     assert by_key.status_code == 200, by_key.text
     assert by_key.json()["operation_id"] == committed["operation_id"]
     assert by_key.json()["result"]["appointment_id"] == committed["appointment_id"]
+
+
+@pytest.mark.parametrize("round_number", range(20))
+async def test_concurrent_confirmation_and_changed_retry_leave_one_business_effect(
+    client, seeded, round_number
+):
+    """两条 HTTP 请求同时确认同一方案，随后用原键改参数重试。"""
+
+    from sqlalchemy import select
+
+    from appointment.db import models as m
+
+    headers = customer_headers(seeded)
+    first = await client.post(
+        "/v1/messages",
+        headers=headers,
+        json={
+            "client_message_id": f"m-concurrent-1-{round_number}",
+            "text": "我要约肩颈，明天下午三点",
+            "store_id": str(seeded.store_id),
+        },
+    )
+    assert first.status_code == 200, first.text
+    selected = await client.post(
+        "/v1/messages",
+        headers=headers,
+        json={
+            "client_message_id": f"m-concurrent-2-{round_number}",
+            "text": "第一个可以",
+            "store_id": str(seeded.store_id),
+        },
+    )
+    assert selected.status_code == 200, selected.text
+    card = selected.json()["pending_confirmation"]
+    assert card is not None
+    payload = {
+        "proposal_id": card["proposal_id"],
+        "proposal_version": card["proposal_version"],
+        "confirmation_token": card["confirmation_token"],
+        "client_confirmation_event_id": f"evt-concurrent-{round_number}",
+        "idempotency_key": f"key-concurrent-{round_number:02d}",
+        "expected_task_version": card["expected_task_version"],
+    }
+
+    gate = asyncio.Event()
+
+    async def submit():
+        await gate.wait()
+        return await client.post("/v1/confirmations", headers=headers, json=payload)
+
+    requests = [asyncio.create_task(submit()) for _ in range(2)]
+    gate.set()
+    responses = await asyncio.gather(*requests)
+    assert [response.status_code for response in responses] == [200, 200], [
+        response.text for response in responses
+    ]
+    outcomes = [response.json() for response in responses]
+    assert outcomes[0]["appointment_id"] == outcomes[1]["appointment_id"]
+    assert outcomes[0]["operation_id"] == outcomes[1]["operation_id"]
+    assert sorted(outcome["replayed"] for outcome in outcomes) == [False, True]
+
+    alternate_key = await client.post(
+        "/v1/confirmations",
+        headers=headers,
+        json={**payload, "idempotency_key": f"key-alt-{round_number:02d}"},
+    )
+    assert alternate_key.status_code == 200, alternate_key.text
+    assert alternate_key.json()["appointment_id"] == outcomes[0]["appointment_id"]
+    assert alternate_key.json()["operation_id"] == outcomes[0]["operation_id"]
+    assert alternate_key.json()["replayed"] is True
+
+    changed = await client.post(
+        "/v1/confirmations",
+        headers=headers,
+        json={**payload, "expected_task_version": payload["expected_task_version"] + 1},
+    )
+    assert changed.status_code == 409, changed.text
+    assert changed.json()["error"]["code"] == "IDEMPOTENCY_MISMATCH"
+
+    async with get_sessionmaker()() as check:
+        appointments = (await check.execute(select(m.Appointment))).scalars().all()
+        allocations = (await check.execute(select(m.ResourceAllocation))).scalars().all()
+        create_operations = (
+            await check.execute(
+                select(m.Operation).where(
+                    m.Operation.action == "CREATE",
+                    m.Operation.idempotency_key == f"key-concurrent-{round_number:02d}",
+                )
+            )
+        ).scalars().all()
+    assert len(appointments) == 1
+    assert len(allocations) == 2
+    assert all(allocation.state == "BOOKED" for allocation in allocations)
+    assert len(create_operations) == 1
 
 
 async def test_unknown_operation_result_is_polled_not_retried(client, session, seeded):

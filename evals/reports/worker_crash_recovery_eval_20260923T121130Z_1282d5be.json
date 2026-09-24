@@ -1,0 +1,99 @@
+{
+  "kind": "orchestrator_model_call_kill_and_lease_recovery_eval",
+  "schema": "exp_9982f98727a14eb1b2213bc11282d5be",
+  "database": "appointment_test",
+  "kill_point": "after_waiting_answer_and_attempt_commit_inside_model_call",
+  "child": {
+    "marker": {
+      "phase": "model_call_started",
+      "task_state": "COLLECTING",
+      "waiting_answer": {
+        "text": "肩颈，明天下午三点",
+        "task_version": 2,
+        "waiting_id": "1b9aaaef-6317-49e8-b3d4-cdf6dadfd650",
+        "question_version": 1
+      }
+    },
+    "returncode": -9,
+    "stderr_tail": ""
+  },
+  "snapshot_after_kill": {
+    "task_state": "COLLECTING",
+    "task_version": 3,
+    "epoch": 1,
+    "fencing_token": 2,
+    "lease_owner": "worker-crash-eval-child",
+    "lease_until": "2026-09-17T05:00:30+00:00",
+    "waiting_state": "ANSWERED",
+    "answer_count": 1,
+    "answer_statuses": [
+      "ACCEPTED"
+    ],
+    "message_count_for_recovery_request": 0,
+    "reply_end_count": 1,
+    "attempt_count": 2,
+    "attempt_fences": [
+      1,
+      2
+    ],
+    "appointment_count": 0
+  },
+  "pre_expiry_attempt": {
+    "accepted": false,
+    "error_code": "LEASE_LOST"
+  },
+  "snapshot_after_pre_expiry_attempt": {
+    "task_state": "COLLECTING",
+    "task_version": 3,
+    "epoch": 1,
+    "fencing_token": 2,
+    "lease_owner": "worker-crash-eval-child",
+    "lease_until": "2026-09-17T05:00:30+00:00",
+    "waiting_state": "ANSWERED",
+    "answer_count": 1,
+    "answer_statuses": [
+      "ACCEPTED"
+    ],
+    "message_count_for_recovery_request": 0,
+    "reply_end_count": 1,
+    "attempt_count": 2,
+    "attempt_fences": [
+      1,
+      2
+    ],
+    "appointment_count": 0
+  },
+  "recovery_after_lease_expiry": {
+    "task_state": "PROPOSED",
+    "end_reason": "COMPLETED",
+    "tool_call_count": 2,
+    "reply_present": true
+  },
+  "snapshot_after_recovery": {
+    "task_state": "PROPOSED",
+    "task_version": 6,
+    "epoch": 1,
+    "fencing_token": 3,
+    "lease_owner": null,
+    "lease_until": null,
+    "waiting_state": "ANSWERED",
+    "answer_count": 1,
+    "answer_statuses": [
+      "ACCEPTED"
+    ],
+    "message_count_for_recovery_request": 1,
+    "reply_end_count": 2,
+    "attempt_count": 3,
+    "attempt_fences": [
+      1,
+      2,
+      3
+    ],
+    "appointment_count": 0
+  },
+  "interruption_state_persisted": true,
+  "new_executor_blocked_until_lease_expiry": true,
+  "recovered_after_expiry_without_duplicate_answer_or_booking": true,
+  "elapsed_seconds": 0.521,
+  "note": "单条合成 waiting 任务的本地 PostgreSQL 进程故障注入；不代表生产恢复率。schema 与报告保留。"
+}

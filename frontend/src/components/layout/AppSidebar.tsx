@@ -2,6 +2,7 @@ import {
 	BookText,
 	BotMessageSquare,
 	Cable,
+	CalendarCheck2,
 	Calendars,
 	Compass,
 	Headphones,
@@ -77,6 +78,16 @@ export function AppSidebar() {
 									className="justify-center"
 								>
 									<BotMessageSquare />
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+							<SidebarMenuItem>
+								<SidebarMenuButton
+									tooltip={{ children: '智能预约', hidden: false }}
+									isActive={location.pathname === '/appointment'}
+									onClick={() => navigate('/appointment')}
+									className="justify-center"
+								>
+									<CalendarCheck2 />
 								</SidebarMenuButton>
 							</SidebarMenuItem>
 							<SidebarMenuItem>

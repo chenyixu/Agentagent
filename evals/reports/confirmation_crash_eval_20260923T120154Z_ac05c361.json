@@ -1,0 +1,103 @@
+{
+  "kind": "confirmation_process_crash_window_eval",
+  "schema": "exp_6d79dc8663aa44c495abbf6fac05c361",
+  "database": "appointment_test",
+  "crash_points": [
+    "after_business_flush_before_commit",
+    "after_commit_before_response"
+  ],
+  "kill_signal": "SIGKILL",
+  "precommit_child": {
+    "marker": {
+      "phase": "flushed_uncommitted"
+    },
+    "returncode": -9,
+    "stderr_tail": ""
+  },
+  "snapshot_after_precommit_crash": {
+    "appointment_count": 0,
+    "appointment_statuses": [],
+    "hold_state": "HELD",
+    "allocation_states": [
+      "HELD",
+      "HELD"
+    ],
+    "allocation_count": 2,
+    "confirmation_state": "ISSUED",
+    "proposal_state": "ACTIVE",
+    "task_state": "WAITING_CONFIRMATION",
+    "confirmation_operation_count": 0,
+    "confirmation_operation_statuses": [],
+    "appointment_committed_event_count": 0,
+    "outbox_confirmation_count": 0,
+    "confirmation_audit_count": 0,
+    "appointment_revision_count": 0
+  },
+  "postcommit_child": {
+    "marker": {
+      "phase": "committed_before_response",
+      "appointment_id": "f59cab1d-d0df-49e2-8ff0-ad9698e925a7",
+      "operation_id": "c46b7396-2c88-4f29-98a1-3872b2137008"
+    },
+    "returncode": -9,
+    "stderr_tail": ""
+  },
+  "snapshot_after_postcommit_crash": {
+    "appointment_count": 1,
+    "appointment_statuses": [
+      "CONFIRMED"
+    ],
+    "hold_state": "BOOKED",
+    "allocation_states": [
+      "BOOKED",
+      "BOOKED"
+    ],
+    "allocation_count": 2,
+    "confirmation_state": "CONSUMED",
+    "proposal_state": "COMMITTED",
+    "task_state": "SUCCEEDED",
+    "confirmation_operation_count": 1,
+    "confirmation_operation_statuses": [
+      "SUCCEEDED"
+    ],
+    "appointment_committed_event_count": 1,
+    "outbox_confirmation_count": 1,
+    "confirmation_audit_count": 1,
+    "appointment_revision_count": 1
+  },
+  "idempotent_retry": {
+    "replayed": true,
+    "appointment_id": "f59cab1d-d0df-49e2-8ff0-ad9698e925a7",
+    "operation_id": "c46b7396-2c88-4f29-98a1-3872b2137008"
+  },
+  "snapshot_after_retry": {
+    "appointment_count": 1,
+    "appointment_statuses": [
+      "CONFIRMED"
+    ],
+    "hold_state": "BOOKED",
+    "allocation_states": [
+      "BOOKED",
+      "BOOKED"
+    ],
+    "allocation_count": 2,
+    "confirmation_state": "CONSUMED",
+    "proposal_state": "COMMITTED",
+    "task_state": "SUCCEEDED",
+    "confirmation_operation_count": 1,
+    "confirmation_operation_statuses": [
+      "SUCCEEDED"
+    ],
+    "appointment_committed_event_count": 1,
+    "outbox_confirmation_count": 1,
+    "confirmation_audit_count": 1,
+    "appointment_revision_count": 1
+  },
+  "precommit_rollback_safe": true,
+  "committed_effect_exactly_once": true,
+  "lost_response_retry_replayed_same_operation": true,
+  "elapsed_seconds": 0.864,
+  "evaluator_sha256": "c7ccfe65e66c80c23454013c2804422b1066183242794e772d5d21c6c9126d45",
+  "booking_module_sha256": "60e848ba1b92208860816a905e43229eec4d9ba82dffeb506279869d284da494",
+  "note": "单场景本地 PostgreSQL 故障注入；非生产部署或高可用承诺。schema 与报告保留。"
+}

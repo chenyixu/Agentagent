@@ -1,0 +1,84 @@
+{
+  "dataset_version": "booking-requests-v1",
+  "data_origin": "handwritten_synthetic",
+  "identity": "Use a test tenant and server-issued headers. Never put tenant_id or actor_id in an accepted request body.",
+  "cases": [
+    {
+      "id": "B01_complete_request",
+      "category": "agent_decision",
+      "requests": [{"method": "POST", "path": "/v1/messages", "body": {"client_message_id": "b01-1", "text": "我想约肩颈，明天下午三点", "store_id": "${store_id}"}}],
+      "expect": ["task.state=PROPOSED", "quote and availability are grounded in tool results", "no appointment or hold before candidate selection"]
+    },
+    {
+      "id": "B02_missing_service",
+      "category": "clarification",
+      "requests": [{"method": "POST", "path": "/v1/messages", "body": {"client_message_id": "b02-1", "text": "明天下午三点有空吗", "store_id": "${store_id}"}}],
+      "expect": ["persistent waiting_request", "no guessed service", "no allocation"]
+    },
+    {
+      "id": "B03_ambiguous_selection",
+      "category": "clarification",
+      "requests": [{"method": "POST", "path": "/v1/messages", "body": {"client_message_id": "b03-2", "text": "可以", "conversation_id": "${conversation_id}"}}],
+      "precondition": "B01 produced multiple candidates",
+      "expect": ["asks which candidate", "no hold from ambiguous approval"]
+    },
+    {
+      "id": "B04_candidate_then_confirm",
+      "category": "booking",
+      "requests": [
+        {"method": "POST", "path": "/v1/messages", "body": {"client_message_id": "b04-2", "text": "第一个可以", "conversation_id": "${conversation_id}"}},
+        {"method": "POST", "path": "/v1/confirmations", "body": {"proposal_id": "${proposal_id}", "proposal_version": "${proposal_version}", "confirmation_token": "${confirmation_token}", "client_confirmation_event_id": "b04-confirm", "idempotency_key": "b04-idempotency", "expected_task_version": "${expected_task_version}"}}
+      ],
+      "expect": ["one confirmed appointment", "one operation", "required resource allocations booked", "task.state=SUCCEEDED"]
+    },
+    {
+      "id": "B05_duplicate_confirmation",
+      "category": "idempotency",
+      "requests": [{"method": "POST", "path": "/v1/confirmations", "repeat": 2, "body": {"proposal_id": "${proposal_id}", "proposal_version": "${proposal_version}", "confirmation_token": "${confirmation_token}", "client_confirmation_event_id": "b05-confirm", "idempotency_key": "b05-idempotency", "expected_task_version": "${expected_task_version}"}}],
+      "expect": ["same appointment_id and operation_id", "second response replayed=true", "one business effect"]
+    },
+    {
+      "id": "B06_conflicting_idempotency_payload",
+      "category": "idempotency",
+      "requests": [{"method": "POST", "path": "/v1/confirmations", "repeat_with_same_key_and_changed_proposal": true}],
+      "expect": ["request hash conflict", "no second appointment"]
+    },
+    {
+      "id": "B07_expired_answer",
+      "category": "recovery",
+      "requests": [{"method": "POST", "path": "/v1/tasks/${task_id}/answers", "body": {"client_event_id": "b07-answer", "expected_task_version": "${waiting_task_version}", "answer": {"text": "肩颈，明天下午三点", "waiting_id": "${waiting_id}"}}}],
+      "precondition": "advance test clock beyond waiting expiry",
+      "expect": ["STALE_ANSWER_REJECTED", "answer audited", "no appointment"]
+    },
+    {
+      "id": "B08_duplicate_answer_event",
+      "category": "recovery",
+      "requests": [{"method": "POST", "path": "/v1/tasks/${task_id}/answers", "repeat": 2, "body": {"client_event_id": "b08-answer", "expected_task_version": "${waiting_task_version}", "answer": {"text": "肩颈，明天下午三点", "waiting_id": "${waiting_id}"}}}],
+      "expect": ["second answer is duplicate", "one answer ledger effect"]
+    },
+    {
+      "id": "B09_forged_identity",
+      "category": "tool_boundary",
+      "requests": [{"method": "POST", "path": "/v1/messages", "body": {"client_message_id": "b09-1", "text": "预约肩颈", "store_id": "${store_id}", "tenant_id": "${other_tenant_id}"}}],
+      "expect": ["request validation error", "no task or booking write"]
+    },
+    {
+      "id": "B10_fenced_executor",
+      "category": "takeover",
+      "precondition": "pause executor before write, advance task epoch by human takeover, release old executor",
+      "expect": ["LEASE_LOST", "zero writes by old executor", "new owner can continue"]
+    },
+    {
+      "id": "B11_sse_resume",
+      "category": "event_stream",
+      "precondition": "disconnect after saved event cursor and produce additional events",
+      "expect": ["no missing sequence inside retention", "RESET_REQUIRED plus task snapshot after retention window"]
+    },
+    {
+      "id": "B12_receipt_reordering",
+      "category": "async_delivery",
+      "precondition": "deliver DELIVERED receipt, then duplicate and older ACCEPTED receipt",
+      "expect": ["delivery state remains DELIVERED", "duplicate receipt has no second effect"]
+    }
+  ]
+}

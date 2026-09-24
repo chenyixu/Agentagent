@@ -1,0 +1,1279 @@
+{
+  "kind": "real_model_synthetic_booking_scenario_eval",
+  "started_at": "2026-09-23T11:46:22.851925+00:00",
+  "runs": 10,
+  "passed": 9,
+  "pass_rate": 0.9,
+  "passed_by_category": {
+    "back_absolute_date": {
+      "passed": 1,
+      "total": 1
+    },
+    "back_numeric_evening": {
+      "passed": 1,
+      "total": 1
+    },
+    "back_relative_date": {
+      "passed": 1,
+      "total": 1
+    },
+    "back_weekday": {
+      "passed": 1,
+      "total": 1
+    },
+    "shoulder_date_time": {
+      "passed": 1,
+      "total": 1
+    },
+    "shoulder_evening": {
+      "passed": 1,
+      "total": 1
+    },
+    "shoulder_midday": {
+      "passed": 1,
+      "total": 1
+    },
+    "shoulder_numeric_date": {
+      "passed": 1,
+      "total": 1
+    },
+    "shoulder_relative_date": {
+      "passed": 1,
+      "total": 1
+    },
+    "shoulder_weekday": {
+      "passed": 0,
+      "total": 1
+    }
+  },
+  "elapsed_ms_median": 9558.717,
+  "elapsed_ms_min": 8312.029,
+  "elapsed_ms_max": 10184.986,
+  "source_sha256": {
+    "src/appointment/agent/agentscope_adapter.py": "0438f86c25eda680b473fef7b10bedb817cabc036b25fdd3abcfa18fc3d99845",
+    "src/appointment/orchestrator/engine.py": "cd6f5ed7ff0215fa60ab8a57899d26847ed053716f4cf99626ba73f316bedd6b",
+    "src/appointment/domain/booking.py": "60e848ba1b92208860816a905e43229eec4d9ba82dffeb506279869d284da494",
+    "evals/run_agent_e2e_smoke.py": "39f7f188d6b1dc6ca47643211f79fe49ecbe742e95bb7c27b8abbb597c842bf3",
+    "evals/run_agent_e2e_batch.py": "1a3b2b32df33ed4df1478fc10064fda333df06d396b926dc78a9ab8d91f0e5d2"
+  },
+  "dataset_version": "full-booking-pilot-v1",
+  "dataset_origin": "handwritten_synthetic",
+  "case_set_sha256": "bc8f0ffd08eb509703bdf979ecbaeb515d3f0542d65221ae472ff10274804052",
+  "trials": [
+    {
+      "trial": 1,
+      "case_id": "P01_shoulder_relative_date",
+      "category": "shoulder_relative_date",
+      "input": "我想约肩颈，明天下午三点。",
+      "expected_start_at": "2026-09-24T15:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "report_path": "evals/reports/agent_e2e_20260923T114632Z.json",
+      "passed": true,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true
+      },
+      "failed_checks": [],
+      "elapsed_ms": 8340.215,
+      "schema": "exp_db4176eab05d421ab13b8fef805f3d6b",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "9aeed8ae-d7c9-4559-a750-b216fa499f31",
+        "operation_id": "1935cbcb-2256-413d-86da-638110d58ebe",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "9aeed8ae-d7c9-4559-a750-b216fa499f31",
+        "operation_id": "1935cbcb-2256-413d-86da-638110d58ebe",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "我想约肩颈，明天下午三点。",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            1
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "runtime_output_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 2,
+      "case_id": "P02_shoulder_numeric_date",
+      "category": "shoulder_numeric_date",
+      "input": "帮我预约肩颈按摩，9月25日下午三点。",
+      "expected_start_at": "2026-09-25T15:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "report_path": "evals/reports/agent_e2e_20260923T114641Z.json",
+      "passed": true,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true
+      },
+      "failed_checks": [],
+      "elapsed_ms": 8312.029,
+      "schema": "exp_3c81e921990c4cfabc7bfb38faa2ad3b",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "c622efb9-d5f4-4a2b-81ae-d5347d9666ae",
+        "operation_id": "ea4c8810-c50f-4c52-b7ce-c64d63f6ae81",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "c622efb9-d5f4-4a2b-81ae-d5347d9666ae",
+        "operation_id": "ea4c8810-c50f-4c52-b7ce-c64d63f6ae81",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "帮我预约肩颈按摩，9月25日下午三点。",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            1
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "runtime_output_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 3,
+      "case_id": "P03_shoulder_weekday",
+      "category": "shoulder_weekday",
+      "input": "周日14:00有肩颈舒缓吗？可以的话想预约。",
+      "expected_start_at": "2026-09-27T14:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "report_path": "evals/reports/agent_e2e_20260923T114651Z.json",
+      "passed": false,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": false,
+        "one_appointment": false,
+        "one_hold": true,
+        "two_booked_allocations": false,
+        "one_hold_and_one_confirmation_operation": false,
+        "confirmation_replay_same_appointment": false,
+        "confirmation_replay_same_operation": false,
+        "first_confirmation_then_replay": false,
+        "all_model_turns_returned": true,
+        "proposal_reached": false,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": false
+      },
+      "failed_checks": [
+        "task_succeeded",
+        "one_appointment",
+        "two_booked_allocations",
+        "one_hold_and_one_confirmation_operation",
+        "confirmation_replay_same_appointment",
+        "confirmation_replay_same_operation",
+        "first_confirmation_then_replay",
+        "proposal_reached",
+        "selection_created_confirmation"
+      ],
+      "elapsed_ms": 9595.883,
+      "schema": "exp_f15b6aae7daa42cca98f34191f49c461",
+      "task_states": [
+        "WAITING_CONFIRMATION"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 0,
+        "allocations": 2,
+        "operations": 1
+      },
+      "confirmation": null,
+      "confirmation_replay": null,
+      "model_turns": 6,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "周日14:00有肩颈舒缓吗？可以的话想预约。",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            1
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "runtime_output_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 4,
+      "case_id": "P04_shoulder_date_time",
+      "category": "shoulder_date_time",
+      "input": "请帮我预约肩颈服务，9月28日16:00。",
+      "expected_start_at": "2026-09-28T16:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "report_path": "evals/reports/agent_e2e_20260923T114700Z.json",
+      "passed": true,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true
+      },
+      "failed_checks": [],
+      "elapsed_ms": 8337.383,
+      "schema": "exp_3bd5f58e96904df69af9db9d652e0774",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "08589eba-794d-4ce8-a3e3-7e49396ccad6",
+        "operation_id": "d167d255-4cc4-40f3-afd7-af6ba3e733f2",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "08589eba-794d-4ce8-a3e3-7e49396ccad6",
+        "operation_id": "d167d255-4cc4-40f3-afd7-af6ba3e733f2",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "请帮我预约肩颈服务，9月28日16:00。",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            1
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "runtime_output_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 5,
+      "case_id": "P05_shoulder_evening",
+      "category": "shoulder_evening",
+      "input": "9月29号晚上7点想做肩颈按摩，帮我看看有没有空。",
+      "expected_start_at": "2026-09-29T19:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "report_path": "evals/reports/agent_e2e_20260923T114709Z.json",
+      "passed": true,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true
+      },
+      "failed_checks": [],
+      "elapsed_ms": 8812.777,
+      "schema": "exp_ef0853aede96486aba193d6eff3cdb99",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "1f572dcd-df8e-4654-9e9e-30013599ad00",
+        "operation_id": "a6f8862c-d83f-4adc-90ca-33d9241ad522",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "1f572dcd-df8e-4654-9e9e-30013599ad00",
+        "operation_id": "a6f8862c-d83f-4adc-90ca-33d9241ad522",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "9月29号晚上7点想做肩颈按摩，帮我看看有没有空。",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            1
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "runtime_output_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 6,
+      "case_id": "P06_shoulder_midday",
+      "category": "shoulder_midday",
+      "input": "肩颈舒缓，9月30日中午12点左右，麻烦安排。",
+      "expected_start_at": "2026-09-30T12:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "report_path": "evals/reports/agent_e2e_20260923T114719Z.json",
+      "passed": true,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true
+      },
+      "failed_checks": [],
+      "elapsed_ms": 9633.714,
+      "schema": "exp_343d843f64ae424dba54da9e21da1275",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "76e104dc-d148-45ed-9130-c80ba1416e70",
+        "operation_id": "49debc58-cfc1-4ed9-ac60-6e78f337a767",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "76e104dc-d148-45ed-9130-c80ba1416e70",
+        "operation_id": "49debc58-cfc1-4ed9-ac60-6e78f337a767",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "肩颈舒缓，9月30日中午12点左右，麻烦安排。",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            1
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "runtime_output_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 7,
+      "case_id": "P07_back_relative_date",
+      "category": "back_relative_date",
+      "input": "想做开背，明天下午四点。",
+      "expected_start_at": "2026-09-24T16:00:00+08:00",
+      "expected_amount_minor": 39800,
+      "report_path": "evals/reports/agent_e2e_20260923T114729Z.json",
+      "passed": true,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true
+      },
+      "failed_checks": [],
+      "elapsed_ms": 9646.533,
+      "schema": "exp_dc8c42194ee64371b707c2620d54670f",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "986d5d3a-a935-4d98-8ef6-0128cc255ff4",
+        "operation_id": "35ff95a4-2005-41ce-91e6-afd873e80bef",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "986d5d3a-a935-4d98-8ef6-0128cc255ff4",
+        "operation_id": "35ff95a4-2005-41ce-91e6-afd873e80bef",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "想做开背，明天下午四点。",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            1
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "runtime_output_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 8,
+      "case_id": "P08_back_numeric_evening",
+      "category": "back_numeric_evening",
+      "input": "帮我约开背理疗，9月25日晚上六点。",
+      "expected_start_at": "2026-09-25T18:00:00+08:00",
+      "expected_amount_minor": 39800,
+      "report_path": "evals/reports/agent_e2e_20260923T114739Z.json",
+      "passed": true,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true
+      },
+      "failed_checks": [],
+      "elapsed_ms": 9942.26,
+      "schema": "exp_29b89eea1d81460ca165aa758dc6ae8d",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "09324ba7-033e-4d8c-96ad-a941a7255a6e",
+        "operation_id": "d3b6a91f-3f7f-4629-9a0d-48b216c882b6",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "09324ba7-033e-4d8c-96ad-a941a7255a6e",
+        "operation_id": "d3b6a91f-3f7f-4629-9a0d-48b216c882b6",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "帮我约开背理疗，9月25日晚上六点。",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            1
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "runtime_output_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 9,
+      "case_id": "P09_back_weekday",
+      "category": "back_weekday",
+      "input": "下周一上午11点做开背理疗。",
+      "expected_start_at": "2026-09-28T11:00:00+08:00",
+      "expected_amount_minor": 39800,
+      "report_path": "evals/reports/agent_e2e_20260923T114750Z.json",
+      "passed": true,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true
+      },
+      "failed_checks": [],
+      "elapsed_ms": 10184.986,
+      "schema": "exp_d726627d5cbc4581a9d4acd17a7ca140",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "d3586a17-7ce5-4c10-b6c3-964c7b2d3c2e",
+        "operation_id": "a4ee9ac1-5e9d-407b-a087-331a2e34c56d",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "d3586a17-7ce5-4c10-b6c3-964c7b2d3c2e",
+        "operation_id": "a4ee9ac1-5e9d-407b-a087-331a2e34c56d",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "下周一上午11点做开背理疗。",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            1
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "runtime_output_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    },
+    {
+      "trial": 10,
+      "case_id": "P10_back_absolute_date",
+      "category": "back_absolute_date",
+      "input": "我想在2026年10月1日下午两点做开背。",
+      "expected_start_at": "2026-10-01T14:00:00+08:00",
+      "expected_amount_minor": 39800,
+      "report_path": "evals/reports/agent_e2e_20260923T114800Z.json",
+      "passed": true,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true
+      },
+      "failed_checks": [],
+      "elapsed_ms": 9521.552,
+      "schema": "exp_ff5305cee18349fe82556c47bfa45ae7",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "bb5c9244-03e7-4b99-ba83-98cf13322b7e",
+        "operation_id": "881712bc-9e1b-42dd-b6b8-505de58fa493",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "bb5c9244-03e7-4b99-ba83-98cf13322b7e",
+        "operation_id": "881712bc-9e1b-42dd-b6b8-505de58fa493",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "interactions": [
+        {
+          "kind": "message",
+          "input": "我想在2026年10月1日下午两点做开背。",
+          "task_state": "PROPOSED",
+          "waiting_id": null,
+          "counts": {
+            "holds": 0,
+            "appointments": 0
+          },
+          "candidate_counts": [
+            1
+          ]
+        },
+        {
+          "kind": "message",
+          "input": "第一个可以",
+          "task_state": "WAITING_CONFIRMATION",
+          "waiting_id": null,
+          "counts": {
+            "holds": 1,
+            "appointments": 0
+          },
+          "candidate_counts": []
+        }
+      ],
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "runtime_output_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "normalized_tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "normalized_tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "normalized_tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    }
+  ],
+  "case": {
+    "selection_message": "第一个可以",
+    "confirmation": "server-issued confirmation token and idempotency key",
+    "assertion": "Expected quote amount and exact slot offered; proposal and explicit candidate selection; SUCCEEDED task; exactly one appointment and hold; two BOOKED allocations; two operations; confirmation retry returns the original appointment and operation"
+  },
+  "limitations": [
+    "All cases are hand-authored synthetic scenarios against a two-service seeded store; results are not production task completion rates.",
+    "Business reads and hold creation include deterministic server orchestration; this does not isolate model tool-choice quality.",
+    "runtime_output_tool_requests records adapter-normalized output after server policy; it is not a trace of raw provider tool-call intent.",
+    "Model provider usage and cost are unavailable in the underlying reports.",
+    "Latency is full local synthetic flow duration for each trial; no p95 is reported for this small sample.",
+    "Each trial leaves its isolated test schema and raw report in place."
+  ]
+}

@@ -96,6 +96,7 @@ def default_release() -> ReleaseManifest:
         release_id="release-local-1",
         model_backend=settings.model_backend,
         model_name=settings.model_name,
+        prompt_version=settings.agent_prompt_version,
         rules={
             **RULES_V1,
             "hold_ttl_seconds": settings.hold_ttl_seconds,

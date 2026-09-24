@@ -1,0 +1,1393 @@
+{
+  "fresh_process_pid": 65044,
+  "scenario_results": {
+    "timeout:expired_rejected": 50,
+    "takeover:fenced": 50,
+    "restart:resumed": 50
+  },
+  "end_reasons": {
+    "STALE_ANSWER_REJECTED": 50,
+    "LEASE_LOST": 50,
+    "COMPLETED": 50
+  },
+  "task_results": [
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    }
+  ],
+  "business_counts_after": {
+    "Appointment": 0,
+    "Hold": 0,
+    "ResourceAllocation": 0,
+    "Operation": 0,
+    "ToolExecution": 100,
+    "TaskEvent": 850
+  },
+  "kind": "persisted_task_process_restart_timeout_takeover_eval",
+  "schema": "exp_9f1bf916c3894b158672955752a50bac",
+  "database": "appointment_test",
+  "cases_per_group": 50,
+  "total_cases": 150,
+  "parent_process_pid": 65043,
+  "distinct_processes": true,
+  "worker_succeeded": true,
+  "python_worker_returncode": 0,
+  "elapsed_seconds": 3.778,
+  "time_anchor": "2026-09-17T05:00:00+00:00",
+  "business_state_before_resume": {
+    "appointments": 0,
+    "holds": 0,
+    "resource_allocations": 0,
+    "operations": 0
+  },
+  "all_cases_as_expected": true,
+  "no_stale_reply_emitted": true,
+  "no_booking_side_effect": true
+}

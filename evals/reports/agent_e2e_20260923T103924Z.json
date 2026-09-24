@@ -1,0 +1,85 @@
+{
+  "kind": "real_model_full_booking_smoke",
+  "schema": "exp_c10e38afde35494781d01034a45d4075",
+  "database": "appointment_test",
+  "model_backend": "deepseek",
+  "model_name": "deepseek-flash",
+  "prompt_version": "reception-v3",
+  "case_id": "E2E_DEFAULT",
+  "input": "我想约肩颈，明天下午三点",
+  "selection_input": "第一个可以",
+  "elapsed_ms": 3518.414,
+  "outcome": {
+    "status": "ok",
+    "turn": {
+      "task_id": "efd11240-2cc6-4d62-bfa8-cd64af816546",
+      "task_state": "SEARCHING",
+      "task_version": 3,
+      "reply_text": "好的，您想约「肩颈舒缓 60 分钟」，时间是明天（9月24日）下午三点。我先为您查询该项目价格与可约时段。",
+      "clarification_question": null,
+      "tool_calls": [
+        {
+          "tool": "get_service_quote",
+          "status": "ERROR",
+          "tool_call_id": "b944f12fffbb46f298404e9a1b148bd1",
+          "error_code": "VALIDATION_ERROR",
+          "error_message": "工具参数不合法 -> store_id: Field required; service_id: Field required"
+        }
+      ],
+      "end_reason": "ERROR",
+      "budget": {
+        "tool_calls": 1,
+        "max_tool_calls": 6,
+        "consult_delegations": 0,
+        "repairs": 0,
+        "no_progress_rounds": 0,
+        "distinct_calls": 1,
+        "repeated_calls": 0
+      },
+      "waiting_id": null,
+      "pending_confirmation": null,
+      "event_cursor": 4
+    }
+  },
+  "database_counts": {
+    "tasks": 1,
+    "tool_executions": 1,
+    "holds": 0,
+    "appointments": 0,
+    "allocations": 0,
+    "operations": 0
+  },
+  "task_states": [
+    "SEARCHING"
+  ],
+  "allocation_states": [],
+  "model_turns": [
+    {
+      "state": "COLLECTING",
+      "task_version": 1,
+      "status": "ok",
+      "slot_names": [
+        "service",
+        "time_window"
+      ],
+      "tool_names": [],
+      "reply_present": true,
+      "clarification_present": false
+    },
+    {
+      "state": "SEARCHING",
+      "task_version": 3,
+      "status": "ok",
+      "slot_names": [
+        "service"
+      ],
+      "tool_names": [
+        "get_service_quote"
+      ],
+      "reply_present": true,
+      "clarification_present": false
+    }
+  ],
+  "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+  "note": "合成用户明确选第一个候选并通过专用确认凭据提交。"
+}

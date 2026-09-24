@@ -1,0 +1,128 @@
+{
+  "kind": "real_model_full_booking_smoke",
+  "schema": "exp_1260735feb2a47a1a03b7524d6a8cf47",
+  "database": "appointment_test",
+  "model_backend": "deepseek",
+  "model_name": "deepseek-flash",
+  "prompt_version": "reception-v3",
+  "case_id": "C01_clarify_missing_service_then_ambiguous_selection",
+  "input": "明天下午两点到六点都可以",
+  "selection_input": "第一个可以",
+  "conversation_steps": [
+    {
+      "kind": "message",
+      "text": "明天下午两点到六点都可以",
+      "expected_state": "WAITING_USER"
+    },
+    {
+      "kind": "answer",
+      "text": "肩颈按摩",
+      "expected_state": "PROPOSED"
+    },
+    {
+      "kind": "message",
+      "text": "可以",
+      "expected_state": "PROPOSED"
+    },
+    {
+      "kind": "message",
+      "text": "第一个可以",
+      "expected_state": "WAITING_CONFIRMATION"
+    }
+  ],
+  "elapsed_ms": 1876.806,
+  "outcome": {
+    "status": "ok",
+    "turn": {
+      "task_id": "72da5b9a-89ce-4712-96c6-68201dbaa4e0",
+      "task_state": "COLLECTING",
+      "task_version": 2,
+      "reply_text": "好的，明天下午 14:00–18:00 时段收到。请再确认一下你想做的项目：开背理疗 90 分钟，还是肩颈舒缓 60 分钟？",
+      "clarification_question": null,
+      "tool_calls": [],
+      "end_reason": "COMPLETED",
+      "budget": {
+        "tool_calls": 0,
+        "max_tool_calls": 6,
+        "consult_delegations": 0,
+        "repairs": 0,
+        "no_progress_rounds": 0,
+        "distinct_calls": 0,
+        "repeated_calls": 0
+      },
+      "waiting_id": null,
+      "pending_confirmation": null,
+      "event_cursor": 3
+    },
+    "interactions": [
+      {
+        "index": 1,
+        "kind": "message",
+        "input": "明天下午两点到六点都可以",
+        "task_state": "COLLECTING",
+        "task_version": 2,
+        "waiting_id": null,
+        "reply_text": "好的，明天下午 14:00–18:00 时段收到。请再确认一下你想做的项目：开背理疗 90 分钟，还是肩颈舒缓 60 分钟？",
+        "clarification_question": null,
+        "tool_calls": [],
+        "counts": {
+          "holds": 0,
+          "appointments": 0
+        },
+        "report": {
+          "task_id": "72da5b9a-89ce-4712-96c6-68201dbaa4e0",
+          "task_state": "COLLECTING",
+          "task_version": 2,
+          "reply_text": "好的，明天下午 14:00–18:00 时段收到。请再确认一下你想做的项目：开背理疗 90 分钟，还是肩颈舒缓 60 分钟？",
+          "clarification_question": null,
+          "tool_calls": [],
+          "end_reason": "COMPLETED",
+          "budget": {
+            "tool_calls": 0,
+            "max_tool_calls": 6,
+            "consult_delegations": 0,
+            "repairs": 0,
+            "no_progress_rounds": 0,
+            "distinct_calls": 0,
+            "repeated_calls": 0
+          },
+          "waiting_id": null,
+          "pending_confirmation": null,
+          "event_cursor": 3
+        },
+        "expectation_mismatch": {
+          "expected": "WAITING_USER",
+          "actual": "COLLECTING"
+        }
+      }
+    ],
+    "stopped_early": true
+  },
+  "database_counts": {
+    "tasks": 1,
+    "tool_executions": 0,
+    "holds": 0,
+    "appointments": 0,
+    "allocations": 0,
+    "operations": 0
+  },
+  "task_states": [
+    "COLLECTING"
+  ],
+  "allocation_states": [],
+  "model_turns": [
+    {
+      "state": "COLLECTING",
+      "task_version": 1,
+      "status": "ok",
+      "slot_names": [
+        "time_window"
+      ],
+      "tool_names": [],
+      "reply_present": true,
+      "clarification_present": false
+    }
+  ],
+  "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+  "note": "合成用户明确选第一个候选并通过专用确认凭据提交。"
+}

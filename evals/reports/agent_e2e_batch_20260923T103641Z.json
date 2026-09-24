@@ -1,0 +1,134 @@
+{
+  "kind": "real_model_synthetic_booking_repeated_eval",
+  "started_at": "2026-09-23T10:36:41.018057+00:00",
+  "runs": 1,
+  "passed": 1,
+  "pass_rate": 1.0,
+  "passed_by_category": {
+    "shoulder_relative_date": {
+      "passed": 1,
+      "total": 1
+    }
+  },
+  "elapsed_ms_median": 11902.367,
+  "elapsed_ms_min": 11902.367,
+  "elapsed_ms_max": 11902.367,
+  "source_sha256": {
+    "src/appointment/agent/agentscope_adapter.py": "b0760b1db33f54b083e02c02ad17bb1e882244e7b772161fd54e3920741537dc",
+    "src/appointment/orchestrator/engine.py": "d22ab835170a61b9949e27bb6c8cfc96f7457f7d12ab34d39db00b84f1024330",
+    "src/appointment/domain/booking.py": "60e848ba1b92208860816a905e43229eec4d9ba82dffeb506279869d284da494",
+    "evals/run_agent_e2e_smoke.py": "fa1346b671c57d9cade0958be2fd0dec08b04f249a973d034d3dc744b3e99b15",
+    "evals/run_agent_e2e_batch.py": "bab8c368ca3bbf73adc87dd9460ef62d1a1ac5b469ff5e6d4e55cd3b26aaa7d1"
+  },
+  "dataset_version": "single-scenario-repeat-v1",
+  "dataset_origin": "handwritten_synthetic",
+  "case_set_sha256": "3f6ab9eee780a9f026f49e4916b93982936cc7df61e846a505ceb4f80ba3caf1",
+  "trials": [
+    {
+      "trial": 1,
+      "case_id": "E2E_DEFAULT",
+      "category": "shoulder_relative_date",
+      "input": "我想约肩颈，明天下午三点",
+      "expected_start_at": "2026-09-24T15:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "report_path": "evals/reports/agent_e2e_20260923T103654Z.json",
+      "passed": true,
+      "checks": {
+        "orchestrator_ok": true,
+        "task_succeeded": true,
+        "one_appointment": true,
+        "one_hold": true,
+        "two_booked_allocations": true,
+        "one_hold_and_one_confirmation_operation": true,
+        "confirmation_replay_same_appointment": true,
+        "confirmation_replay_same_operation": true,
+        "first_confirmation_then_replay": true,
+        "all_model_turns_returned": true,
+        "proposal_reached": true,
+        "expected_service_price_returned": true,
+        "requested_slot_offered": true,
+        "selection_created_confirmation": true
+      },
+      "failed_checks": [],
+      "elapsed_ms": 11902.367,
+      "schema": "exp_11e8807329074ac1be25c5a8b5c92dfd",
+      "task_states": [
+        "SUCCEEDED"
+      ],
+      "database_counts": {
+        "tasks": 1,
+        "tool_executions": 3,
+        "holds": 1,
+        "appointments": 1,
+        "allocations": 2,
+        "operations": 2
+      },
+      "confirmation": {
+        "appointment_id": "2e7ff2f9-9be5-4cb4-a7cf-2db761c69f90",
+        "operation_id": "695b0ea2-16f3-4c6c-b76d-c1daeae9f265",
+        "replayed": false
+      },
+      "confirmation_replay": {
+        "appointment_id": "2e7ff2f9-9be5-4cb4-a7cf-2db761c69f90",
+        "operation_id": "695b0ea2-16f3-4c6c-b76d-c1daeae9f265",
+        "replayed": true
+      },
+      "model_turns": 6,
+      "model_turn_statuses": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "model_tool_requests": [
+        {
+          "state": "COLLECTING",
+          "tool_names": []
+        },
+        {
+          "state": "SEARCHING",
+          "tool_names": [
+            "get_service_quote"
+          ]
+        },
+        {
+          "state": "SEARCHING",
+          "tool_names": [
+            "search_availability"
+          ]
+        },
+        {
+          "state": "PROPOSED",
+          "tool_names": []
+        },
+        {
+          "state": "PROPOSED",
+          "tool_names": [
+            "create_hold"
+          ]
+        },
+        {
+          "state": "WAITING_CONFIRMATION",
+          "tool_names": []
+        }
+      ],
+      "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+      "model_name": "deepseek-flash",
+      "prompt_version": "reception-v3"
+    }
+  ],
+  "case": {
+    "selection_message": "第一个可以",
+    "confirmation": "server-issued confirmation token and idempotency key",
+    "assertion": "Expected quote amount and exact slot offered; proposal and explicit candidate selection; SUCCEEDED task; exactly one appointment and hold; two BOOKED allocations; two operations; confirmation retry returns the original appointment and operation"
+  },
+  "limitations": [
+    "All cases are hand-authored synthetic scenarios against a two-service seeded store; results are not production task completion rates.",
+    "Business reads and hold creation include deterministic server orchestration; this does not isolate model tool-choice quality.",
+    "Model provider usage and cost are unavailable in the underlying reports.",
+    "Latency is full local synthetic flow duration for each trial; no p95 is reported for this small sample.",
+    "Each trial leaves its isolated test schema and raw report in place."
+  ]
+}

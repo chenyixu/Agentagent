@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Awaitable, Callable
+from typing import Any, Awaitable, Callable, Collection
 
 from pydantic import ValidationError as PydanticValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -214,6 +214,7 @@ async def invoke_tool(
     *,
     now: datetime,
     clock: Clock | None = None,
+    allowed_tools: Collection[str] | None = None,
 ) -> ToolResult:
     """唯一的工具执行入口。
 
@@ -231,6 +232,16 @@ async def invoke_tool(
             DomainError(
                 ErrorCode.PERMISSION_DENIED,
                 f"工具 {name} 不在白名单内，已拒绝执行",
+            ),
+        )
+
+    if allowed_tools is not None and name not in allowed_tools:
+        return ToolResult.failure(
+            ctx.request_id,
+            now,
+            DomainError(
+                ErrorCode.PERMISSION_DENIED,
+                f"工具 {name} 不允许在当前任务阶段执行",
             ),
         )
 

@@ -7,12 +7,13 @@
 
 from __future__ import annotations
 
+import os
 from typing import Any, AsyncIterator
 
 from fastapi import Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..agent import build_runtime
+from ..agent import AdapterConfig, build_runtime
 from ..config.settings import Settings, get_settings
 from ..db.session import get_sessionmaker
 from ..domain.context import TrustedContext
@@ -59,10 +60,50 @@ def build_runtime_for_settings(settings: Settings) -> Any:
     默认确定性基线：它不依赖模型与网络，因此在任何环境都能跑通主链路。
     """
 
+    model = None
+    if settings.agent_runtime == "agentscope":
+        from pydantic import SecretStr
+
+        if settings.model_backend == "deepseek":
+            from agentscope.credential import DeepSeekCredential
+            from agentscope.model import DeepSeekChatModel
+
+            key = settings.deepseek_api_key
+            if key is None or not key.get_secret_value().strip():
+                raise ValueError("AgentScope DeepSeek 运行时缺少 DEEPSEEK_API_KEY")
+            model = DeepSeekChatModel(
+                credential=DeepSeekCredential(
+                    api_key=key,
+                    base_url=settings.deepseek_base_url,
+                ),
+                model=settings.model_name,
+                stream=False,
+            )
+        elif settings.model_backend == "dashscope":
+            from agentscope.credential import DashScopeCredential
+            from agentscope.model import DashScopeChatModel
+
+            key = os.environ.get("DASHSCOPE_API_KEY")
+            if not key:
+                raise ValueError("AgentScope DashScope 运行时缺少 DASHSCOPE_API_KEY")
+            model = DashScopeChatModel(
+                credential=DashScopeCredential(api_key=SecretStr(key)),
+                model=settings.model_name,
+                stream=False,
+            )
+        else:
+            raise ValueError("AgentScope 运行时需要 deepseek 或 dashscope 模型后端")
     runtime = build_runtime(
         settings.agent_runtime,
         role="reception",
-        model=None,
+        config=AdapterConfig(
+            model_backend=settings.model_backend,
+            model_name=settings.model_name,
+            prompt_version=settings.agent_prompt_version,
+            max_tool_calls=settings.max_tool_calls,
+            max_consult_delegations=settings.max_consult_delegations,
+        ),
+        model=model,
     )
     return runtime
 

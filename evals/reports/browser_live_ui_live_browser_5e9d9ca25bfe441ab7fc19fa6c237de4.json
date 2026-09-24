@@ -1,0 +1,18 @@
+{
+  "kind": "live_browser_booking_acceptance",
+  "frontend_origin": "http://127.0.0.1:5173",
+  "api_origin": "http://127.0.0.1:8010",
+  "username": "customer-1",
+  "request_text": "我想约肩颈舒缓，明天下午15点",
+  "actual_api_requests": [],
+  "confirmation_post_count": 0,
+  "confirmation_response_deliberately_dropped_after_upstream_commit": true,
+  "confirmation_upstream_status": null,
+  "confirmation_idempotency_key": null,
+  "task_id": null,
+  "turns": [],
+  "page_errors": [],
+  "failed_requests": [],
+  "passed": false,
+  "error": "page.goto: net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://127.0.0.1:5173/appointment\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5173/appointment\", waiting until \"domcontentloaded\"\u001b[22m\n"
+}

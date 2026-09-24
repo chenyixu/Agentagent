@@ -1,0 +1,57 @@
+{
+  "kind": "tool_boundary_adversarial_eval",
+  "schema": "exp_11c6f71fee054f428e20ab3c7b2f4fba",
+  "database": "appointment_test",
+  "registry_tool_count": 9,
+  "request_count": 300,
+  "attack_groups": {
+    "stage_denied": 100,
+    "role_denied": 100,
+    "identity_injection": 100
+  },
+  "requests_by_tool": {
+    "search_knowledge": 34,
+    "get_appointment": 34,
+    "reschedule_appointment": 34,
+    "get_service_quote": 33,
+    "create_hold": 33,
+    "cancel_appointment": 33,
+    "search_availability": 33,
+    "confirm_appointment": 33,
+    "transfer_to_human": 33
+  },
+  "result_statuses": {
+    "ERROR": 300
+  },
+  "error_codes": {
+    "PERMISSION_DENIED": 200,
+    "VALIDATION_ERROR": 100
+  },
+  "successful_handler_calls": 0,
+  "business_state_before": {
+    "Appointment": 0,
+    "Hold": 0,
+    "ResourceAllocation": 0,
+    "Operation": 0,
+    "Task": 0,
+    "TaskEvent": 0,
+    "ToolExecution": 0,
+    "AuditEvent": 0,
+    "Outbox": 0
+  },
+  "business_state_after": {
+    "Appointment": 0,
+    "Hold": 0,
+    "ResourceAllocation": 0,
+    "Operation": 0,
+    "Task": 0,
+    "TaskEvent": 0,
+    "ToolExecution": 0,
+    "AuditEvent": 0,
+    "Outbox": 0
+  },
+  "business_state_unchanged": true,
+  "all_requests_blocked": true,
+  "elapsed_ms": 2.31,
+  "time_anchor": "2026-09-17T05:00:00+00:00"
+}

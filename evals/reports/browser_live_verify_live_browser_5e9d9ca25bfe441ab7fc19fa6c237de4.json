@@ -1,0 +1,209 @@
+{
+  "kind": "browser_live_booking_database_verification",
+  "verified_at": "2026-09-23T11:21:49.844272+00:00",
+  "database": "appointment_test",
+  "schema": "live_browser_5e9d9ca25bfe441ab7fc19fa6c237de4",
+  "task_id": "77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+  "task_state": "SUCCEEDED",
+  "appointment_ids": [
+    "b473755c-3f48-4dfc-96f7-50d828fad115"
+  ],
+  "appointment_statuses": [
+    "CONFIRMED"
+  ],
+  "hold_states": [
+    "BOOKED"
+  ],
+  "allocation_states": [
+    "BOOKED",
+    "BOOKED"
+  ],
+  "operation_statuses": [
+    "SUCCEEDED",
+    "SUCCEEDED"
+  ],
+  "event_sequences": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "browser_result": {
+    "kind": "live_browser_booking_acceptance",
+    "frontend_origin": "http://127.0.0.1:5173",
+    "api_origin": "http://127.0.0.1:8010",
+    "username": "customer-2",
+    "request_text": "我想约肩颈舒缓，明天下午17点",
+    "actual_api_requests": [
+      {
+        "method": "GET",
+        "path": "/auth/config",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/auth/config",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/context",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/context",
+        "status": 200
+      },
+      {
+        "method": "POST",
+        "path": "/booking/v1/messages",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b/events",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+        "status": 200
+      },
+      {
+        "method": "POST",
+        "path": "/booking/v1/messages",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b/events",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/operations",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/auth/config",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/auth/config",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/context",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/context",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/operations",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/operations",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/booking/v1/tasks/77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+        "status": 200
+      }
+    ],
+    "confirmation_post_count": 1,
+    "confirmation_response_deliberately_dropped_after_upstream_commit": true,
+    "confirmation_upstream_status": 200,
+    "confirmation_idempotency_key": "confirm-ab4d087a-ea00-4cd5-bd4c-645cb3855fe9",
+    "task_id": "77c15806-7bd7-4084-a56f-0cc3e0b4472b",
+    "turns": [
+      {
+        "state": "PROPOSED",
+        "version": 4,
+        "has_reply": true
+      },
+      {
+        "state": "WAITING_CONFIRMATION",
+        "version": 5,
+        "has_pending_confirmation": true
+      }
+    ],
+    "page_errors": [],
+    "failed_requests": [],
+    "passed": true,
+    "upstream_confirmation": {
+      "operation_id": "8386abb6-0af3-4b45-8e65-1786474c74b5",
+      "appointment_id": "b473755c-3f48-4dfc-96f7-50d828fad115"
+    },
+    "checks": [
+      "browser requests reached the live FastAPI service",
+      "real DeepSeek runtime produced a user-visible appointment candidate",
+      "confirmation required explicit user click",
+      "confirmation credential stayed out of browser storage",
+      "real confirmation committed before its response was deliberately dropped",
+      "operation lookup and page reload recovered the committed appointment",
+      "same idempotency attempt did not issue a duplicate confirmation POST"
+    ]
+  },
+  "checks": {
+    "task_succeeded": true,
+    "exactly_one_appointment": true,
+    "exactly_one_hold": true,
+    "exactly_two_booked_allocations": true,
+    "exactly_two_operations": true,
+    "events_have_strictly_increasing_sequences": true
+  },
+  "passed": true,
+  "cleanup": "none; isolated schema retained for audit"
+}

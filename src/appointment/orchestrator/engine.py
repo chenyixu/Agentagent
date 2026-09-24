@@ -230,6 +230,34 @@ class Orchestrator:
         decision_now = now or await live_now(self.session, self.clock)
         task = await _load_task_for_update(self.session, ctx, task_id=task_id)
 
+        prior = (
+            await self.session.execute(
+                select(m.WaitingAnswer)
+                .join(
+                    m.WaitingRequest,
+                    (m.WaitingRequest.id == m.WaitingAnswer.waiting_request_id)
+                    & (m.WaitingRequest.tenant_id == m.WaitingAnswer.tenant_id),
+                )
+                .where(
+                    m.WaitingAnswer.tenant_id == ctx.tenant_id,
+                    m.WaitingRequest.task_id == task.id,
+                    m.WaitingAnswer.client_event_id == client_event_id,
+                )
+            )
+        ).scalar_one_or_none()
+        if prior is not None:
+            if prior.answer != answer:
+                raise DomainError(
+                    ErrorCode.VALIDATION_ERROR,
+                    "同一答复事件 ID 对应不同内容",
+                )
+            return TurnReport(
+                task_id=task.id,
+                task_state=task.state,
+                task_version=task.version,
+                end_reason="DUPLICATE_ANSWER",
+            )
+
         waiting = (
             await self.session.execute(
                 select(m.WaitingRequest).where(
@@ -245,8 +273,21 @@ class Orchestrator:
             )
 
         stale = (
-            answer.get("task_version") is not None
-            and int(answer["task_version"]) != waiting.task_version
+            task.version != waiting.task_version
+            or task.epoch != waiting.epoch
+            or waiting.expires_at <= decision_now
+            or (
+                answer.get("task_version") is not None
+                and int(answer["task_version"]) != waiting.task_version
+            )
+            or (
+                answer.get("waiting_id") is not None
+                and str(answer["waiting_id"]) != str(waiting.id)
+            )
+            or (
+                answer.get("question_version") is not None
+                and answer["question_version"] != waiting.question_version
+            )
         )
         self.session.add(
             m.WaitingAnswer(
@@ -263,6 +304,8 @@ class Orchestrator:
         )
         if stale:
             # 过时答案只留审计，不推进任务：否则一次重放就能复活旧决策。
+            if waiting.expires_at <= decision_now:
+                waiting.status = WaitingStatus.EXPIRED.value
             await self.session.flush()
             return TurnReport(
                 task_id=task.id,
@@ -359,25 +402,42 @@ class Orchestrator:
         task.fencing_token = locked.fencing_token
         return attempt
 
-    async def _assert_fence(self, ctx: TrustedContext, task: m.Task) -> None:
+    async def _assert_fence(
+        self, ctx: TrustedContext, task: m.Task, attempt: m.ExecutionAttempt
+    ) -> None:
         """每次权威写入前重新确认执行权。
 
         fence 只能由服务端读取，客户端/模型伪造的 fence 一律无效（设计稿 §5.1）。
         """
 
+        # autoflush is disabled: a task version we advanced in this transaction
+        # must reach PostgreSQL before comparing its authoritative row version.
+        # This is still an uncommitted transaction, so the flush cannot publish
+        # a partial business effect; the row lock below keeps the comparison/write
+        # boundary atomic.
+        await self.session.flush()
         row = (
             await self.session.execute(
-                select(m.Task.fencing_token, m.Task.epoch, m.Task.lease_owner).where(
-                    m.Task.tenant_id == ctx.tenant_id, m.Task.id == task.id
+                select(
+                    m.Task.fencing_token, m.Task.epoch,
+                    m.Task.lease_owner, m.Task.version,
                 )
+                .where(m.Task.tenant_id == ctx.tenant_id, m.Task.id == task.id)
+                .with_for_update()
             )
         ).one_or_none()
         if row is None:
             raise DomainError(ErrorCode.NOT_FOUND, "任务不存在或无权访问")
-        if row.epoch != task.epoch:
+        if row.epoch != attempt.epoch:
             raise DomainError(ErrorCode.LEASE_LOST, "任务代际已变化，本次执行作废")
-        if row.fencing_token != task.fencing_token or row.lease_owner != ctx.request_id:
+        if row.fencing_token != attempt.fencing_token or row.lease_owner != ctx.request_id:
             raise DomainError(ErrorCode.LEASE_LOST, "执行权已被接管，本次执行作废")
+        if row.version != task.version:
+            raise version_conflict(
+                "模型决策期间任务已变化，请基于最新状态重试",
+                expected_version=task.version,
+                actual_version=row.version,
+            )
 
     async def _close_attempt(
         self, attempt: m.ExecutionAttempt, *, reason: ExecutionEndReason, now: datetime
@@ -461,6 +521,7 @@ class Orchestrator:
         task_id_for_cleanup: UUID = task.id
         #: 本轮是否有异常正在向上传播。清理阶段靠它判断"该不该让清理异常发声"。
         in_flight: BaseException | None = None
+        lost_execution = False
 
         try:
             while True:
@@ -483,6 +544,10 @@ class Orchestrator:
                     end_reason = ExecutionEndReason.ERROR
                     break
 
+                # 模型调用期间没有数据库事务；拿回决策后先锁住任务并比较
+                # 本次 attempt 的不可变代次/令牌，再准许更新状态或调用工具。
+                await self._assert_fence(ctx, task, attempt)
+
                 progressed = False
                 state_before = task.state
 
@@ -500,10 +565,49 @@ class Orchestrator:
                     # 只有真的改了槽位才算进展：无变化的改写不该被当成"在推进"。
                     progressed = progressed or bool(changed_slots)
 
-                if outcome.reply_text:
+                # 带工具请求的文案尚未有权威执行结果，不能先作为最终回复发出。
+                if outcome.reply_text and not outcome.tool_requests:
                     report.reply_text = outcome.reply_text
 
+                # Structured-output models sometimes put a missing-slot question in
+                # reply_text but omit clarification_question. Do not leave a booking
+                # task active with no durable wait record: the server derives the
+                # missing requirements and persists a canonical clarification.
+                if (
+                    not outcome.clarification_question
+                    and not outcome.tool_requests
+                    and TaskState(task.state) is TaskState.COLLECTING
+                    and not _slots_ready(dict(task.slots or {}))
+                    and (
+                        outcome.intent is Intent.BOOK
+                        or _intent_hint(user_message or "") is Intent.BOOK
+                        or _slot_service_id(dict(task.slots or {})) is not None
+                        or bool((dict(task.slots or {}).get("time_window") or {}).get("value"))
+                    )
+                ):
+                    question = _booking_clarification_question(dict(task.slots or {}))
+                    waiting = await self._open_clarification(
+                        ctx,
+                        task=task,
+                        attempt=attempt,
+                        question=question,
+                        now=now,
+                    )
+                    report.clarification_question = question
+                    report.reply_text = question
+                    report.waiting_id = waiting.id
+                    end_reason = ExecutionEndReason.WAITING
+                    break
+
                 if outcome.clarification_question:
+                    if TaskState(task.state) in (
+                        TaskState.PROPOSED, TaskState.WAITING_CONFIRMATION
+                    ):
+                        # 询问选哪个候选、是否确认方案都是本轮回复。
+                        # 保持原业务状态，不能创建 COLLECTING 用的追问等待。
+                        report.clarification_question = outcome.clarification_question
+                        report.reply_text = report.reply_text or outcome.clarification_question
+                        break
                     waiting = await self._open_clarification(
                         ctx,
                         task=task,
@@ -578,12 +682,14 @@ class Orchestrator:
                 task = await _reload(self.session, ctx, task_id=task.id)
 
         except DomainError as exc:
+            lost_execution = exc.code is ErrorCode.LEASE_LOST
             end_reason = (
                 ExecutionEndReason.WAITING
-                if exc.code is ErrorCode.LEASE_LOST
+                if lost_execution
                 else ExecutionEndReason.ERROR
             )
-            report.reply_text = report.reply_text or exc.message
+            if not lost_execution:
+                report.reply_text = report.reply_text or exc.message
         except BaseException as exc:
             # 数据库/程序性失败：会话很可能已经进入"待回滚"。先把原因记下来，
             # 再做一次显式回滚——这个事务注定要回滚，回滚不会丢掉任何已经承诺的
@@ -608,15 +714,21 @@ class Orchestrator:
         task = await _reload(self.session, ctx, task_id=task_id_for_cleanup)
         report.task_state = task.state
         report.task_version = task.version
-        report.end_reason = end_reason.value
+        report.end_reason = "LEASE_LOST" if lost_execution else end_reason.value
         report.budget = budget.snapshot()
-        report.event_cursor = await self._emit_reply_events(
-            ctx,
-            task_id=task.id,
-            reply_text=report.reply_text,
-            end_reason=end_reason,
-            now=now,
-        )
+        if lost_execution:
+            report.reply_text = None
+            report.event_cursor = await latest_task_event_sequence(
+                self.session, tenant_id=ctx.tenant_id, task_id=task.id
+            )
+        else:
+            report.event_cursor = await self._emit_reply_events(
+                ctx,
+                task_id=task.id,
+                reply_text=report.reply_text,
+                end_reason=end_reason,
+                now=now,
+            )
         return report
 
     async def _emit_reply_events(
@@ -727,8 +839,14 @@ class Orchestrator:
         rows = (
             await self.session.execute(
                 select(m.ToolExecution)
+                .join(
+                    m.ExecutionAttempt,
+                    (m.ExecutionAttempt.id == m.ToolExecution.attempt_id)
+                    & (m.ExecutionAttempt.tenant_id == m.ToolExecution.tenant_id),
+                )
                 .where(
                     m.ToolExecution.tenant_id == ctx.tenant_id,
+                    m.ExecutionAttempt.task_id == task.id,
                     m.ToolExecution.tool_name.in_(
                         ["search_availability", "get_service_quote"]
                     ),
@@ -795,7 +913,7 @@ class Orchestrator:
                 followups["quote"] = {**offer.to_data(), "task_id": str(task.id)}
             except DomainError:
                 # 报价不可用时保持缺失：运行时会提示重新取价，不编造金额。
-                pass
+                followups.pop("quote", None)
         return followups
 
     async def _invoke_runtime(
@@ -832,6 +950,9 @@ class Orchestrator:
             fresh_fact_keys=fresh_facts,
             waiting_answer=waiting_answer,
         )
+        # 不持有任务锁和业务事务等待模型网络响应。跨调用的权威只有数据库账本；
+        # 模型返回后由 _assert_fence 重新取得任务锁并确认本次执行权。
+        await self.session.commit()
         try:
             return await self.runtime.run_turn(request)
         except DomainError as exc:
@@ -845,8 +966,14 @@ class Orchestrator:
         rows = (
             await self.session.execute(
                 select(m.ToolExecution)
+                .join(
+                    m.ExecutionAttempt,
+                    (m.ExecutionAttempt.id == m.ToolExecution.attempt_id)
+                    & (m.ExecutionAttempt.tenant_id == m.ToolExecution.tenant_id),
+                )
                 .where(
                     m.ToolExecution.tenant_id == ctx.tenant_id,
+                    m.ExecutionAttempt.task_id == task.id,
                     m.ToolExecution.status == ToolStatus.OK.value,
                 )
                 .order_by(m.ToolExecution.finished_at.desc())
@@ -1039,7 +1166,7 @@ class Orchestrator:
         budget: TurnBudget,
         now: datetime,
     ) -> dict[str, Any]:
-        await self._assert_fence(ctx, task)
+        await self._assert_fence(ctx, task, attempt)
         budget.record_tool_call()
         started_at = now
         tool_call_id = uuid4().hex[:32]
@@ -1051,6 +1178,7 @@ class Orchestrator:
             request.arguments,
             now=now,
             clock=self.clock,
+            allowed_tools=_allowed_tools_for_state(TaskState(task.state)),
         )
         entry = {
             "tool": request.tool_name,
@@ -1208,6 +1336,16 @@ def _slots_ready(slots: dict[str, Any]) -> bool:
     )
 
 
+def _booking_clarification_question(slots: dict[str, Any]) -> str:
+    missing_service = _slot_service_id(slots) is None
+    missing_time = not bool((slots.get("time_window") or {}).get("value"))
+    if missing_service and missing_time:
+        return "请告诉我想预约的服务项目，以及希望预约的日期和时间。"
+    if missing_service:
+        return "我已记录您希望的时间范围，请问想预约哪个服务项目？"
+    return "我已记录您选择的服务项目，请问希望哪天、大概几点到店？"
+
+
 def _confirmation_view(data: dict[str, Any]) -> dict[str, Any] | None:
     """把 create_hold 的结果折成"确认卡"所需字段。
 
@@ -1298,10 +1436,11 @@ def _allowed_tools_for_state(state: TaskState) -> tuple[str, ...]:
     if state in (
         TaskState.COLLECTING,
         TaskState.SEARCHING,
-        TaskState.PROPOSED,
         TaskState.NEEDS_REPLAN,
         TaskState.WAITING_USER,
     ):
+        return base_read + ("transfer_to_human",)
+    if state is TaskState.PROPOSED:
         return base_read + ("create_hold", "transfer_to_human")
     if state is TaskState.WAITING_CONFIRMATION:
         return base_read + ("confirm_appointment", "transfer_to_human")

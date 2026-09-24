@@ -273,6 +273,72 @@ async def test_expired_hold_does_not_block_new_hold(
     await session.commit()
     # rollback 会让 ORM 实例过期；后续断言要用的标识先取出来，避免惰性加载。
     hold_a_id = hold_a.hold.id
+    task_a_id = task_a.id
+    proposal_a_id = hold_a.proposal.id
+    proposal_a_version = hold_a.proposal.version
+    confirmation_token_a = hold_a.confirmation_token
+    hold_a_task_version = hold_a.task_version
+
+    # 确认凭据可单独过期，即使占位和方案仍有效也不能被消费。
+    hold_a.confirmation.expires_at = now + timedelta(seconds=30)
+    await session.commit()
+    clock.advance(seconds=31)
+    credential_expired_at = clock.now()
+
+    from appointment.core.enums import ErrorCode
+    from appointment.core.errors import DomainError
+
+    with pytest.raises(DomainError) as credential_exc:
+        await confirm_appointment(
+            session,
+            ctx_a,
+            proposal_id=proposal_a_id,
+            proposal_version=proposal_a_version,
+            confirmation_token=confirmation_token_a,
+            client_confirmation_event_id="credential-expired-event",
+            idempotency_key="confirm-key-expired-credential",
+            expected_task_version=hold_a_task_version,
+            now=credential_expired_at,
+            clock=clock,
+        )
+    assert credential_exc.value.code == ErrorCode.CONFIRMATION_REQUIRED
+    await session.rollback()
+
+    task_after_credential_rejection = (
+        await session.execute(select(m.Task).where(m.Task.id == task_a_id))
+    ).scalar_one()
+    assert task_after_credential_rejection.state == TaskState.WAITING_CONFIRMATION.value
+    hold_after_credential_rejection = (
+        await session.execute(select(m.Hold).where(m.Hold.id == hold_a_id))
+    ).scalar_one()
+    assert hold_after_credential_rejection.state == HoldState.HELD.value
+    allocations_after_credential_rejection = (
+        await session.execute(
+            select(m.ResourceAllocation).where(m.ResourceAllocation.hold_id == hold_a_id)
+        )
+    ).scalars().all()
+    assert allocations_after_credential_rejection
+    assert {a.state for a in allocations_after_credential_rejection} == {
+        AllocationState.HELD.value
+    }
+    appointments_after_credential_rejection = (
+        await session.execute(
+            select(m.Appointment).where(
+                m.Appointment.tenant_id == seeded.tenant_id,
+                m.Appointment.customer_id == seeded.customer_ids[0],
+            )
+        )
+    ).scalars().all()
+    assert appointments_after_credential_rejection == []
+    expired_credential_operation = (
+        await session.execute(
+            select(m.Operation).where(
+                m.Operation.tenant_id == seeded.tenant_id,
+                m.Operation.idempotency_key == "confirm-key-expired-credential",
+            )
+        )
+    ).scalars().all()
+    assert expired_credential_operation == []
 
     # 受控时钟越过占位截止，并停止一切 Worker（本测试根本不运行 Worker）。
     clock.advance(seconds=400)
@@ -286,19 +352,16 @@ async def test_expired_hold_does_not_block_new_hold(
     await session.commit()
 
     # 旧凭据不能复活：确认必须得到 HOLD_EXPIRED。
-    from appointment.core.enums import ErrorCode
-    from appointment.core.errors import DomainError
-
     with pytest.raises(DomainError) as excinfo:
         await confirm_appointment(
             session,
             ctx_a,
-            proposal_id=hold_a.proposal.id,
-            proposal_version=hold_a.proposal.version,
-            confirmation_token=hold_a.confirmation_token,
+            proposal_id=proposal_a_id,
+            proposal_version=proposal_a_version,
+            confirmation_token=confirmation_token_a,
             client_confirmation_event_id="late-evt",
             idempotency_key="confirm-key-late",
-            expected_task_version=hold_a.task_version,
+            expected_task_version=hold_a_task_version,
             now=later,
             clock=clock,
         )
@@ -337,6 +400,36 @@ async def test_expired_hold_does_not_block_new_hold(
         await session.execute(select(m.Hold).where(m.Hold.id == hold_a_id))
     ).scalar_one()
     assert old_hold.state == HoldState.EXPIRED.value
+    task_after_hold_expiry = (
+        await session.execute(select(m.Task).where(m.Task.id == task_a_id))
+    ).scalar_one()
+    assert task_after_hold_expiry.state == TaskState.WAITING_CONFIRMATION.value
+    expired_allocations = (
+        await session.execute(
+            select(m.ResourceAllocation).where(m.ResourceAllocation.hold_id == hold_a_id)
+        )
+    ).scalars().all()
+    assert expired_allocations
+    assert {a.state for a in expired_allocations} == {AllocationState.EXPIRED.value}
+    assert all(a.appointment_id is None for a in expired_allocations)
+    appointments_after_hold_expiry = (
+        await session.execute(
+            select(m.Appointment).where(
+                m.Appointment.tenant_id == seeded.tenant_id,
+                m.Appointment.customer_id == seeded.customer_ids[0],
+            )
+        )
+    ).scalars().all()
+    assert appointments_after_hold_expiry == []
+    late_operation = (
+        await session.execute(
+            select(m.Operation).where(
+                m.Operation.tenant_id == seeded.tenant_id,
+                m.Operation.idempotency_key == "confirm-key-late",
+            )
+        )
+    ).scalars().all()
+    assert late_operation == []
 
     # 有效占用仍不重叠。
     active = (

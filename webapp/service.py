@@ -57,8 +57,10 @@ from agentscope.app.storage import (
 from agentscope.app.workspace_manager import LocalWorkspaceManager
 from agentscope.credential import DeepSeekCredential
 
+from appointment.config.settings import get_settings
 from appointment.db.session import dispose_engine, get_sessionmaker
 
+from .booking_api import install_booking_api
 from .authorization import resolve_identity_for_scope, resolve_tool_scope
 from .identity import BusinessIdentity, IdentityRegistry
 from .prompt import APPOINTMENT_SYSTEM_PROMPT
@@ -79,7 +81,7 @@ WORKSPACE_BASEDIR = Path(
 )
 
 #: 演示用的模型。可以用 APPOINTMENT_WEB_MODEL 覆盖成别的 DeepSeek 模型名。
-DEFAULT_MODEL = os.getenv("APPOINTMENT_WEB_MODEL", "deepseek-v4-flash")
+DEFAULT_MODEL = os.getenv("APPOINTMENT_WEB_MODEL", "deepseek-flash")
 
 #: DeepSeek 凭证在 storage 里的 id。它**不会**被写进 Redis（见下）。
 ENV_CREDENTIAL_ID = "appointment-web-deepseek"
@@ -140,14 +142,15 @@ def loaded_registry() -> IdentityRegistry:
 def deepseek_credential_from_env() -> DeepSeekCredential | None:
     """从环境变量构造 DeepSeek 凭证；没有就返回 None。"""
 
-    api_key = os.getenv("DEEPSEEK_API_KEY")
-    if not api_key or not api_key.strip():
+    settings = get_settings()
+    api_key = settings.deepseek_api_key
+    if api_key is None or not api_key.get_secret_value().strip():
         return None
     return DeepSeekCredential(
         id=ENV_CREDENTIAL_ID,
         name="DeepSeek（环境变量）",
-        api_key=api_key,
-        base_url=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
+        api_key=api_key.get_secret_value(),
+        base_url=settings.deepseek_base_url,
     )
 
 
@@ -413,6 +416,7 @@ app = create_app(
     ],
     title="星颜美业 · 预约助理",
 )
+install_booking_api(app)
 
 # 框架的 lifespan 管进程级资源，但没有给业务方留注入点，所以这里包一层：
 # 先读身份表并打印横幅，再跑框架自己的生命周期，退出时把业务库连接池关掉
@@ -422,7 +426,7 @@ _FRAMEWORK_LIFESPAN = app.router.lifespan_context
 
 @asynccontextmanager
 async def _appointment_lifespan(application: Any) -> AsyncIterator[Any]:
-    await _load_registry_or_explain()
+    application.state.appointment_identity_registry = await _load_registry_or_explain()
     print(describe_startup(), flush=True)
     async with _FRAMEWORK_LIFESPAN(application) as state:
         try:

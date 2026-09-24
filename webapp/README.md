@@ -9,13 +9,20 @@
     ▼
 AgentScope App 服务 (webapp/service.py)
     │  ① tool_scope_resolver     登录名 → ToolScope(tenant, customer)
-    │  ② scoped_extra_agent_tools  ToolScope → 只读业务工具
+    │  ② scoped_extra_agent_tools  ToolScope → 只读业务工具（模型只能看这些）
     ▼
 webapp/tools.py  ── invoke_tool ──▶  appointment.tools.registry
                                           （白名单/校验/权限/领域规则唯一入口）
                                           │
                                           ▼
                                      业务库 (PostgreSQL)
+
+预约页 (frontend/src/pages/appointment)
+    │  X-User-ID → 服务端 IdentityRegistry → TrustedContext
+    ▼
+webapp/booking_api.py ── /booking/v1/* ──▶ appointment.api.routes
+                                         │  显式确认 / 幂等查单 / 持久事件 SSE
+                                         └─▶ 同一业务库与领域事务
 ```
 
 ## 三条不变式
@@ -37,13 +44,20 @@ webapp/tools.py  ── invoke_tool ──▶  appointment.tools.registry
 | `identity.py` | 登录名 ↔ 业务主键的双向映射；确定性排序 |
 | `authorization.py` | 授权判定（登录名 → `ToolScope`，`ToolScope` → 身份），失败即 403 |
 | `tools.py` | 只读业务工具的装配；身份由闭包捕获 |
+| `booking_api.py` | 浏览器预约 API 的路由挂载与服务端身份映射 |
 | `prompt.py` | 系统提示词（含能力边界） |
 | `service.py` | 应用装配、Redis 播种、启动横幅、`__main__` |
 
 ## 当前能力边界（重要）
 
-- **只读。** 只装配 `get_service_quote` / `search_availability` / `search_knowledge`。
-  下单（占位、确认）尚未接通；提示词要求模型**如实说明**这一点，不许说"已为您约上"。
+- **模型工具只读。** AgentScope 模型仍只拿到 `get_service_quote` /
+  `search_availability` / `search_knowledge`，没有任何写工具。
+- **浏览器预约走独立 API。** `/appointment` 页面使用 `/booking/v1/*` 路由，服务端从
+  `X-User-ID` 映射出可信身份；确认凭据不存浏览器持久化，用户必须先查看方案再点确认。
+  刷新后先按原幂等键查询操作，再读取任务快照并恢复仍有效的凭据，不会自动下单。
+- **凭据恢复只读。** `POST /booking/v1/tasks/{task_id}/confirmation-credential` 只会
+  重发当前授权顾客、当前有效方案与占位对应的未消费凭据，并返回 `Cache-Control: no-store`；
+  真正写入仍由原确认事务处理。
 - **只有客户能对话。** 店长没有 `customer_id`，给不出 `ToolScope`，解析器明确拒绝。
   在浏览器里用 `manager` 登录会看到一个空白的智能体列表。
 - **认证是开发期模式。** `identity_provider=None` 时框架用 `X-User-ID` 请求头当登录名。
@@ -56,6 +70,10 @@ webapp/tools.py  ── invoke_tool ──▶  appointment.tools.registry
 .venv/bin/python scripts/dev_reset.py
 
 # 2. 浏览器侧服务（默认 http://127.0.0.1:8010）
+APPOINTMENT_AGENT_RUNTIME=agentscope \
+APPOINTMENT_MODEL_BACKEND=deepseek \
+APPOINTMENT_MODEL_NAME=deepseek-flash \
+APPOINTMENT_AGENT_PROMPT_VERSION=reception-v3 \
 .venv/bin/python -m webapp.service
 
 # 3. 前端（本仓库自带，无需外部 checkout）
@@ -67,7 +85,7 @@ cd frontend && pnpm install && pnpm dev
 - 服务器地址：`http://127.0.0.1:8010`
 - 用户名：`customer-1`（或 `customer-2`）
 
-启动横幅会列出本机可登录的演示身份；也可以 `curl http://127.0.0.1:8010/demo/identities`。
+启动前在 `.env` 或进程环境中配置 `DEEPSEEK_API_KEY`。上述设置让浏览器聊天和预约 API 都使用真实 DeepSeek；密钥以 `SecretStr` 载入，不进入配置导出或 Redis，预约确认仍由服务端专用接口与显式用户操作执行。启动横幅会列出本机可登录的演示身份；也可以 `curl http://127.0.0.1:8010/demo/identities`。
 
 ### 端口为什么不是 3000
 
@@ -113,7 +131,11 @@ cd frontend && pnpm install && pnpm dev
 | `HOST` | `127.0.0.1` | 绑定地址 |
 | `DEEPSEEK_API_KEY` | — | 缺省时不播种会话（界面会明确报缺密钥） |
 | `DEEPSEEK_BASE_URL` | `https://api.deepseek.com` | |
-| `APPOINTMENT_WEB_MODEL` | `deepseek-v4-flash` | 会话使用的模型名 |
+| `APPOINTMENT_WEB_MODEL` | `deepseek-flash` | 浏览器聊天会话使用的 DeepSeek 模型名 |
+| `APPOINTMENT_AGENT_RUNTIME` | `deterministic` | 预约 API 的运行时；真实模型需设为 `agentscope` |
+| `APPOINTMENT_MODEL_BACKEND` | `stub` | 预约 API 的模型后端；真实 DeepSeek 需设为 `deepseek` |
+| `APPOINTMENT_MODEL_NAME` | `qwen-plus` | 预约 API 使用的模型；DeepSeek 建议设为 `deepseek-flash` |
+| `APPOINTMENT_AGENT_PROMPT_VERSION` | `reception-v3` | 预约 API 的结构化决策提示词版本 |
 | `APPOINTMENT_REDIS_HOST` / `_PORT` / `_DB` / `_PASSWORD` | `127.0.0.1` / `16379` / `0` / — | |
 | `APPOINTMENT_WEB_WORKSPACE_DIR` | `.local/workspaces` | 工作区根目录 |
 
@@ -131,10 +153,11 @@ cd frontend && pnpm install && pnpm dev
 
 ```bash
 .venv/bin/python -m pytest tests/test_webapp_bridge.py -q
+.venv/bin/python -m pytest tests/test_browser_booking_api.py -q
 ```
 
 锁的是边界而不是"能跑通"：身份映射、模型可见 schema 里没有身份字段、只读工具确实
-只读、拒绝未知登录名与无客户作用域的角色。
+只读、预约上下文拒绝未知身份/店长身份，确认仍需单独凭据和显式按钮。
 
 浏览器侧的端到端冒烟（用系统 Chrome，不需要下载 Chromium）：
 

@@ -4,13 +4,16 @@
 造成脆弱测试。这里的 ``FrozenClock`` 固定一个参考时刻，配合真实的 PostgreSQL
 做事务与并发验证。
 
-测试库通过环境变量指向独立的 ``appointment_test``，避免污染开发库。
+每个数据库用例使用独立的 PostgreSQL schema，保留证据且不清空现有表。
 """
 
 from __future__ import annotations
 
 import os
+import re
+import sys
 from datetime import datetime, timedelta, timezone
+from uuid import uuid4
 
 # 必须在导入 appointment 之前设置：Settings 有 lru_cache。
 os.environ.setdefault(
@@ -29,11 +32,17 @@ from uuid import UUID  # noqa: E402
 import pytest  # noqa: E402
 import pytest_asyncio  # noqa: E402
 from sqlalchemy import text  # noqa: E402
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker  # noqa: E402
+from sqlalchemy.engine import make_url  # noqa: E402
+from sqlalchemy.ext.asyncio import (  # noqa: E402
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from appointment.core.clock import FrozenClock  # noqa: E402
 from appointment.db.schema import create_all, verify_exclusion_constraint  # noqa: E402
-from appointment.db.session import dispose_engine, get_engine  # noqa: E402
+from appointment.db import session as db_session  # noqa: E402
 from appointment.domain.context import TrustedContext  # noqa: E402
 from appointment.seed import SeedResult, seed  # noqa: E402
 
@@ -41,44 +50,61 @@ from appointment.seed import SeedResult, seed  # noqa: E402
 REFERENCE_NOW = datetime(2026, 9, 17, 5, 0, tzinfo=timezone.utc)
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture
 async def engine() -> AsyncIterator[AsyncEngine]:
-    eng = get_engine()
-    await create_all(eng)
+    """每个用例只在新 schema 建表；不触及已有业务数据。"""
+
+    from appointment.config.settings import get_settings
+
+    settings = get_settings()
+    url = make_url(settings.database_url)
+    if settings.env != "test" or url.database != "appointment_test":
+        raise RuntimeError("集成测试仅允许使用 test 环境的 appointment_test 数据库")
+    schema = f"case_{uuid4().hex}"
+    assert re.fullmatch(r"case_[0-9a-f]{32}", schema)
+    bootstrap = create_async_engine(settings.database_url)
+    try:
+        async with bootstrap.begin() as connection:
+            await connection.execute(text(f'CREATE SCHEMA "{schema}"'))
+    finally:
+        await bootstrap.dispose()
+    eng = create_async_engine(
+        settings.database_url,
+        connect_args={"server_settings": {"search_path": f"{schema},public"}},
+        pool_size=settings.db_pool_size,
+        max_overflow=settings.db_max_overflow,
+    )
+    previous_engine = db_session._engine
+    previous_factory = db_session._sessionmaker
+    db_session._engine = eng
+    db_session._sessionmaker = async_sessionmaker(
+        eng, expire_on_commit=False, autoflush=False
+    )
+    webapp_service = sys.modules.get("webapp.service")
+    previous_webapp_factory = getattr(webapp_service, "_SESSION_FACTORY", None)
+    if webapp_service is not None:
+        webapp_service._SESSION_FACTORY = db_session._sessionmaker
+    await create_all(eng, schema=schema)
     assert await verify_exclusion_constraint(eng), (
         "resource_allocation 缺少区间排他约束：核心不变量无法保证"
     )
-    yield eng
-    await dispose_engine()
+    try:
+        yield eng
+    finally:
+        if webapp_service is not None:
+            webapp_service._SESSION_FACTORY = previous_webapp_factory
+        db_session._engine = previous_engine
+        db_session._sessionmaker = previous_factory
+        await eng.dispose()
 
 
 @pytest_asyncio.fixture
 async def session(engine: AsyncEngine) -> AsyncIterator[AsyncSession]:
-    """每个测试拿到干净的库。
-
-    先 TRUNCATE 全部业务表，再交给测试；测试结束后不提交残留数据。
-    """
+    """每个测试拿到自己的新 schema；提交仅留在该 schema 中。"""
 
     factory = async_sessionmaker(engine, expire_on_commit=False, autoflush=False)
     async with factory() as sess:
-        await _truncate_all(sess)
         yield sess
-
-
-async def _truncate_all(session: AsyncSession) -> None:
-    rows = (
-        await session.execute(
-            text(
-                "SELECT tablename FROM pg_tables WHERE schemaname = 'public' "
-                "AND tablename NOT LIKE 'spatial_%'"
-            )
-        )
-    ).scalars().all()
-    if not rows:
-        return
-    quoted = ", ".join(f'"{name}"' for name in rows)
-    await session.execute(text(f"TRUNCATE {quoted} RESTART IDENTITY CASCADE"))
-    await session.commit()
 
 
 @pytest.fixture
@@ -100,8 +126,9 @@ def settings():
 
 
 @pytest_asyncio.fixture
-async def seeded(session: AsyncSession, clock: FrozenClock) -> SeedResult:
-    result = await seed(session, now=clock.now())
+async def seeded(session: AsyncSession, clock: FrozenClock, request) -> SeedResult:
+    options = getattr(request, "param", {})
+    result = await seed(session, now=clock.now(), **options)
     await session.commit()
     return result
 

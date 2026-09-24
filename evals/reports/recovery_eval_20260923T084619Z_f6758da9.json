@@ -1,0 +1,93 @@
+{
+  "fresh_process_pid": 64888,
+  "scenario_results": {
+    "timeout:expired_rejected": 2,
+    "takeover:fenced": 2,
+    "restart:resumed": 2
+  },
+  "end_reasons": {
+    "STALE_ANSWER_REJECTED": 2,
+    "LEASE_LOST": 2,
+    "COMPLETED": 2
+  },
+  "task_results": [
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "timeout",
+      "result": "expired_rejected",
+      "end_reason": "STALE_ANSWER_REJECTED",
+      "task_state": "WAITING_USER",
+      "waiting_state": "EXPIRED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "takeover",
+      "result": "fenced",
+      "end_reason": "LEASE_LOST",
+      "task_state": "COLLECTING",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 0,
+      "stale_reply_emitted": false
+    },
+    {
+      "group": "restart",
+      "result": "resumed",
+      "end_reason": "COMPLETED",
+      "task_state": "PROPOSED",
+      "waiting_state": "ANSWERED",
+      "tool_execution_count": 2,
+      "stale_reply_emitted": false
+    }
+  ],
+  "business_counts_after": {
+    "Appointment": 0,
+    "Hold": 0,
+    "ResourceAllocation": 0,
+    "Operation": 0,
+    "ToolExecution": 4,
+    "TaskEvent": 34
+  },
+  "kind": "persisted_task_process_restart_timeout_takeover_eval",
+  "schema": "exp_200ef97460884000af8adf1bf6758da9",
+  "database": "appointment_test",
+  "cases_per_group": 2,
+  "total_cases": 6,
+  "parent_process_pid": 64886,
+  "process_changed": true,
+  "python_worker_returncode": 0,
+  "elapsed_seconds": 0.63,
+  "time_anchor": "2026-09-17T05:00:00+00:00",
+  "business_state_before_resume": {
+    "appointments": 0,
+    "holds": 0,
+    "resource_allocations": 0,
+    "operations": 0
+  }
+}

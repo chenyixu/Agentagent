@@ -77,6 +77,9 @@ class TurnOutput:
     #: 本轮消耗的预算单位（token 折算）。缺失标记 unknown，不计为零。
     usage_units: int | None = None
     usage_status: str = "UNKNOWN"
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    cache_input_tokens: int | None = None
 
 
 @dataclass(frozen=True, slots=True)

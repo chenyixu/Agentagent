@@ -1,0 +1,630 @@
+{
+  "kind": "real_model_full_booking_smoke",
+  "schema": "exp_6f48549880bb4661a6c82ae9265f434f",
+  "database": "appointment_test",
+  "model_backend": "deepseek",
+  "model_name": "deepseek-flash",
+  "prompt_version": "reception-v3",
+  "case_id": "P06_shoulder_midday",
+  "input": "肩颈舒缓，9月30日中午12点左右，麻烦安排。",
+  "selection_input": "第一个可以",
+  "conversation_steps": null,
+  "elapsed_ms": 9228.498,
+  "outcome": {
+    "status": "ok",
+    "turn": {
+      "task_id": "9990fb49-cc9c-44b8-8713-068693c5d87a",
+      "task_state": "PROPOSED",
+      "task_version": 4,
+      "reply_text": "请明确选择一个已展示的候选时段，例如“第一个”，选择后我再为您创建待确认方案。",
+      "clarification_question": "请明确选择一个已展示的候选时段，例如“第一个”，选择后我再为您创建待确认方案。",
+      "tool_calls": [
+        {
+          "tool": "get_service_quote",
+          "status": "OK",
+          "tool_call_id": "18d0bbf7d18344fdbae2e3f2bcbe3eb3",
+          "data": {
+            "quote_id": "f5488661-5498-4216-9a47-04e2cbe08724",
+            "quote_version": 1,
+            "service_version_id": "c011fe02-4c80-4ad8-89c5-a1e92c662e6f",
+            "price_version_id": "56156f22-edcf-4ee8-bb70-7a742a15e82d",
+            "duration_minutes": 60,
+            "amount_minor": 26800,
+            "currency": "CNY",
+            "currency_exponent": 2,
+            "valid_until": "2026-09-23T05:15:00+00:00",
+            "terms_hash": "8dbb6a137165f79760932b0919797bb1056dd4b710f00cb0600f72e80bc27bb2",
+            "terms_snapshot": {
+              "rule_version": "rules-2026-09-17",
+              "cancel_fee_minor": 0,
+              "cancel_window_hours": 4
+            },
+            "lock_policy": "VALID_WINDOW_LOCK",
+            "quote_token": "eyJhbW91bnRfbWlub3IiOjI2ODAwLCJjdXJyZW5jeSI6IkNOWSIsImN1cnJlbmN5X2V4cG9uZW50IjoyLCJjdXN0b21lcl9pZCI6IjY5ZTMxMTEwLTI3MjUtNGI4ZC04NDdhLTcwNjEzNzdjMGI0ZCIsImR1cmF0aW9uX21pbnV0ZXMiOjYwLCJsb2NrX3BvbGljeSI6IlZBTElEX1dJTkRPV19MT0NLIiwicHJpY2VfdmVyc2lvbl9pZCI6IjU2MTU2ZjIyLWVkY2YtNGVlOC1iYjcwLTdhNzQyYTE1ZTgyZCIsInF1b3RlX2lkIjoiZjU0ODg2NjEtNTQ5OC00MjE2LTlhNDctMDRlMmNiZTA4NzI0IiwicXVvdGVfdmVyc2lvbiI6MSwic2VydmljZV92ZXJzaW9uX2lkIjoiYzAxMWZlMDItNGM4MC00YWQ4LTg5YzUtYTFlOTJjNjYyZTZmIiwic3RvcmVfaWQiOiIwNjFhMjFhOS1kMjU5LTQwOWEtODMxYS03MGM1MWJkMWZlMjIiLCJ0ZW5hbnRfaWQiOiIyN2E0MzNkOC0yNWYzLTQwY2ItOTcxYS1iOTNmNWQ3OGE1MTUiLCJ0ZXJtc19oYXNoIjoiOGRiYjZhMTM3MTY1Zjc5NzYwOTMyYjA5MTk3OTdiYjEwNTZkZDRiNzEwZjAwY2IwNjAwZjcyZTgwYmMyN2JiMiIsInZhbGlkX3VudGlsIjoiMjAyNi0wOS0yM1QwNToxNTowMCswMDowMCJ9.0ac69e96c1c8ffa8beeaa70d6caa2051f29e159b3dbc83e935a334df23971af1",
+            "service_id": "c760966a-c880-41e5-a46d-73b0dc40915a",
+            "store_id": "061a21a9-d259-409a-831a-70c51bd1fe22"
+          }
+        },
+        {
+          "tool": "search_availability",
+          "status": "OK",
+          "tool_call_id": "64b6701335cc4b4b8912905a326866cb",
+          "data": {
+            "candidates": [
+              {
+                "candidate_id": "639f5a1831b67996e6e3edf664a237f8363a130f2bfd718a190648b83d56e846",
+                "service_version_id": "c011fe02-4c80-4ad8-89c5-a1e92c662e6f",
+                "start_at": "2026-09-30T12:00:00+08:00",
+                "end_at": "2026-09-30T13:00:00+08:00",
+                "resources": [
+                  {
+                    "resource_id": "f21463e3-4cdd-42e8-adb3-231dacbbf2a5",
+                    "type": "room",
+                    "unit_code": "room-04",
+                    "display_name": "按摩房1",
+                    "gender": null
+                  },
+                  {
+                    "resource_id": "34fd1513-3016-4904-ab14-e361d68398a3",
+                    "type": "therapist",
+                    "unit_code": "therapist-01",
+                    "display_name": "王技师",
+                    "gender": "female"
+                  }
+                ],
+                "constraints": [
+                  "资源班次覆盖该时段",
+                  "资源技能满足服务要求",
+                  "落在门店营业窗口内",
+                  "与现有有效占用不重叠（快照时点）"
+                ],
+                "dependency_versions": {
+                  "store_calendar_version": 1,
+                  "service_version_revision": 1,
+                  "snapshot_at": "2026-09-23T05:00:00+00:00"
+                },
+                "snapshot_at": "2026-09-23T05:00:00+00:00",
+                "guarantee": "NONE",
+                "score": 1.0,
+                "score_detail": {
+                  "score": 1.0,
+                  "breakdown": {
+                    "skill_match": 0.6364,
+                    "time_fit": 0.3636
+                  },
+                  "missing_features": [
+                    "explicit_preference",
+                    "price_fit",
+                    "reputation"
+                  ],
+                  "evidence": []
+                },
+                "fallback": false,
+                "reasons": [
+                  "技能匹配贡献 0.64",
+                  "时间贴合贡献 0.36",
+                  "显式偏好：无可用数据，未参与打分",
+                  "价格贴合：无可用数据，未参与打分",
+                  "可用评价：无可用数据，未参与打分"
+                ]
+              }
+            ],
+            "snapshot_at": "2026-09-23T05:00:00+00:00",
+            "guarantee": "NONE",
+            "notes": []
+          }
+        }
+      ],
+      "end_reason": "COMPLETED",
+      "budget": {
+        "tool_calls": 2,
+        "max_tool_calls": 6,
+        "consult_delegations": 0,
+        "repairs": 0,
+        "no_progress_rounds": 0,
+        "distinct_calls": 2,
+        "repeated_calls": 0
+      },
+      "waiting_id": null,
+      "pending_confirmation": null,
+      "event_cursor": 6
+    },
+    "interactions": [
+      {
+        "index": 1,
+        "kind": "message",
+        "input": "肩颈舒缓，9月30日中午12点左右，麻烦安排。",
+        "task_state": "PROPOSED",
+        "task_version": 4,
+        "waiting_id": null,
+        "reply_text": "请明确选择一个已展示的候选时段，例如“第一个”，选择后我再为您创建待确认方案。",
+        "clarification_question": "请明确选择一个已展示的候选时段，例如“第一个”，选择后我再为您创建待确认方案。",
+        "tool_calls": [
+          {
+            "tool": "get_service_quote",
+            "status": "OK",
+            "tool_call_id": "18d0bbf7d18344fdbae2e3f2bcbe3eb3",
+            "data": {
+              "quote_id": "f5488661-5498-4216-9a47-04e2cbe08724",
+              "quote_version": 1,
+              "service_version_id": "c011fe02-4c80-4ad8-89c5-a1e92c662e6f",
+              "price_version_id": "56156f22-edcf-4ee8-bb70-7a742a15e82d",
+              "duration_minutes": 60,
+              "amount_minor": 26800,
+              "currency": "CNY",
+              "currency_exponent": 2,
+              "valid_until": "2026-09-23T05:15:00+00:00",
+              "terms_hash": "8dbb6a137165f79760932b0919797bb1056dd4b710f00cb0600f72e80bc27bb2",
+              "terms_snapshot": {
+                "rule_version": "rules-2026-09-17",
+                "cancel_fee_minor": 0,
+                "cancel_window_hours": 4
+              },
+              "lock_policy": "VALID_WINDOW_LOCK",
+              "quote_token": "eyJhbW91bnRfbWlub3IiOjI2ODAwLCJjdXJyZW5jeSI6IkNOWSIsImN1cnJlbmN5X2V4cG9uZW50IjoyLCJjdXN0b21lcl9pZCI6IjY5ZTMxMTEwLTI3MjUtNGI4ZC04NDdhLTcwNjEzNzdjMGI0ZCIsImR1cmF0aW9uX21pbnV0ZXMiOjYwLCJsb2NrX3BvbGljeSI6IlZBTElEX1dJTkRPV19MT0NLIiwicHJpY2VfdmVyc2lvbl9pZCI6IjU2MTU2ZjIyLWVkY2YtNGVlOC1iYjcwLTdhNzQyYTE1ZTgyZCIsInF1b3RlX2lkIjoiZjU0ODg2NjEtNTQ5OC00MjE2LTlhNDctMDRlMmNiZTA4NzI0IiwicXVvdGVfdmVyc2lvbiI6MSwic2VydmljZV92ZXJzaW9uX2lkIjoiYzAxMWZlMDItNGM4MC00YWQ4LTg5YzUtYTFlOTJjNjYyZTZmIiwic3RvcmVfaWQiOiIwNjFhMjFhOS1kMjU5LTQwOWEtODMxYS03MGM1MWJkMWZlMjIiLCJ0ZW5hbnRfaWQiOiIyN2E0MzNkOC0yNWYzLTQwY2ItOTcxYS1iOTNmNWQ3OGE1MTUiLCJ0ZXJtc19oYXNoIjoiOGRiYjZhMTM3MTY1Zjc5NzYwOTMyYjA5MTk3OTdiYjEwNTZkZDRiNzEwZjAwY2IwNjAwZjcyZTgwYmMyN2JiMiIsInZhbGlkX3VudGlsIjoiMjAyNi0wOS0yM1QwNToxNTowMCswMDowMCJ9.0ac69e96c1c8ffa8beeaa70d6caa2051f29e159b3dbc83e935a334df23971af1",
+              "service_id": "c760966a-c880-41e5-a46d-73b0dc40915a",
+              "store_id": "061a21a9-d259-409a-831a-70c51bd1fe22"
+            }
+          },
+          {
+            "tool": "search_availability",
+            "status": "OK",
+            "tool_call_id": "64b6701335cc4b4b8912905a326866cb",
+            "data": {
+              "candidates": [
+                {
+                  "candidate_id": "639f5a1831b67996e6e3edf664a237f8363a130f2bfd718a190648b83d56e846",
+                  "service_version_id": "c011fe02-4c80-4ad8-89c5-a1e92c662e6f",
+                  "start_at": "2026-09-30T12:00:00+08:00",
+                  "end_at": "2026-09-30T13:00:00+08:00",
+                  "resources": [
+                    {
+                      "resource_id": "f21463e3-4cdd-42e8-adb3-231dacbbf2a5",
+                      "type": "room",
+                      "unit_code": "room-04",
+                      "display_name": "按摩房1",
+                      "gender": null
+                    },
+                    {
+                      "resource_id": "34fd1513-3016-4904-ab14-e361d68398a3",
+                      "type": "therapist",
+                      "unit_code": "therapist-01",
+                      "display_name": "王技师",
+                      "gender": "female"
+                    }
+                  ],
+                  "constraints": [
+                    "资源班次覆盖该时段",
+                    "资源技能满足服务要求",
+                    "落在门店营业窗口内",
+                    "与现有有效占用不重叠（快照时点）"
+                  ],
+                  "dependency_versions": {
+                    "store_calendar_version": 1,
+                    "service_version_revision": 1,
+                    "snapshot_at": "2026-09-23T05:00:00+00:00"
+                  },
+                  "snapshot_at": "2026-09-23T05:00:00+00:00",
+                  "guarantee": "NONE",
+                  "score": 1.0,
+                  "score_detail": {
+                    "score": 1.0,
+                    "breakdown": {
+                      "skill_match": 0.6364,
+                      "time_fit": 0.3636
+                    },
+                    "missing_features": [
+                      "explicit_preference",
+                      "price_fit",
+                      "reputation"
+                    ],
+                    "evidence": []
+                  },
+                  "fallback": false,
+                  "reasons": [
+                    "技能匹配贡献 0.64",
+                    "时间贴合贡献 0.36",
+                    "显式偏好：无可用数据，未参与打分",
+                    "价格贴合：无可用数据，未参与打分",
+                    "可用评价：无可用数据，未参与打分"
+                  ]
+                }
+              ],
+              "snapshot_at": "2026-09-23T05:00:00+00:00",
+              "guarantee": "NONE",
+              "notes": []
+            }
+          }
+        ],
+        "counts": {
+          "holds": 0,
+          "appointments": 0
+        },
+        "report": {
+          "task_id": "9990fb49-cc9c-44b8-8713-068693c5d87a",
+          "task_state": "PROPOSED",
+          "task_version": 4,
+          "reply_text": "请明确选择一个已展示的候选时段，例如“第一个”，选择后我再为您创建待确认方案。",
+          "clarification_question": "请明确选择一个已展示的候选时段，例如“第一个”，选择后我再为您创建待确认方案。",
+          "tool_calls": [
+            {
+              "tool": "get_service_quote",
+              "status": "OK",
+              "tool_call_id": "18d0bbf7d18344fdbae2e3f2bcbe3eb3",
+              "data": {
+                "quote_id": "f5488661-5498-4216-9a47-04e2cbe08724",
+                "quote_version": 1,
+                "service_version_id": "c011fe02-4c80-4ad8-89c5-a1e92c662e6f",
+                "price_version_id": "56156f22-edcf-4ee8-bb70-7a742a15e82d",
+                "duration_minutes": 60,
+                "amount_minor": 26800,
+                "currency": "CNY",
+                "currency_exponent": 2,
+                "valid_until": "2026-09-23T05:15:00+00:00",
+                "terms_hash": "8dbb6a137165f79760932b0919797bb1056dd4b710f00cb0600f72e80bc27bb2",
+                "terms_snapshot": {
+                  "rule_version": "rules-2026-09-17",
+                  "cancel_fee_minor": 0,
+                  "cancel_window_hours": 4
+                },
+                "lock_policy": "VALID_WINDOW_LOCK",
+                "quote_token": "eyJhbW91bnRfbWlub3IiOjI2ODAwLCJjdXJyZW5jeSI6IkNOWSIsImN1cnJlbmN5X2V4cG9uZW50IjoyLCJjdXN0b21lcl9pZCI6IjY5ZTMxMTEwLTI3MjUtNGI4ZC04NDdhLTcwNjEzNzdjMGI0ZCIsImR1cmF0aW9uX21pbnV0ZXMiOjYwLCJsb2NrX3BvbGljeSI6IlZBTElEX1dJTkRPV19MT0NLIiwicHJpY2VfdmVyc2lvbl9pZCI6IjU2MTU2ZjIyLWVkY2YtNGVlOC1iYjcwLTdhNzQyYTE1ZTgyZCIsInF1b3RlX2lkIjoiZjU0ODg2NjEtNTQ5OC00MjE2LTlhNDctMDRlMmNiZTA4NzI0IiwicXVvdGVfdmVyc2lvbiI6MSwic2VydmljZV92ZXJzaW9uX2lkIjoiYzAxMWZlMDItNGM4MC00YWQ4LTg5YzUtYTFlOTJjNjYyZTZmIiwic3RvcmVfaWQiOiIwNjFhMjFhOS1kMjU5LTQwOWEtODMxYS03MGM1MWJkMWZlMjIiLCJ0ZW5hbnRfaWQiOiIyN2E0MzNkOC0yNWYzLTQwY2ItOTcxYS1iOTNmNWQ3OGE1MTUiLCJ0ZXJtc19oYXNoIjoiOGRiYjZhMTM3MTY1Zjc5NzYwOTMyYjA5MTk3OTdiYjEwNTZkZDRiNzEwZjAwY2IwNjAwZjcyZTgwYmMyN2JiMiIsInZhbGlkX3VudGlsIjoiMjAyNi0wOS0yM1QwNToxNTowMCswMDowMCJ9.0ac69e96c1c8ffa8beeaa70d6caa2051f29e159b3dbc83e935a334df23971af1",
+                "service_id": "c760966a-c880-41e5-a46d-73b0dc40915a",
+                "store_id": "061a21a9-d259-409a-831a-70c51bd1fe22"
+              }
+            },
+            {
+              "tool": "search_availability",
+              "status": "OK",
+              "tool_call_id": "64b6701335cc4b4b8912905a326866cb",
+              "data": {
+                "candidates": [
+                  {
+                    "candidate_id": "639f5a1831b67996e6e3edf664a237f8363a130f2bfd718a190648b83d56e846",
+                    "service_version_id": "c011fe02-4c80-4ad8-89c5-a1e92c662e6f",
+                    "start_at": "2026-09-30T12:00:00+08:00",
+                    "end_at": "2026-09-30T13:00:00+08:00",
+                    "resources": [
+                      {
+                        "resource_id": "f21463e3-4cdd-42e8-adb3-231dacbbf2a5",
+                        "type": "room",
+                        "unit_code": "room-04",
+                        "display_name": "按摩房1",
+                        "gender": null
+                      },
+                      {
+                        "resource_id": "34fd1513-3016-4904-ab14-e361d68398a3",
+                        "type": "therapist",
+                        "unit_code": "therapist-01",
+                        "display_name": "王技师",
+                        "gender": "female"
+                      }
+                    ],
+                    "constraints": [
+                      "资源班次覆盖该时段",
+                      "资源技能满足服务要求",
+                      "落在门店营业窗口内",
+                      "与现有有效占用不重叠（快照时点）"
+                    ],
+                    "dependency_versions": {
+                      "store_calendar_version": 1,
+                      "service_version_revision": 1,
+                      "snapshot_at": "2026-09-23T05:00:00+00:00"
+                    },
+                    "snapshot_at": "2026-09-23T05:00:00+00:00",
+                    "guarantee": "NONE",
+                    "score": 1.0,
+                    "score_detail": {
+                      "score": 1.0,
+                      "breakdown": {
+                        "skill_match": 0.6364,
+                        "time_fit": 0.3636
+                      },
+                      "missing_features": [
+                        "explicit_preference",
+                        "price_fit",
+                        "reputation"
+                      ],
+                      "evidence": []
+                    },
+                    "fallback": false,
+                    "reasons": [
+                      "技能匹配贡献 0.64",
+                      "时间贴合贡献 0.36",
+                      "显式偏好：无可用数据，未参与打分",
+                      "价格贴合：无可用数据，未参与打分",
+                      "可用评价：无可用数据，未参与打分"
+                    ]
+                  }
+                ],
+                "snapshot_at": "2026-09-23T05:00:00+00:00",
+                "guarantee": "NONE",
+                "notes": []
+              }
+            }
+          ],
+          "end_reason": "COMPLETED",
+          "budget": {
+            "tool_calls": 2,
+            "max_tool_calls": 6,
+            "consult_delegations": 0,
+            "repairs": 0,
+            "no_progress_rounds": 0,
+            "distinct_calls": 2,
+            "repeated_calls": 0
+          },
+          "waiting_id": null,
+          "pending_confirmation": null,
+          "event_cursor": 6
+        }
+      },
+      {
+        "index": 2,
+        "kind": "message",
+        "input": "第一个可以",
+        "task_state": "WAITING_CONFIRMATION",
+        "task_version": 5,
+        "waiting_id": null,
+        "reply_text": "好的，您选择第一个候选：2026-09-30 12:00–13:00（北京时间），资源为 王技师 与 按摩房1。\n项目：肩颈舒缓 60 分钟，价格 268 元，时长 60 分钟。\n该时段已生成待确认占位，需您明确确认后才会正式锁定时段。请回复「确认」以完成预约。",
+        "clarification_question": null,
+        "tool_calls": [
+          {
+            "tool": "create_hold",
+            "status": "OK",
+            "tool_call_id": "fa1e710f43ae49d99cdd14bd694019b4",
+            "data": {
+              "hold_id": "9ff60ce7-462e-4f92-9a89-17509288818d",
+              "hold_state": "HELD",
+              "expires_at": "2026-09-23T05:03:00+00:00",
+              "proposal_id": "e94567c8-39a0-4476-a565-a4eef26465e3",
+              "proposal_version": 5,
+              "proposal_content_hash": "8e7575586612d3b422ed0f45f3ba936e93f398727ac1ffe2cc46eb55dccaf0d5",
+              "confirmation_id": "2f9dd7d5-176d-4c6a-bf8f-1ebfdb0aea20",
+              "confirmation_token": "cft.9bc2c8ee8da34e9ab602dc4e11fb3c94.8e7575586612d3b422ed0f45f3ba936e93f398727ac1ffe2cc46eb55dccaf0d5",
+              "confirmation_expires_at": "2026-09-23T05:03:00+00:00",
+              "task_version": 5,
+              "replayed": false,
+              "allocations": [
+                {
+                  "resource_id": "34fd1513-3016-4904-ab14-e361d68398a3",
+                  "state": "HELD",
+                  "start_at": "2026-09-30T12:00:00+08:00",
+                  "end_at": "2026-09-30T13:00:00+08:00"
+                },
+                {
+                  "resource_id": "f21463e3-4cdd-42e8-adb3-231dacbbf2a5",
+                  "state": "HELD",
+                  "start_at": "2026-09-30T12:00:00+08:00",
+                  "end_at": "2026-09-30T13:00:00+08:00"
+                }
+              ]
+            }
+          }
+        ],
+        "counts": {
+          "holds": 1,
+          "appointments": 0
+        },
+        "report": {
+          "task_id": "9990fb49-cc9c-44b8-8713-068693c5d87a",
+          "task_state": "WAITING_CONFIRMATION",
+          "task_version": 5,
+          "reply_text": "好的，您选择第一个候选：2026-09-30 12:00–13:00（北京时间），资源为 王技师 与 按摩房1。\n项目：肩颈舒缓 60 分钟，价格 268 元，时长 60 分钟。\n该时段已生成待确认占位，需您明确确认后才会正式锁定时段。请回复「确认」以完成预约。",
+          "clarification_question": null,
+          "tool_calls": [
+            {
+              "tool": "create_hold",
+              "status": "OK",
+              "tool_call_id": "fa1e710f43ae49d99cdd14bd694019b4",
+              "data": {
+                "hold_id": "9ff60ce7-462e-4f92-9a89-17509288818d",
+                "hold_state": "HELD",
+                "expires_at": "2026-09-23T05:03:00+00:00",
+                "proposal_id": "e94567c8-39a0-4476-a565-a4eef26465e3",
+                "proposal_version": 5,
+                "proposal_content_hash": "8e7575586612d3b422ed0f45f3ba936e93f398727ac1ffe2cc46eb55dccaf0d5",
+                "confirmation_id": "2f9dd7d5-176d-4c6a-bf8f-1ebfdb0aea20",
+                "confirmation_token": "cft.9bc2c8ee8da34e9ab602dc4e11fb3c94.8e7575586612d3b422ed0f45f3ba936e93f398727ac1ffe2cc46eb55dccaf0d5",
+                "confirmation_expires_at": "2026-09-23T05:03:00+00:00",
+                "task_version": 5,
+                "replayed": false,
+                "allocations": [
+                  {
+                    "resource_id": "34fd1513-3016-4904-ab14-e361d68398a3",
+                    "state": "HELD",
+                    "start_at": "2026-09-30T12:00:00+08:00",
+                    "end_at": "2026-09-30T13:00:00+08:00"
+                  },
+                  {
+                    "resource_id": "f21463e3-4cdd-42e8-adb3-231dacbbf2a5",
+                    "state": "HELD",
+                    "start_at": "2026-09-30T12:00:00+08:00",
+                    "end_at": "2026-09-30T13:00:00+08:00"
+                  }
+                ]
+              }
+            }
+          ],
+          "end_reason": "COMPLETED",
+          "budget": {
+            "tool_calls": 1,
+            "max_tool_calls": 6,
+            "consult_delegations": 0,
+            "repairs": 0,
+            "no_progress_rounds": 0,
+            "distinct_calls": 0,
+            "repeated_calls": 0
+          },
+          "waiting_id": null,
+          "pending_confirmation": {
+            "proposal_id": "e94567c8-39a0-4476-a565-a4eef26465e3",
+            "proposal_version": 5,
+            "proposal_content_hash": "8e7575586612d3b422ed0f45f3ba936e93f398727ac1ffe2cc46eb55dccaf0d5",
+            "confirmation_token": "cft.9bc2c8ee8da34e9ab602dc4e11fb3c94.8e7575586612d3b422ed0f45f3ba936e93f398727ac1ffe2cc46eb55dccaf0d5",
+            "expires_at": "2026-09-23T05:03:00+00:00",
+            "hold_id": "9ff60ce7-462e-4f92-9a89-17509288818d",
+            "hold_expires_at": "2026-09-23T05:03:00+00:00",
+            "expected_task_version": 5
+          },
+          "event_cursor": 9
+        }
+      }
+    ],
+    "stopped_early": false,
+    "selection_turn": {
+      "task_id": "9990fb49-cc9c-44b8-8713-068693c5d87a",
+      "task_state": "WAITING_CONFIRMATION",
+      "task_version": 5,
+      "reply_text": "好的，您选择第一个候选：2026-09-30 12:00–13:00（北京时间），资源为 王技师 与 按摩房1。\n项目：肩颈舒缓 60 分钟，价格 268 元，时长 60 分钟。\n该时段已生成待确认占位，需您明确确认后才会正式锁定时段。请回复「确认」以完成预约。",
+      "clarification_question": null,
+      "tool_calls": [
+        {
+          "tool": "create_hold",
+          "status": "OK",
+          "tool_call_id": "fa1e710f43ae49d99cdd14bd694019b4",
+          "data": {
+            "hold_id": "9ff60ce7-462e-4f92-9a89-17509288818d",
+            "hold_state": "HELD",
+            "expires_at": "2026-09-23T05:03:00+00:00",
+            "proposal_id": "e94567c8-39a0-4476-a565-a4eef26465e3",
+            "proposal_version": 5,
+            "proposal_content_hash": "8e7575586612d3b422ed0f45f3ba936e93f398727ac1ffe2cc46eb55dccaf0d5",
+            "confirmation_id": "2f9dd7d5-176d-4c6a-bf8f-1ebfdb0aea20",
+            "confirmation_token": "cft.9bc2c8ee8da34e9ab602dc4e11fb3c94.8e7575586612d3b422ed0f45f3ba936e93f398727ac1ffe2cc46eb55dccaf0d5",
+            "confirmation_expires_at": "2026-09-23T05:03:00+00:00",
+            "task_version": 5,
+            "replayed": false,
+            "allocations": [
+              {
+                "resource_id": "34fd1513-3016-4904-ab14-e361d68398a3",
+                "state": "HELD",
+                "start_at": "2026-09-30T12:00:00+08:00",
+                "end_at": "2026-09-30T13:00:00+08:00"
+              },
+              {
+                "resource_id": "f21463e3-4cdd-42e8-adb3-231dacbbf2a5",
+                "state": "HELD",
+                "start_at": "2026-09-30T12:00:00+08:00",
+                "end_at": "2026-09-30T13:00:00+08:00"
+              }
+            ]
+          }
+        }
+      ],
+      "end_reason": "COMPLETED",
+      "budget": {
+        "tool_calls": 1,
+        "max_tool_calls": 6,
+        "consult_delegations": 0,
+        "repairs": 0,
+        "no_progress_rounds": 0,
+        "distinct_calls": 0,
+        "repeated_calls": 0
+      },
+      "waiting_id": null,
+      "pending_confirmation": {
+        "proposal_id": "e94567c8-39a0-4476-a565-a4eef26465e3",
+        "proposal_version": 5,
+        "proposal_content_hash": "8e7575586612d3b422ed0f45f3ba936e93f398727ac1ffe2cc46eb55dccaf0d5",
+        "confirmation_token": "cft.9bc2c8ee8da34e9ab602dc4e11fb3c94.8e7575586612d3b422ed0f45f3ba936e93f398727ac1ffe2cc46eb55dccaf0d5",
+        "expires_at": "2026-09-23T05:03:00+00:00",
+        "hold_id": "9ff60ce7-462e-4f92-9a89-17509288818d",
+        "hold_expires_at": "2026-09-23T05:03:00+00:00",
+        "expected_task_version": 5
+      },
+      "event_cursor": 9
+    },
+    "confirmation": {
+      "appointment_id": "b4370b1b-7d0d-48d5-a9f4-0ff83a7fcfae",
+      "operation_id": "23c6a7fe-9cda-43ac-9559-23d62f1f7c2b",
+      "replayed": false
+    },
+    "confirmation_replay": {
+      "appointment_id": "b4370b1b-7d0d-48d5-a9f4-0ff83a7fcfae",
+      "operation_id": "23c6a7fe-9cda-43ac-9559-23d62f1f7c2b",
+      "replayed": true
+    }
+  },
+  "database_counts": {
+    "tasks": 1,
+    "tool_executions": 3,
+    "holds": 1,
+    "appointments": 1,
+    "allocations": 2,
+    "operations": 2
+  },
+  "task_states": [
+    "SUCCEEDED"
+  ],
+  "allocation_states": [
+    "BOOKED",
+    "BOOKED"
+  ],
+  "model_turns": [
+    {
+      "state": "COLLECTING",
+      "task_version": 1,
+      "status": "ok",
+      "slot_names": [
+        "service",
+        "time_window"
+      ],
+      "normalized_tool_names": [],
+      "reply_present": true,
+      "clarification_present": false
+    },
+    {
+      "state": "SEARCHING",
+      "task_version": 3,
+      "status": "ok",
+      "slot_names": [],
+      "normalized_tool_names": [
+        "get_service_quote"
+      ],
+      "reply_present": false,
+      "clarification_present": false
+    },
+    {
+      "state": "SEARCHING",
+      "task_version": 3,
+      "status": "ok",
+      "slot_names": [],
+      "normalized_tool_names": [
+        "search_availability"
+      ],
+      "reply_present": false,
+      "clarification_present": false
+    },
+    {
+      "state": "PROPOSED",
+      "task_version": 4,
+      "status": "ok",
+      "slot_names": [],
+      "normalized_tool_names": [],
+      "reply_present": true,
+      "clarification_present": true
+    },
+    {
+      "state": "PROPOSED",
+      "task_version": 4,
+      "status": "ok",
+      "slot_names": [],
+      "normalized_tool_names": [
+        "create_hold"
+      ],
+      "reply_present": false,
+      "clarification_present": false
+    },
+    {
+      "state": "WAITING_CONFIRMATION",
+      "task_version": 5,
+      "status": "ok",
+      "slot_names": [],
+      "normalized_tool_names": [],
+      "reply_present": true,
+      "clarification_present": false
+    }
+  ],
+  "git_sha": "3b36841d2ab7ab75625324601e3bb64e20e1d8a6",
+  "note": "合成用户明确选第一个候选并通过专用确认凭据提交。"
+}

@@ -117,7 +117,7 @@ class TrustedContext:
 
         if self.role in ("customer", "system", "worker"):
             return
-        if self.store_scopes and store_id not in self.store_scopes:
+        if store_id not in self.store_scopes:
             # 对外统一 NOT_FOUND，避免泄漏其他门店对象的存在性。
             raise DomainError(ErrorCode.NOT_FOUND, "对象不存在或无权访问")
 

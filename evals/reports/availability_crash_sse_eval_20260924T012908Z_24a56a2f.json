@@ -1,0 +1,186 @@
+{
+  "kind": "availability_ledger_crash_and_sse_recovery_eval",
+  "schema": "exp_1dcd955fb2bf42baad10216924a56a2f",
+  "database": "appointment_test",
+  "kill_point": "after_availability_tool_flush_before_candidate_event_and_state_transition",
+  "child": {
+    "marker": {
+      "phase": "after_availability_flush_before_candidate_transition",
+      "task_state": "SEARCHING",
+      "candidate_count_in_uncommitted_result": 5
+    },
+    "returncode": -9,
+    "stderr_tail": ""
+  },
+  "snapshot_after_kill": {
+    "task_state": "SEARCHING",
+    "task_version": 5,
+    "fencing_token": 2,
+    "lease_owner": "availability-crash-child",
+    "waiting_state": "ANSWERED",
+    "answer_count": 1,
+    "answer_statuses": [
+      "ACCEPTED"
+    ],
+    "tool_names": [
+      "get_service_quote"
+    ],
+    "tool_statuses": [
+      "OK"
+    ],
+    "quote_result_persisted": true,
+    "reply_end_count": 1,
+    "candidates_ready_count": 0,
+    "appointment_count": 0,
+    "hold_count": 0,
+    "recovery_message_count": 0
+  },
+  "events_after_kill": [
+    {
+      "sequence": 1,
+      "type": "clarification_required"
+    },
+    {
+      "sequence": 2,
+      "type": "task_state_changed"
+    },
+    {
+      "sequence": 3,
+      "type": "reply_end"
+    },
+    {
+      "sequence": 4,
+      "type": "task_state_changed"
+    },
+    {
+      "sequence": 5,
+      "type": "slots_updated"
+    },
+    {
+      "sequence": 6,
+      "type": "task_state_changed"
+    }
+  ],
+  "pre_expiry_recovery_attempt": {
+    "accepted": false,
+    "error_code": "LEASE_LOST"
+  },
+  "recovery": {
+    "task_state": "PROPOSED",
+    "end_reason": "COMPLETED",
+    "tool_call_names": [
+      "search_availability"
+    ],
+    "event_cursor": 10
+  },
+  "recovery_observations": [
+    {
+      "state": "SEARCHING",
+      "quote_reconstructed": true,
+      "availability_reconstructed": false
+    },
+    {
+      "state": "PROPOSED",
+      "quote_reconstructed": true,
+      "availability_reconstructed": true
+    }
+  ],
+  "snapshot_after_recovery": {
+    "task_state": "PROPOSED",
+    "task_version": 6,
+    "fencing_token": 3,
+    "lease_owner": null,
+    "waiting_state": "ANSWERED",
+    "answer_count": 1,
+    "answer_statuses": [
+      "ACCEPTED"
+    ],
+    "tool_names": [
+      "get_service_quote",
+      "search_availability"
+    ],
+    "tool_statuses": [
+      "OK",
+      "OK"
+    ],
+    "quote_result_persisted": true,
+    "reply_end_count": 2,
+    "candidates_ready_count": 1,
+    "appointment_count": 0,
+    "hold_count": 0,
+    "recovery_message_count": 1
+  },
+  "events_after_recovery": [
+    {
+      "sequence": 1,
+      "type": "clarification_required"
+    },
+    {
+      "sequence": 2,
+      "type": "task_state_changed"
+    },
+    {
+      "sequence": 3,
+      "type": "reply_end"
+    },
+    {
+      "sequence": 4,
+      "type": "task_state_changed"
+    },
+    {
+      "sequence": 5,
+      "type": "slots_updated"
+    },
+    {
+      "sequence": 6,
+      "type": "task_state_changed"
+    },
+    {
+      "sequence": 7,
+      "type": "candidates_ready"
+    },
+    {
+      "sequence": 8,
+      "type": "task_state_changed"
+    },
+    {
+      "sequence": 9,
+      "type": "assistant_message"
+    },
+    {
+      "sequence": 10,
+      "type": "reply_end"
+    }
+  ],
+  "sse_replay_from_cursor": {
+    "after_sequence": 3,
+    "names": [
+      "task_state_changed",
+      "slots_updated",
+      "task_state_changed",
+      "candidates_ready",
+      "task_state_changed",
+      "assistant_message",
+      "reply_end"
+    ],
+    "ids": [
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ]
+  },
+  "sse_at_tail": {
+    "after_sequence": 10,
+    "names": [
+      "caught_up"
+    ]
+  },
+  "uncommitted_availability_and_candidate_transition_rolled_back_together": true,
+  "recovery_and_sse_cursor_are_consistent": true,
+  "elapsed_seconds": 0.768,
+  "note": "单条合成 waiting 任务。可用性 ToolExecution 与候选事件/状态变化位于同一事务；在 flush 后、候选推进前强杀验证整体回滚，再由租约过期后的新消息重查。SSE 从已提交游标补齐连续事件。非生产故障率。schema 与报告保留。"
+}

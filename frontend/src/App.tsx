@@ -14,6 +14,7 @@ import { TourCard } from '@/components/tour/TourCard';
 import { UploadProvider } from '@/context/UploadContext';
 import { useTranslation } from '@/i18n/useI18n';
 import { queryClient } from '@/lib/query-client';
+import { AppointmentPage } from '@/pages/appointment';
 import { ChannelPage } from '@/pages/channel';
 import { ChatPage } from '@/pages/chat';
 import { CredentialPage } from '@/pages/credential';
@@ -52,6 +53,7 @@ const router = createBrowserRouter([
 						element: <ChatPage />,
 					},
 					{ path: '/schedule', element: <SchedulePage /> },
+					{ path: '/appointment', element: <AppointmentPage /> },
 					{ path: '/channel', element: <ChannelPage /> },
 					{ path: '/credential', element: <CredentialPage /> },
 					{ path: '/mcp', element: <MCPHubPage /> },

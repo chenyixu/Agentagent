@@ -1,0 +1,42 @@
+{
+  "dataset_version": "clarification-booking-v1",
+  "data_origin": "handwritten_synthetic",
+  "reference_time": "2026-09-23T13:00:00+08:00",
+  "selection_message": "第一个可以",
+  "cases": [
+    {
+      "id": "C01_clarify_missing_service_then_ambiguous_selection",
+      "category": "clarification_and_ambiguity",
+      "input": "明天下午两点到六点都可以",
+      "expected_start_at": "2026-09-24T14:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "expected_min_candidate_count": 2,
+      "conversation_steps": [
+        {"kind": "message", "text": "明天下午两点到六点都可以", "expected_state": "WAITING_USER"},
+        {"kind": "answer", "text": "肩颈按摩", "expected_state": "PROPOSED"},
+        {"kind": "message", "text": "可以", "expected_state": "PROPOSED"},
+        {"kind": "message", "text": "第一个可以", "expected_state": "WAITING_CONFIRMATION"}
+      ],
+      "expected_states": ["WAITING_USER", "PROPOSED", "PROPOSED", "WAITING_CONFIRMATION"],
+      "expected_hold_counts": [0, 0, 0, 1],
+      "expected_clarifications": [true, true, true, null]
+    },
+    {
+      "id": "C02_clarify_missing_time_then_ambiguous_selection",
+      "category": "clarification_and_ambiguity",
+      "input": "我想约肩颈",
+      "expected_start_at": "2026-09-24T14:00:00+08:00",
+      "expected_amount_minor": 26800,
+      "expected_min_candidate_count": 2,
+      "conversation_steps": [
+        {"kind": "message", "text": "我想约肩颈", "expected_state": "WAITING_USER"},
+        {"kind": "answer", "text": "明天下午两点到六点都可以", "expected_state": "PROPOSED"},
+        {"kind": "message", "text": "可以", "expected_state": "PROPOSED"},
+        {"kind": "message", "text": "第一个可以", "expected_state": "WAITING_CONFIRMATION"}
+      ],
+      "expected_states": ["WAITING_USER", "PROPOSED", "PROPOSED", "WAITING_CONFIRMATION"],
+      "expected_hold_counts": [0, 0, 0, 1],
+      "expected_clarifications": [true, true, true, null]
+    }
+  ]
+}

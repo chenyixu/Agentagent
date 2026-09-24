@@ -243,12 +243,16 @@ async def validate_fulfillment(
     resource_ids: Sequence[UUID],
     start_at: datetime,
     end_at: datetime,
+    now: datetime,
 ) -> None:
     """提交与占位都要复核的依赖事实。
 
     调用方必须已按锁顺序锁住 store 与 resource：单纯读一次最新版本并不足够，
     与后台修改共享同一套锁才能避免"读完再变化"的二次 TOCTOU（设计稿 §8.2）。
     """
+
+    if start_at <= now:
+        raise stale_proposal("预约时段已开始或已过去，请重新查询可用时间")
 
     store = (
         await session.execute(
@@ -659,6 +663,25 @@ async def create_hold(
         now=decision_now,
     )
 
+    # 在登记写操作之前复核候选仍然有效，避免过期候选留下 PENDING 操作。
+    # 门店与资源锁已持有，因此班次、请假和闭店判断不会与并发变更交错。
+    await validate_fulfillment(
+        session,
+        tenant_id=ctx.tenant_id,
+        store_id=store_id,
+        resource_ids=ordered_resource_ids,
+        start_at=start_at,
+        end_at=end_at,
+        now=decision_now,
+    )
+    await validate_resource_composition(
+        session,
+        tenant_id=ctx.tenant_id,
+        store_id=store_id,
+        resource_ids=ordered_resource_ids,
+        requirements=service.requirements,
+    )
+
     request_payload = {
         "action": ProposalAction.CREATE.value,
         "task_id": str(task.id),
@@ -691,23 +714,6 @@ async def create_hold(
         if replayed is None:
             raise version_conflict("原占位操作已完成，但关联占位不可用，请重新查询时间")
         return replayed
-
-    await validate_fulfillment(
-        session,
-        tenant_id=ctx.tenant_id,
-        store_id=store_id,
-        resource_ids=ordered_resource_ids,
-        start_at=start_at,
-        end_at=end_at,
-    )
-    # 组合与技能独立复核：客户端回传的资源列表不可信（设计稿 §7 第 4 步）。
-    await validate_resource_composition(
-        session,
-        tenant_id=ctx.tenant_id,
-        store_id=store_id,
-        resource_ids=ordered_resource_ids,
-        requirements=service.requirements,
-    )
 
     offer = _quote_offer_from_token(quote_token, service)
     quote_row = await persist_quote_snapshot(
@@ -1063,6 +1069,56 @@ async def confirm_appointment(
     if handle.is_replay:
         return await _replay_commit(session, ctx, handle)
 
+    # 先读取占位关联以确定锁集合，再按统一的低到高等级加锁。拿到占位锁后
+    # 还要复核集合未变化；无锁读取本身不构成履约依据。
+    hold_peek = (
+        await session.execute(
+            select(m.Hold.store_id).where(
+                m.Hold.tenant_id == ctx.tenant_id, m.Hold.id == relation.hold_id
+            )
+        )
+    ).scalar_one_or_none()
+    if hold_peek is None:
+        raise stale_proposal("占位不存在")
+    ctx.require_store_scope(hold_peek)
+    allocation_peek = list(
+        (
+            await session.execute(
+                select(
+                    m.ResourceAllocation.resource_id,
+                    m.ResourceAllocation.start_at,
+                    m.ResourceAllocation.end_at,
+                ).where(
+                    m.ResourceAllocation.tenant_id == ctx.tenant_id,
+                    m.ResourceAllocation.hold_id == relation.hold_id,
+                    m.ResourceAllocation.state == AllocationState.HELD.value,
+                )
+            )
+        ).all()
+    )
+    if not allocation_peek:
+        raise stale_proposal("占位没有有效资源占用")
+    store_guard = await lock_store(
+        session, sequencer, tenant_id=ctx.tenant_id, store_id=hold_peek
+    )
+    peek_resource_ids = sorted({row.resource_id for row in allocation_peek}, key=str)
+    for resource_id in peek_resource_ids:
+        await lock_resource(
+            session, sequencer, tenant_id=ctx.tenant_id, resource_id=resource_id
+        )
+    store_zone = load_zone(store_guard.timezone)
+    await lock_resource_day(
+        session,
+        sequencer,
+        tenant_id=ctx.tenant_id,
+        resource_id=peek_resource_ids[0],
+        resource_ids_days=[
+            (row.resource_id, day)
+            for row in allocation_peek
+            for day in iter_local_dates(row.start_at, row.end_at, store_zone)
+        ],
+    )
+
     # --- 只有全新操作才做版本与代际裁决 ---------------------------------
     if locked_task.version != expected_task_version:
         raise version_conflict(
@@ -1106,6 +1162,8 @@ async def confirm_appointment(
         ConfirmationStatus.CONFIRMED.value,
     ):
         raise confirmation_required(f"确认凭据状态为 {confirmation.status}")
+    if confirmation.expires_at <= decision_now:
+        raise confirmation_required("确认凭据已过期，请重新获取确认方案")
 
     if hold.state != HoldState.HELD.value:
         raise hold_expired(f"占位已处于 {hold.state} 状态")
@@ -1146,6 +1204,8 @@ async def confirm_appointment(
     start_at = min(a.start_at for a in allocations)
     end_at = max(a.end_at for a in allocations)
     resource_ids = [a.resource_id for a in allocations]
+    if hold.store_id != hold_peek or set(resource_ids) != set(peek_resource_ids):
+        raise stale_proposal("占位资源已变化，请重新确认")
 
     await validate_fulfillment(
         session,
@@ -1154,6 +1214,7 @@ async def confirm_appointment(
         resource_ids=resource_ids,
         start_at=start_at,
         end_at=end_at,
+        now=decision_now,
     )
     requirements = await _requirements_for_snapshot(
         session, tenant_id=ctx.tenant_id, snapshot=proposal_locked.canonical_content
@@ -1454,7 +1515,7 @@ async def reschedule_appointment(
 ) -> dict[str, Any]:
     """改约。
 
-    同一本地数据库内优先单事务：锁订单并检查 expected_version，校验新资源，
+    同一本地数据库内优先单事务：按门店/资源/订单顺序锁定并检查 expected_version，校验新资源，
     变更资源占用、订单版本、操作结果与事件。任何新资源冲突都回滚，
     因此旧预约仍然有效。
     """
@@ -1463,13 +1524,56 @@ async def reschedule_appointment(
     sequencer = LockSequencer()
     from ..db.session import lock_appointment
 
+    appointment_peek = (
+        await session.execute(
+            select(m.Appointment.store_id, m.Appointment.start_at, m.Appointment.end_at)
+            .where(m.Appointment.tenant_id == ctx.tenant_id, m.Appointment.id == appointment_id)
+        )
+    ).one_or_none()
+    if appointment_peek is None:
+        raise not_found("预约不存在或无权访问")
+    ctx.require_store_scope(appointment_peek.store_id)
+    old_resource_ids = set(
+        (
+            await session.execute(
+                select(m.ResourceAllocation.resource_id).where(
+                    m.ResourceAllocation.tenant_id == ctx.tenant_id,
+                    m.ResourceAllocation.appointment_id == appointment_id,
+                    m.ResourceAllocation.state == AllocationState.BOOKED.value,
+                )
+            )
+        ).scalars().all()
+    )
+    ordered = sorted(set(new_resource_ids), key=str)
+    store_guard = await lock_store(
+        session, sequencer, tenant_id=ctx.tenant_id, store_id=appointment_peek.store_id
+    )
+    for resource_id in sorted(old_resource_ids | set(ordered), key=str):
+        await lock_resource(
+            session, sequencer, tenant_id=ctx.tenant_id, resource_id=resource_id
+        )
+    zone = load_zone(store_guard.timezone)
+    guard_days = [
+        (resource_id, day)
+        for resource_id in old_resource_ids
+        for day in iter_local_dates(appointment_peek.start_at, appointment_peek.end_at, zone)
+    ] + [
+        (resource_id, day)
+        for resource_id in ordered
+        for day in iter_local_dates(new_start_at, new_end_at, zone)
+    ]
+    if guard_days:
+        await lock_resource_day(
+            session, sequencer, tenant_id=ctx.tenant_id,
+            resource_id=guard_days[0][0], resource_ids_days=guard_days,
+        )
+
     appointment = await lock_appointment(
         session, sequencer, tenant_id=ctx.tenant_id, appointment_id=appointment_id
     )
     if ctx.role == "customer" and appointment.customer_id != ctx.customer_id:
         raise not_found("预约不存在或无权访问")
 
-    ordered = sorted(set(new_resource_ids), key=str)
     handle = await register_operation(
         session,
         ctx,
@@ -1516,6 +1620,11 @@ async def reschedule_appointment(
     )
     if not old_allocations:
         raise stale_proposal("预约没有有效资源占用")
+    if (
+        appointment.store_id != appointment_peek.store_id
+        or {row.resource_id for row in old_allocations} != old_resource_ids
+    ):
+        raise stale_proposal("订单占用已变化，请刷新后重试")
 
     # 旧占用先释放再插入新占用：否则新时间与原占用重叠时会与"自己"冲突。
     # 事务失败会整体回滚，旧预约事实不变。
@@ -1524,9 +1633,6 @@ async def reschedule_appointment(
         allocation.version = allocation.version + 1
     await session.flush()
 
-    for rid in ordered:
-        await lock_resource(session, sequencer, tenant_id=ctx.tenant_id, resource_id=rid)
-
     await validate_fulfillment(
         session,
         tenant_id=ctx.tenant_id,
@@ -1534,6 +1640,7 @@ async def reschedule_appointment(
         resource_ids=ordered,
         start_at=new_start_at,
         end_at=new_end_at,
+        now=decision_now,
     )
     requirements = await _requirements_for_snapshot(
         session, tenant_id=ctx.tenant_id, snapshot=appointment.service_snapshot or {}

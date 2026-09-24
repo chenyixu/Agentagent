@@ -1,0 +1,119 @@
+{
+  "kind": "read_tool_ledger_process_crash_recovery_eval",
+  "schema": "exp_7998b3ab8c4148e8a26606d2ef8b698c",
+  "database": "appointment_test",
+  "kill_point": "after_quote_tool_execution_committed_before_next_model_decision",
+  "child": {
+    "marker": {
+      "phase": "after_quote_ledger_commit",
+      "task_state": "SEARCHING",
+      "quote_fact_rebuilt": true,
+      "quote_in_completed_actions": true
+    },
+    "returncode": -9,
+    "stderr_tail": ""
+  },
+  "snapshot_after_kill": {
+    "task_state": "SEARCHING",
+    "task_version": 5,
+    "fencing_token": 2,
+    "lease_owner": "tool-ledger-crash-child",
+    "waiting_state": "ANSWERED",
+    "answer_count": 1,
+    "answer_statuses": [
+      "ACCEPTED"
+    ],
+    "tool_names": [
+      "get_service_quote"
+    ],
+    "tool_statuses": [
+      "OK"
+    ],
+    "quote_result_persisted": true,
+    "reply_end_count": 1,
+    "candidates_ready_count": 0,
+    "appointment_count": 0,
+    "hold_count": 0,
+    "recovery_message_count": 0
+  },
+  "pre_expiry_recovery_attempt": {
+    "accepted": false,
+    "error_code": "LEASE_LOST"
+  },
+  "snapshot_after_pre_expiry_attempt": {
+    "task_state": "SEARCHING",
+    "task_version": 5,
+    "fencing_token": 2,
+    "lease_owner": "tool-ledger-crash-child",
+    "waiting_state": "ANSWERED",
+    "answer_count": 1,
+    "answer_statuses": [
+      "ACCEPTED"
+    ],
+    "tool_names": [
+      "get_service_quote"
+    ],
+    "tool_statuses": [
+      "OK"
+    ],
+    "quote_result_persisted": true,
+    "reply_end_count": 1,
+    "candidates_ready_count": 0,
+    "appointment_count": 0,
+    "hold_count": 0,
+    "recovery_message_count": 0
+  },
+  "recovery": {
+    "task_state": "PROPOSED",
+    "end_reason": "COMPLETED",
+    "tool_call_names": [
+      "search_availability"
+    ],
+    "reply_present": true
+  },
+  "recovery_runtime_observations": [
+    {
+      "state": "SEARCHING",
+      "quote_fact_reconstructed": true,
+      "quote_action_in_ledger": true,
+      "fresh_fact_keys": []
+    },
+    {
+      "state": "PROPOSED",
+      "quote_fact_reconstructed": true,
+      "quote_action_in_ledger": true,
+      "fresh_fact_keys": [
+        "availability"
+      ]
+    }
+  ],
+  "snapshot_after_recovery": {
+    "task_state": "PROPOSED",
+    "task_version": 6,
+    "fencing_token": 3,
+    "lease_owner": null,
+    "waiting_state": "ANSWERED",
+    "answer_count": 1,
+    "answer_statuses": [
+      "ACCEPTED"
+    ],
+    "tool_names": [
+      "get_service_quote",
+      "search_availability"
+    ],
+    "tool_statuses": [
+      "OK",
+      "OK"
+    ],
+    "quote_result_persisted": true,
+    "reply_end_count": 2,
+    "candidates_ready_count": 1,
+    "appointment_count": 0,
+    "hold_count": 0,
+    "recovery_message_count": 1
+  },
+  "committed_tool_ledger_survived_kill": true,
+  "recovery_reconstructed_context_without_repeating_quote_tool": true,
+  "elapsed_seconds": 0.627,
+  "note": "单条合成 waiting 任务；只读报价结果先持久化，故障由租约过期后的新消息触发恢复。非生产恢复率。schema 与报告保留。"
+}
