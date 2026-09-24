@@ -465,7 +465,7 @@ def _ensure_required_search_read(request: TurnRequest, output: TurnOutput) -> Tu
     service_id = ((request.slots.get("service") or {}).get("value") or {}).get("service_id")
     window = (request.slots.get("time_window") or {}).get("value") or {}
     store_id = request.facts.get("store_id")
-    if not service_id or not store_id or not window.get("start_at") or not window.get("end_at"):
+    if not service_id or not store_id:
         return output
     followups = request.facts.get("followups") or {}
     if not followups.get("quote") and "get_service_quote" in request.allowed_tools:
@@ -473,12 +473,19 @@ def _ensure_required_search_read(request: TurnRequest, output: TurnOutput) -> Tu
         arguments = {"store_id": store_id, "service_id": service_id}
         default_rationale = "查询阶段必须取得当前报价"
     elif not followups.get("availability") and "search_availability" in request.allowed_tools:
-        normalized_end = _availability_window_end(window, followups.get("quote") or {})
+        window_start = window.get("start_at") or window.get("desired_start")
+        if not window_start:
+            return output
+        normalized_end = _availability_window_end(
+            {**window, "start_at": window_start}, followups.get("quote") or {}
+        )
+        if not normalized_end:
+            return output
         tool_name = "search_availability"
         arguments = {
             "store_id": store_id,
             "service_id": service_id,
-            "window_start": window["start_at"],
+            "window_start": window_start,
             "window_end": normalized_end,
             "desired_start": window.get("desired_start"),
             "limit": 5,
@@ -515,21 +522,23 @@ def _availability_window_end(window: dict[str, Any], quote: dict[str, Any]) -> s
     start_value = window.get("start_at")
     desired_value = window.get("desired_start")
     duration = quote.get("duration_minutes")
-    if not end_value or not start_value or not desired_value or not duration:
+    if not start_value or not desired_value or not duration:
         return str(end_value or "")
     try:
         start_at = datetime.fromisoformat(str(start_value).replace("Z", "+00:00"))
         desired_start = datetime.fromisoformat(str(desired_value).replace("Z", "+00:00"))
-        end_at = datetime.fromisoformat(str(end_value).replace("Z", "+00:00"))
         duration_minutes = int(duration)
         if duration_minutes <= 0 or start_at != desired_start:
-            return str(end_value)
+            return str(end_value or "")
         required_end = desired_start + timedelta(minutes=duration_minutes)
+        if not end_value:
+            return required_end.isoformat()
+        end_at = datetime.fromisoformat(str(end_value).replace("Z", "+00:00"))
         if end_at >= required_end:
             return str(end_value)
         return required_end.isoformat()
     except (TypeError, ValueError, OverflowError):
-        return str(end_value)
+        return str(end_value or "")
 
 
 def _ensure_explicit_candidate_hold(request: TurnRequest, output: TurnOutput) -> TurnOutput:

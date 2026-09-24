@@ -178,6 +178,50 @@ def test_exact_start_availability_window_covers_trusted_quote_duration():
     assert call.arguments["window_end"] == "2026-09-30T18:30:00+08:00"
 
 
+def test_searching_task_fetches_quote_before_window_end_is_known():
+    request = _turn_request(
+        user_message="预约 17:00",
+        task_state=TaskState.SEARCHING,
+        slots={
+            "service": {"value": {"service_id": "svc-90"}},
+            "time_window": {"value": {
+                "start_at": "2026-09-30T17:00:00+08:00",
+                "desired_start": "2026-09-30T17:00:00+08:00",
+            }},
+        },
+        facts={"store_id": "store-1", "followups": {}},
+    )
+    output = _ensure_required_search_read(
+        request, normalize_model_output({}, role=AgentRole.RECEPTION)
+    )
+    assert output.tool_requests[0].tool_name == "get_service_quote"
+
+
+def test_exact_search_window_end_is_derived_from_quote_when_model_omits_it():
+    request = _turn_request(
+        user_message="预约 17:00",
+        task_state=TaskState.SEARCHING,
+        slots={
+            "service": {"value": {"service_id": "svc-90"}},
+            "time_window": {"value": {
+                "start_at": "2026-09-30T17:00:00+08:00",
+                "desired_start": "2026-09-30T17:00:00+08:00",
+            }},
+        },
+        facts={
+            "store_id": "store-1",
+            "followups": {"quote": {"duration_minutes": 90}},
+        },
+    )
+    output = _ensure_required_search_read(
+        request, normalize_model_output({}, role=AgentRole.RECEPTION)
+    )
+    call = output.tool_requests[0]
+    assert call.tool_name == "search_availability"
+    assert call.arguments["window_start"] == "2026-09-30T17:00:00+08:00"
+    assert call.arguments["window_end"] == "2026-09-30T18:30:00+08:00"
+
+
 def test_flexible_availability_window_is_not_replaced_by_quote_duration():
     assert _availability_window_end(
         {
